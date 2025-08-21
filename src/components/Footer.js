@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import TG from '../TG.png';
 import VK from '../VK.png';
 import WhatsUp from '../WhatsUp.png';
-import SiteLogo from '../Logo.svg';
+import MainLogo from '../MainLogo.svg';
 
 const FooterContainer = styled.footer`
   background: #0b0d13;
@@ -53,13 +53,28 @@ const BottomBar = styled.div`
   @media (max-width: 600px){ flex-direction: column; gap: 10px; text-align:center; }
 `;
 
+const LegalLinks = styled.div`
+  display: flex;
+  gap: 20px;
+
+  a {
+    color: #7f8fa6;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #c9d6e5;
+    }
+  }
+`;
+
 const Footer = () => {
     return (
         <FooterContainer>
             <FooterContent>
                 <FooterSection>
                     <Brand>
-                        <img src={SiteLogo} alt="Логотип" />
+                        <img src={MainLogo} alt="Логотип" />
                     </Brand>
                     <p>Москва, Россия</p>
                     <p>info@cosmosfund.ru</p>
@@ -94,10 +109,10 @@ const Footer = () => {
 
             <BottomBar>
                 <div>© 2025 Фонд содействия развитию космонавтики</div>
-                <div style={{ display: 'flex', gap: '20px' }}>
+                <LegalLinks>
                     <a href="/privacy">Политика конфиденциальности</a>
                     <a href="/terms">Условия пользования</a>
-                </div>
+                </LegalLinks>
             </BottomBar>
         </FooterContainer>
     );
