@@ -32,7 +32,7 @@ const FooterSection = styled.div`
 
 const Brand = styled.div`
   display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
-  img { height: clamp(40px, 6vw, 60px); width:auto; display:block; }
+  img { height: clamp(28px, 4vw, 40px); width:auto; display:block; }
 `;
 
 const SocialLinks = styled.div`
