@@ -127,14 +127,55 @@ const HeroTitle = styled(motion.h1)`
 `;
 
 const ContentSection = styled.section`
-  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  background: radial-gradient(ellipse at bottom left, rgba(173, 216, 230, 0.3) 0%, transparent 50%),
+              radial-gradient(ellipse at top right, rgba(221, 160, 221, 0.2) 0%, transparent 50%),
+              linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
   padding: 5rem 0;
+  min-height: 100vh;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at bottom left, rgba(173, 216, 230, 0.4) 0%, transparent 60%),
+                radial-gradient(ellipse at top right, rgba(221, 160, 221, 0.3) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  @media (max-width: 768px) {
+    background: radial-gradient(ellipse at bottom left, rgba(173, 216, 230, 0.25) 0%, transparent 40%),
+                radial-gradient(ellipse at top right, rgba(221, 160, 221, 0.15) 0%, transparent 40%),
+                linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+
+    &::before {
+      background: radial-gradient(ellipse at bottom left, rgba(173, 216, 230, 0.3) 0%, transparent 50%),
+                  radial-gradient(ellipse at top right, rgba(221, 160, 221, 0.2) 0%, transparent 50%);
+    }
+  }
+
+  @media (max-width: 480px) {
+    background: radial-gradient(ellipse at bottom left, rgba(173, 216, 230, 0.2) 0%, transparent 35%),
+                radial-gradient(ellipse at top right, rgba(221, 160, 221, 0.1) 0%, transparent 35%),
+                linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+
+    &::before {
+      background: radial-gradient(ellipse at bottom left, rgba(173, 216, 230, 0.25) 0%, transparent 45%),
+                  radial-gradient(ellipse at top right, rgba(221, 160, 221, 0.15) 0%, transparent 45%);
+    }
+  }
 `;
 
 const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
+  position: relative;
+  z-index: 1;
 
   @media (max-width: 768px) {
     padding: 0 1rem;
@@ -146,6 +187,8 @@ const ContactInfo = styled(motion.div)`
   grid-template-columns: repeat(2, 1fr);
   gap: 4rem;
   margin-bottom: 5rem;
+  position: relative;
+  z-index: 1;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -255,6 +298,8 @@ const FormSection = styled(motion.div)`
   box-shadow: none;
   margin-bottom: 3rem;
   text-align: center;
+  position: relative;
+  z-index: 1;
 `;
 
 const FormTitle = styled.h2`
@@ -379,6 +424,8 @@ const SubmitButton = styled(motion.button)`
 const SocialSection = styled(motion.div)`
   text-align: center;
   margin-bottom: 3rem;
+  position: relative;
+  z-index: 1;
 `;
 
 const SocialTitle = styled.h2`

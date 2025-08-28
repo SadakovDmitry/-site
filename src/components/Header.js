@@ -162,6 +162,8 @@ const Header = () => {
   };
 
   const isHomePage = location.pathname === '/';
+  const isNewsPage = location.pathname === '/news';
+  const isContactPage = location.pathname === '/contact';
 
   const Items = (
     <Capsule>
@@ -169,8 +171,22 @@ const Header = () => {
         <>
           <NavButton onClick={() => scrollTo('about')}>/ О ФОНДЕ</NavButton>
           <NavButton onClick={() => scrollTo('projects')}>/ ПРОЕКТЫ</NavButton>
-          <NavButton onClick={() => scrollTo('news')}>/ НОВОСТИ</NavButton>
+          <NavLink to="/news">/ НОВОСТИ</NavLink>
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
+        </>
+      ) : isNewsPage ? (
+        <>
+          <NavLink to="/">/ ГЛАВНАЯ</NavLink>
+          <NavLink to="/">/ О ФОНДЕ</NavLink>
+          <NavLink to="/">/ ПРОЕКТЫ</NavLink>
+          <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
+        </>
+      ) : isContactPage ? (
+        <>
+          <NavLink to="/">/ ГЛАВНАЯ</NavLink>
+          <NavLink to="/">/ О ФОНДЕ</NavLink>
+          <NavLink to="/">/ ПРОЕКТЫ</NavLink>
+          <NavLink to="/news">/ НОВОСТИ</NavLink>
         </>
       ) : (
         <>
@@ -178,6 +194,7 @@ const Header = () => {
           <NavLink to="/">/ О ФОНДЕ</NavLink>
           <NavLink to="/">/ ПРОЕКТЫ</NavLink>
           <NavLink to="/">/ НОВОСТИ</NavLink>
+          <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
         </>
       )}
       <PrimaryButton onClick={() => alert('Спасибо за поддержку!')}>ПОДДЕРЖАТЬ</PrimaryButton>
@@ -219,8 +236,22 @@ const Header = () => {
                 <>
                   <MobileLink onClick={() => scrollTo('about')}>О ФОНДЕ</MobileLink>
                   <MobileLink onClick={() => scrollTo('projects')}>ПРОЕКТЫ</MobileLink>
-                  <MobileLink onClick={() => scrollTo('news')}>НОВОСТИ</MobileLink>
+                  <NavLink to="/news">НОВОСТИ</NavLink>
                   <NavLink to="/contact">КОНТАКТЫ</NavLink>
+                </>
+              ) : isNewsPage ? (
+                <>
+                  <NavLink to="/">ГЛАВНАЯ</NavLink>
+                  <NavLink to="/">О ФОНДЕ</NavLink>
+                  <NavLink to="/">ПРОЕКТЫ</NavLink>
+                  <NavLink to="/contact">КОНТАКТЫ</NavLink>
+                </>
+              ) : isContactPage ? (
+                <>
+                  <NavLink to="/">ГЛАВНАЯ</NavLink>
+                  <NavLink to="/">О ФОНДЕ</NavLink>
+                  <NavLink to="/">ПРОЕКТЫ</NavLink>
+                  <NavLink to="/news">НОВОСТИ</NavLink>
                 </>
               ) : (
                 <>
@@ -228,6 +259,7 @@ const Header = () => {
                   <NavLink to="/">О ФОНДЕ</NavLink>
                   <NavLink to="/">ПРОЕКТЫ</NavLink>
                   <NavLink to="/">НОВОСТИ</NavLink>
+                  <NavLink to="/contact">КОНТАКТЫ</NavLink>
                 </>
               )}
               <PrimaryButton onClick={() => alert('Спасибо за поддержку!')}>ПОДДЕРЖАТЬ</PrimaryButton>
