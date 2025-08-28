@@ -6,7 +6,7 @@ import RusSpace from '../RusSpace.svg';
 import Frame49 from '../Frame 49.png';
 
 const PartnersSection = styled.section`
-  padding: 90px 0;
+  padding: 60px 0;
   position: relative;
   overflow: hidden;
 `;
@@ -58,22 +58,22 @@ const LogoItem = styled.div`
 const logos = [RusSpace, RusSpace, RusSpace, RusSpace, RusSpace, RusSpace];
 
 const Partners = () => {
-    const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
-    return (
-        <PartnersSection id="partners" ref={ref}>
-            <BgImage src={Frame49} alt="" />
-            <Container>
-                <SectionTitle initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}}>ПАРТНЕРЫ</SectionTitle>
-                <Overflow>
-                    <Track>
-                        {logos.concat(logos).map((src, i) => (
-                            <LogoItem key={i}><img src={src} alt="Роскосмос" /></LogoItem>
-                        ))}
-                    </Track>
-                </Overflow>
-            </Container>
-        </PartnersSection>
-    );
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  return (
+    <PartnersSection id="partners" ref={ref}>
+      <BgImage src={Frame49} alt="" />
+      <Container>
+        <SectionTitle initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}}>ПАРТНЕРЫ</SectionTitle>
+        <Overflow>
+          <Track>
+            {logos.concat(logos).map((src, i) => (
+              <LogoItem key={i}><img src={src} alt="Роскосмос" /></LogoItem>
+            ))}
+          </Track>
+        </Overflow>
+      </Container>
+    </PartnersSection>
+  );
 };
 
 export default Partners;

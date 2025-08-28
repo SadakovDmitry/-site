@@ -1,12 +1,10 @@
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Hero from './components/Hero';
-import About from './components/About';
-import Projects from './components/Projects';
-import News from './components/News';
-import Partners from './components/Partners';
 import Footer from './components/Footer';
+import Home from './components/Home';
+import ContactPage from './components/ContactPage';
 // Local font files (Proxima Nova)
 import ProximaRegular from './Proxima Nova/proximanova_regular.ttf';
 import ProximaSemibold from './Proxima Nova/proximanova_bold.otf';
@@ -72,18 +70,19 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 function App() {
-    return (
-        <AppContainer>
-            <GlobalStyles />
-            <Header />
-            <Hero />
-            <About />
-            <Projects />
-            <News />
-            <Partners />
-            <Footer />
-        </AppContainer>
-    );
+  return (
+    <Router>
+      <AppContainer>
+        <GlobalStyles />
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<ContactPage />} />
+        </Routes>
+        <Footer />
+      </AppContainer>
+    </Router>
+  );
 }
 
 export default App;

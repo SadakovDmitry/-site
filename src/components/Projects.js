@@ -223,98 +223,98 @@ const AllProjectsButton = styled(motion.button)`
 `;
 
 const Projects = () => {
-    const [ref, inView] = useInView({
-        triggerOnce: true,
-        threshold: 0.1
-    });
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
 
-    const [shouldCenter, setShouldCenter] = useState(false);
+  const [shouldCenter, setShouldCenter] = useState(false);
 
-    useEffect(() => {
-        const handleResize = () => {
-            const width = window.innerWidth;
-            if (width <= 1200 && width > 768) {
-                // На экранах 768px-1200px у нас 2 колонки
-                // Если у нас 3 проекта, то 3-й будет в новой строке
-                setShouldCenter(projects.length % 2 === 1);
-            } else {
-                setShouldCenter(false);
-            }
-        };
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width <= 1200 && width > 768) {
+        // На экранах 768px-1200px у нас 2 колонки
+        // Если у нас 3 проекта, то 3-й будет в новой строке
+        setShouldCenter(projects.length % 2 === 1);
+      } else {
+        setShouldCenter(false);
+      }
+    };
 
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-    const projects = [
-        {
-            date: '23.07.2025',
-            title: 'ОТКРЫТИЕ ПЛАНЕТАРИЯ',
-            description: 'Создание современного планетария для популяризации астрономии и космической науки среди молодежи.',
-            image: image77
-        },
-        {
-            date: '15.08.2025',
-            title: 'ЗАПУСК НОВОГО СПУТНИКА',
-            description: 'Разработка и запуск образовательного спутника для проведения научных экспериментов в космосе.',
-            image: image76
-        },
-        {
-            date: '10.09.2025',
-            title: 'ЛЕКЦИЯ КОСМОНАВТА',
-            description: 'Организация встречи с действующим космонавтом для студентов и школьников.',
-            image: image75
-        }
-    ];
+  const projects = [
+    {
+      date: '23.07.2025',
+      title: 'ОТКРЫТИЕ ПЛАНЕТАРИЯ',
+      description: 'Создание современного планетария для популяризации астрономии и космической науки среди молодежи.',
+      image: image77
+    },
+    {
+      date: '15.08.2025',
+      title: 'ЗАПУСК НОВОГО СПУТНИКА',
+      description: 'Разработка и запуск образовательного спутника для проведения научных экспериментов в космосе.',
+      image: image76
+    },
+    {
+      date: '10.09.2025',
+      title: 'ЛЕКЦИЯ КОСМОНАВТА',
+      description: 'Организация встречи с действующим космонавтом для студентов и школьников.',
+      image: image75
+    }
+  ];
 
-    return (
-        <ProjectsSection id="projects" ref={ref}>
-            <Container>
-                <SectionTitle
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                >
-                    ПРОЕКТЫ
-                </SectionTitle>
+  return (
+    <ProjectsSection id="projects" ref={ref}>
+      <Container>
+        <SectionTitle
+          initial={{ opacity: 0, y: 50 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1, ease: "easeOut" }}
+        >
+          ПРОЕКТЫ
+        </SectionTitle>
 
-                <ProjectsGrid className={shouldCenter ? 'center-single' : ''}>
-                    {projects.map((project, index) => (
-                        <ProjectCard
-                            key={project.title}
-                            initial={{ opacity: 0, y: 50 }}
-                            animate={inView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.8, delay: 0.2 + index * 0.1, ease: "easeOut" }}
-                            whileHover={{ scale: 1.02 }}
-                        >
-                            <div className="card-header">
-                                <span className="date">{project.date}</span>
-                                <a href="/projects" className="details-link">ПОДРОБНЕЕ</a>
-                            </div>
+        <ProjectsGrid className={shouldCenter ? 'center-single' : ''}>
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={project.title}
+              initial={{ opacity: 0, y: 50 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.2 + index * 0.1, ease: "easeOut" }}
+              whileHover={{ scale: 1.02 }}
+            >
+              <div className="card-header">
+                <span className="date">{project.date}</span>
+                <a href="/projects" className="details-link">ПОДРОБНЕЕ</a>
+              </div>
 
-                            <h3 className="project-title">{project.title}</h3>
-                            <p className="project-description">{project.description}</p>
+              <h3 className="project-title">{project.title}</h3>
+              <p className="project-description">{project.description}</p>
 
-                            <div className="project-image">
-                                <img src={project.image} alt={project.title} />
-                            </div>
-                        </ProjectCard>
-                    ))}
-                </ProjectsGrid>
+              <div className="project-image">
+                <img src={project.image} alt={project.title} />
+              </div>
+            </ProjectCard>
+          ))}
+        </ProjectsGrid>
 
-                <AllProjectsButton
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                >
-                    ВСЕ ПРОЕКТЫ
-                </AllProjectsButton>
-            </Container>
-        </ProjectsSection>
-    );
+        <AllProjectsButton
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          ВСЕ ПРОЕКТЫ
+        </AllProjectsButton>
+      </Container>
+    </ProjectsSection>
+  );
 };
 
 export default Projects;

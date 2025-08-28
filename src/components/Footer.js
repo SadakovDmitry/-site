@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import TG from '../TG.png';
 import VK from '../VK.png';
 import WhatsUp from '../WhatsUp.png';
@@ -69,53 +70,53 @@ const LegalLinks = styled.div`
 `;
 
 const Footer = () => {
-    return (
-        <FooterContainer>
-            <FooterContent>
-                <FooterSection>
-                    <Brand>
-                        <img src={MainLogo} alt="Логотип" />
-                    </Brand>
-                    <p>Москва, Россия</p>
-                    <p>info@cosmosfund.ru</p>
-                    <p>+7 (495) 123-45-67</p>
-                    <SocialLinks>
-                        <SocialLink href="https://t.me/cosmosfund" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.08 }}><img src={TG} alt="Telegram" /></SocialLink>
-                        <SocialLink href="https://vk.com/cosmosfund" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.08 }}><img src={VK} alt="VK" /></SocialLink>
-                        <SocialLink href="https://wa.me/74951234567" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.08 }}><img src={WhatsUp} alt="WhatsApp" /></SocialLink>
-                    </SocialLinks>
-                </FooterSection>
+  return (
+    <FooterContainer>
+      <FooterContent>
+        <FooterSection>
+          <Brand>
+            <img src={MainLogo} alt="Логотип" />
+          </Brand>
+          <p>Москва, Россия</p>
+          <p>info@cosmosfund.ru</p>
+          <p>+7 (495) 123-45-67</p>
+          <SocialLinks>
+            <SocialLink href="https://t.me/cosmosfund" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.08 }}><img src={TG} alt="Telegram" /></SocialLink>
+            <SocialLink href="https://vk.com/cosmosfund" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.08 }}><img src={VK} alt="VK" /></SocialLink>
+            <SocialLink href="https://wa.me/74951234567" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.08 }}><img src={WhatsUp} alt="WhatsApp" /></SocialLink>
+          </SocialLinks>
+        </FooterSection>
 
-                <FooterSection>
-                    <h3>О ФОНДЕ</h3>
-                    <a href="#about">Карта сайта</a>
-                </FooterSection>
+        <FooterSection>
+          <h3>О ФОНДЕ</h3>
+          <Link to="/about">Карта сайта</Link>
+        </FooterSection>
 
-                <FooterSection>
-                    <h3>ПРОЕКТЫ</h3>
-                    <a href="#projects">Карта сайта</a>
-                </FooterSection>
+        <FooterSection>
+          <h3>ПРОЕКТЫ</h3>
+          <Link to="/projects">Карта сайта</Link>
+        </FooterSection>
 
-                <FooterSection>
-                    <h3>НОВОСТИ</h3>
-                    <a href="#news">Карта сайта</a>
-                </FooterSection>
+        <FooterSection>
+          <h3>НОВОСТИ</h3>
+          <Link to="/news">Карта сайта</Link>
+        </FooterSection>
 
-                <FooterSection>
-                    <h3>ПАРТНЕРЫ</h3>
-                    <a href="#partners">Карта сайта</a>
-                </FooterSection>
-            </FooterContent>
+        <FooterSection>
+          <h3>ПАРТНЕРЫ</h3>
+          <Link to="/partners">Карта сайта</Link>
+        </FooterSection>
+      </FooterContent>
 
-            <BottomBar>
-                <div>© 2025 Фонд содействия развитию космонавтики</div>
-                <LegalLinks>
-                    <a href="/privacy">Политика конфиденциальности</a>
-                    <a href="/terms">Условия пользования</a>
-                </LegalLinks>
-            </BottomBar>
-        </FooterContainer>
-    );
+      <BottomBar>
+        <div>© 2025 Фонд содействия развитию космонавтики</div>
+        <LegalLinks>
+          <Link to="/privacy">Политика конфиденциальности</Link>
+          <Link to="/terms">Условия пользования</Link>
+        </LegalLinks>
+      </BottomBar>
+    </FooterContainer>
+  );
 };
 
 export default Footer;

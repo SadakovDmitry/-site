@@ -148,62 +148,62 @@ const EarthVideoStyled = styled.video`
 `;
 
 const Hero = () => {
-    const [ref, inView] = useInView({
-        triggerOnce: true,
-        threshold: 0.1
-    });
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
 
-    const stats = [
-        { number: '18', label: 'ПРОЕКТОВ' },
-        { number: '42', label: 'ИНВЕСТОРА' },
-        { number: '7', label: 'ЛЕТ РАБОТЫ' }
-    ];
+  const stats = [
+    { number: '18', label: 'ПРОЕКТОВ' },
+    { number: '42', label: 'ИНВЕСТОРА' },
+    { number: '7', label: 'ЛЕТ РАБОТЫ' }
+  ];
 
-    return (
-        <HeroSection ref={ref}>
-            <BackgroundStars />
+  return (
+    <HeroSection ref={ref}>
+      <BackgroundStars />
 
-            <EarthVideoStyled autoPlay loop muted playsInline>
-                <source src={EarthVideo} type="video/mp4" />
-            </EarthVideoStyled>
+      <EarthVideoStyled autoPlay loop muted playsInline>
+        <source src={EarthVideo} type="video/mp4" />
+      </EarthVideoStyled>
 
-            <OverlayLayer>
-                <OverlayInner>
-                    <TextContent
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={inView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8, ease: 'easeOut' }}
-                    >
-                        <h1>ЗВЕЗДЫ — НАШ ПУТЬ НАЗНАЧЕНИЯ</h1>
-                        <p>
-                            <b>Дорога в космос — это дорога зрелой нации.</b><br /> Мы здесь, чтобы сделать её прямой,
-                            открытой и вдохновляющей.
-                        </p>
-                        <CTAButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.96 }}>Стать частью будущего</CTAButton>
-                    </TextContent>
+      <OverlayLayer>
+        <OverlayInner>
+          <TextContent
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+          >
+            <h1>ЗВЕЗДЫ — НАШ ПУТЬ НАЗНАЧЕНИЯ</h1>
+            <p>
+              <b>Дорога в космос — это дорога зрелой нации.</b><br /> Мы здесь, чтобы сделать её прямой,
+              открытой и вдохновляющей.
+            </p>
+            <CTAButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.96 }}>Стать частью будущего</CTAButton>
+          </TextContent>
 
-                    <StatsContainer
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={inView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-                    >
-                        <StatItem>
-                            <span className="number">18</span>
-                            <span className="label">проектов</span>
-                        </StatItem>
-                        <StatItem>
-                            <span className="number">42</span>
-                            <span className="label">инвестора</span>
-                        </StatItem>
-                        <StatItem>
-                            <span className="number">7</span>
-                            <span className="label">лет работы</span>
-                        </StatItem>
-                    </StatsContainer>
-                </OverlayInner>
-            </OverlayLayer>
-        </HeroSection>
-    );
+          <StatsContainer
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+          >
+            <StatItem>
+              <span className="number">18</span>
+              <span className="label">проектов</span>
+            </StatItem>
+            <StatItem>
+              <span className="number">42</span>
+              <span className="label">инвестора</span>
+            </StatItem>
+            <StatItem>
+              <span className="number">7</span>
+              <span className="label">лет работы</span>
+            </StatItem>
+          </StatsContainer>
+        </OverlayInner>
+      </OverlayLayer>
+    </HeroSection>
+  );
 };
 
 export default Hero;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 import MainLogo from '../MainLogo.svg';
 
 const HeaderContainer = styled(motion.header)`
@@ -46,6 +47,22 @@ const Capsule = styled.div`
 `;
 
 const NavButton = styled(motion.a)`
+  flex: 0 1 auto;
+  text-align: center;
+  background: transparent;
+  color: #5b5b5b;
+  border-radius: 9999px;
+  padding: clamp(0px, 0.5vw, 12px) clamp(1px, 0.5vw, 18px);
+  text-decoration: none;
+  font-weight: 400;
+  font-family: 'Raleway', sans-serif;
+  letter-spacing: 0.02em;
+  font-size: clamp(12px, 1.05vw, 16px);
+  cursor: pointer;
+  white-space: nowrap;
+`;
+
+const NavLink = styled(Link)`
   flex: 0 1 auto;
   text-align: center;
   background: transparent;
@@ -128,73 +145,98 @@ const MobileLink = styled(motion.a)`
 `;
 
 const Header = () => {
-    const [isScrolled, setIsScrolled] = useState(false);
-    const [open, setOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
 
-    useEffect(() => {
-        const onScroll = () => setIsScrolled(window.scrollY > 24);
-        window.addEventListener('scroll', onScroll);
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-    const scrollTo = (id) => {
-        const el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-        setOpen(false);
-    };
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    setOpen(false);
+  };
 
-    const Items = (
-        <Capsule>
-            <NavButton onClick={() => scrollTo('about')}>/ О ФОНДЕ</NavButton>
-            <NavButton onClick={() => scrollTo('projects')}>/ ПРОЕКТЫ</NavButton>
-            <NavButton onClick={() => scrollTo('news')}>/ НОВОСТИ</NavButton>
-            <NavButton onClick={() => scrollTo('partners')}>/ КОНТАКТЫ</NavButton>
-            <PrimaryButton onClick={() => alert('Спасибо за поддержку!')}>ПОДДЕРЖАТЬ</PrimaryButton>
-        </Capsule>
-    );
+  const isHomePage = location.pathname === '/';
 
-    return (
-        <HeaderContainer
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.5 }}
-            style={{
-                background: isScrolled ? 'rgba(0,0,0,0.8)' : 'transparent',
-                backdropFilter: isScrolled ? 'blur(10px)' : 'none'
-            }}
-        >
-            <HeaderContent>
-                <DesktopRow>
-                    <Brand><img src={MainLogo} alt="Логотип" /></Brand>
-                    {Items}
-                </DesktopRow>
+  const Items = (
+    <Capsule>
+      {isHomePage ? (
+        <>
+          <NavButton onClick={() => scrollTo('about')}>/ О ФОНДЕ</NavButton>
+          <NavButton onClick={() => scrollTo('projects')}>/ ПРОЕКТЫ</NavButton>
+          <NavButton onClick={() => scrollTo('news')}>/ НОВОСТИ</NavButton>
+          <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
+        </>
+      ) : (
+        <>
+          <NavLink to="/">/ ГЛАВНАЯ</NavLink>
+          <NavLink to="/">/ О ФОНДЕ</NavLink>
+          <NavLink to="/">/ ПРОЕКТЫ</NavLink>
+          <NavLink to="/">/ НОВОСТИ</NavLink>
+        </>
+      )}
+      <PrimaryButton onClick={() => alert('Спасибо за поддержку!')}>ПОДДЕРЖАТЬ</PrimaryButton>
+    </Capsule>
+  );
 
-                <MobileRow>
-                    <Brand><img src={MainLogo} alt="Логотип" /></Brand>
-                    <MobileMenuButton onClick={() => setOpen(!open)}>☰</MobileMenuButton>
-                </MobileRow>
-            </HeaderContent>
+  return (
+    <HeaderContainer
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+      style={{
+        background: isScrolled ? 'rgba(0,0,0,0.8)' : 'transparent',
+        backdropFilter: isScrolled ? 'blur(10px)' : 'none'
+      }}
+    >
+      <HeaderContent>
+        <DesktopRow>
+          <Brand><img src={MainLogo} alt="Логотип" /></Brand>
+          {Items}
+        </DesktopRow>
 
-            <AnimatePresence>
-                {open && (
-                    <MobileMenu
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        onClick={() => setOpen(false)}
-                    >
-                        <MobileList onClick={(e) => e.stopPropagation()}>
-                            <MobileLink onClick={() => scrollTo('about')}>О ФОНДЕ</MobileLink>
-                            <MobileLink onClick={() => scrollTo('projects')}>ПРОЕКТЫ</MobileLink>
-                            <MobileLink onClick={() => scrollTo('news')}>НОВОСТИ</MobileLink>
-                            <MobileLink onClick={() => scrollTo('partners')}>КОНТАКТЫ</MobileLink>
-                            <PrimaryButton onClick={() => scrollTo('contact')}>ПОДДЕРЖАТЬ</PrimaryButton>
-                        </MobileList>
-                    </MobileMenu>
-                )}
-            </AnimatePresence>
-        </HeaderContainer>
-    );
+        <MobileRow>
+          <Brand><img src={MainLogo} alt="Логотип" /></Brand>
+          <MobileMenuButton onClick={() => setOpen(!open)}>☰</MobileMenuButton>
+        </MobileRow>
+      </HeaderContent>
+
+      <AnimatePresence>
+        {open && (
+          <MobileMenu
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setOpen(false)}
+          >
+            <MobileList onClick={(e) => e.stopPropagation()}>
+              {isHomePage ? (
+                <>
+                  <MobileLink onClick={() => scrollTo('about')}>О ФОНДЕ</MobileLink>
+                  <MobileLink onClick={() => scrollTo('projects')}>ПРОЕКТЫ</MobileLink>
+                  <MobileLink onClick={() => scrollTo('news')}>НОВОСТИ</MobileLink>
+                  <NavLink to="/contact">КОНТАКТЫ</NavLink>
+                </>
+              ) : (
+                <>
+                  <NavLink to="/">ГЛАВНАЯ</NavLink>
+                  <NavLink to="/">О ФОНДЕ</NavLink>
+                  <NavLink to="/">ПРОЕКТЫ</NavLink>
+                  <NavLink to="/">НОВОСТИ</NavLink>
+                </>
+              )}
+              <PrimaryButton onClick={() => alert('Спасибо за поддержку!')}>ПОДДЕРЖАТЬ</PrimaryButton>
+            </MobileList>
+          </MobileMenu>
+        )}
+      </AnimatePresence>
+    </HeaderContainer>
+  );
 };
 
 export default Header;
