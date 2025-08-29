@@ -164,6 +164,7 @@ const Header = () => {
   const isHomePage = location.pathname === '/';
   const isNewsPage = location.pathname === '/news';
   const isContactPage = location.pathname === '/contact';
+  const isEventsPage = location.pathname === '/events';
 
   const Items = (
     <Capsule>
@@ -172,6 +173,7 @@ const Header = () => {
           <NavButton onClick={() => scrollTo('about')}>/ О ФОНДЕ</NavButton>
           <NavButton onClick={() => scrollTo('projects')}>/ ПРОЕКТЫ</NavButton>
           <NavLink to="/news">/ НОВОСТИ</NavLink>
+          <NavLink to="/events">/ СОБЫТИЯ</NavLink>
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
         </>
       ) : isNewsPage ? (
@@ -179,6 +181,7 @@ const Header = () => {
           <NavLink to="/">/ ГЛАВНАЯ</NavLink>
           <NavLink to="/">/ О ФОНДЕ</NavLink>
           <NavLink to="/">/ ПРОЕКТЫ</NavLink>
+          <NavLink to="/events">/ СОБЫТИЯ</NavLink>
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
         </>
       ) : isContactPage ? (
@@ -187,6 +190,15 @@ const Header = () => {
           <NavLink to="/">/ О ФОНДЕ</NavLink>
           <NavLink to="/">/ ПРОЕКТЫ</NavLink>
           <NavLink to="/news">/ НОВОСТИ</NavLink>
+          <NavLink to="/events">/ СОБЫТИЯ</NavLink>
+        </>
+      ) : isEventsPage ? (
+        <>
+          <NavLink to="/">/ ГЛАВНАЯ</NavLink>
+          <NavLink to="/">/ О ФОНДЕ</NavLink>
+          <NavLink to="/">/ ПРОЕКТЫ</NavLink>
+          <NavLink to="/news">/ НОВОСТИ</NavLink>
+          <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
         </>
       ) : (
         <>
@@ -237,6 +249,7 @@ const Header = () => {
                   <MobileLink onClick={() => scrollTo('about')}>О ФОНДЕ</MobileLink>
                   <MobileLink onClick={() => scrollTo('projects')}>ПРОЕКТЫ</MobileLink>
                   <NavLink to="/news">НОВОСТИ</NavLink>
+                  <NavLink to="/events">СОБЫТИЯ</NavLink>
                   <NavLink to="/contact">КОНТАКТЫ</NavLink>
                 </>
               ) : isNewsPage ? (
@@ -244,6 +257,7 @@ const Header = () => {
                   <NavLink to="/">ГЛАВНАЯ</NavLink>
                   <NavLink to="/">О ФОНДЕ</NavLink>
                   <NavLink to="/">ПРОЕКТЫ</NavLink>
+                  <NavLink to="/events">СОБЫТИЯ</NavLink>
                   <NavLink to="/contact">КОНТАКТЫ</NavLink>
                 </>
               ) : isContactPage ? (
@@ -252,6 +266,15 @@ const Header = () => {
                   <NavLink to="/">О ФОНДЕ</NavLink>
                   <NavLink to="/">ПРОЕКТЫ</NavLink>
                   <NavLink to="/news">НОВОСТИ</NavLink>
+                  <NavLink to="/events">СОБЫТИЯ</NavLink>
+                </>
+              ) : isEventsPage ? (
+                <>
+                  <NavLink to="/">ГЛАВНАЯ</NavLink>
+                  <NavLink to="/">О ФОНДЕ</NavLink>
+                  <NavLink to="/">ПРОЕКТЫ</NavLink>
+                  <NavLink to="/news">НОВОСТИ</NavLink>
+                  <NavLink to="/contact">КОНТАКТЫ</NavLink>
                 </>
               ) : (
                 <>
