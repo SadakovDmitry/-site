@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import mainImage from '../images/EventsPage/events_main.png';
@@ -629,6 +630,7 @@ const DetailsButton = styled.button`
 `;
 
 const EventsPage = () => {
+    const navigate = useNavigate();
     const [selectedFilters, setSelectedFilters] = useState({
         theme: ['science', 'education', 'technology'],
         foundation: ['coordination', 'technical'],
@@ -685,6 +687,11 @@ const EventsPage = () => {
 
     // Проверяем, есть ли несохраненные изменения в фильтрах
     const hasUnsavedChanges = JSON.stringify(selectedFilters) !== JSON.stringify(activeFilters);
+
+    // Функция для перехода на страницу события
+    const handleEventClick = (eventId) => {
+        navigate(`/events/${eventId}`);
+    };
 
     const events = [
         {
@@ -982,7 +989,7 @@ const EventsPage = () => {
                                             <EventDescriptionHover>
                                                 {event.description}
                                             </EventDescriptionHover>
-                                            <DetailsButton>
+                                            <DetailsButton onClick={() => handleEventClick(event.id)}>
                                                 <span>&gt; ПОДРОБНЕЕ</span>
                                             </DetailsButton>
                                         </EventContent>
