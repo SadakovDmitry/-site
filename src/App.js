@@ -13,6 +13,7 @@ import EventDetailPage from './components/EventDetailPage';
 import ProximaRegular from './Proxima Nova/proximanova_regular.ttf';
 import ProximaSemibold from './Proxima Nova/proximanova_bold.otf';
 import ProximaBold from './Proxima Nova/proximanova_extrabold.otf';
+import AboutFond from './components/AboutFondPage';
 
 const AppContainer = styled.div`
   font-family: 'Proxima Nova', 'Raleway', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
@@ -81,6 +82,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/fond" element={<AboutFond />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/events" element={<EventsPage />} />

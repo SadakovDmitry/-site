@@ -170,8 +170,8 @@ const Header = () => {
     <Capsule>
       {isHomePage ? (
         <>
-          <NavButton onClick={() => scrollTo('about')}>/ О ФОНДЕ</NavButton>
-          <NavButton onClick={() => scrollTo('projects')}>/ ПРОЕКТЫ</NavButton>
+          <NavButton onClick={() => scrollTo("about")}>/ О ФОНДЕ</NavButton>
+          <NavButton onClick={() => scrollTo("projects")}>/ ПРОЕКТЫ</NavButton>
           <NavLink to="/news">/ НОВОСТИ</NavLink>
           <NavLink to="/events">/ СОБЫТИЯ</NavLink>
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
@@ -179,7 +179,7 @@ const Header = () => {
       ) : isNewsPage ? (
         <>
           <NavLink to="/">/ ГЛАВНАЯ</NavLink>
-          <NavLink to="/">/ О ФОНДЕ</NavLink>
+          <NavLink to="/fond">/ О ФОНДЕ</NavLink>
           <NavLink to="/">/ ПРОЕКТЫ</NavLink>
           <NavLink to="/events">/ СОБЫТИЯ</NavLink>
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
@@ -187,7 +187,7 @@ const Header = () => {
       ) : isContactPage ? (
         <>
           <NavLink to="/">/ ГЛАВНАЯ</NavLink>
-          <NavLink to="/">/ О ФОНДЕ</NavLink>
+          <NavLink to="/fond">/ О ФОНДЕ</NavLink>
           <NavLink to="/">/ ПРОЕКТЫ</NavLink>
           <NavLink to="/news">/ НОВОСТИ</NavLink>
           <NavLink to="/events">/ СОБЫТИЯ</NavLink>
@@ -195,7 +195,7 @@ const Header = () => {
       ) : isEventsPage ? (
         <>
           <NavLink to="/">/ ГЛАВНАЯ</NavLink>
-          <NavLink to="/">/ О ФОНДЕ</NavLink>
+          <NavLink to="/fond">/ О ФОНДЕ</NavLink>
           <NavLink to="/">/ ПРОЕКТЫ</NavLink>
           <NavLink to="/news">/ НОВОСТИ</NavLink>
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
@@ -203,13 +203,15 @@ const Header = () => {
       ) : (
         <>
           <NavLink to="/">/ ГЛАВНАЯ</NavLink>
-          <NavLink to="/">/ О ФОНДЕ</NavLink>
+          <NavLink to="/fond">/ О ФОНДЕ</NavLink>
           <NavLink to="/">/ ПРОЕКТЫ</NavLink>
           <NavLink to="/">/ НОВОСТИ</NavLink>
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
         </>
       )}
-      <PrimaryButton onClick={() => alert('Спасибо за поддержку!')}>ПОДДЕРЖАТЬ</PrimaryButton>
+      <PrimaryButton onClick={() => alert("Спасибо за поддержку!")}>
+        ПОДДЕРЖАТЬ
+      </PrimaryButton>
     </Capsule>
   );
 
@@ -219,18 +221,22 @@ const Header = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
       style={{
-        background: isScrolled ? 'rgba(0,0,0,0.8)' : 'transparent',
-        backdropFilter: isScrolled ? 'blur(10px)' : 'none'
+        background: isScrolled ? "rgba(0,0,0,0.8)" : "transparent",
+        backdropFilter: isScrolled ? "blur(10px)" : "none",
       }}
     >
       <HeaderContent>
         <DesktopRow>
-          <Brand><img src={MainLogo} alt="Логотип" /></Brand>
+          <Brand>
+            <img src={MainLogo} alt="Логотип" />
+          </Brand>
           {Items}
         </DesktopRow>
 
         <MobileRow>
-          <Brand><img src={MainLogo} alt="Логотип" /></Brand>
+          <Brand>
+            <img src={MainLogo} alt="Логотип" />
+          </Brand>
           <MobileMenuButton onClick={() => setOpen(!open)}>☰</MobileMenuButton>
         </MobileRow>
       </HeaderContent>
@@ -246,8 +252,12 @@ const Header = () => {
             <MobileList onClick={(e) => e.stopPropagation()}>
               {isHomePage ? (
                 <>
-                  <MobileLink onClick={() => scrollTo('about')}>О ФОНДЕ</MobileLink>
-                  <MobileLink onClick={() => scrollTo('projects')}>ПРОЕКТЫ</MobileLink>
+                  <MobileLink onClick={() => scrollTo("about")}>
+                    О ФОНДЕ
+                  </MobileLink>
+                  <MobileLink onClick={() => scrollTo("projects")}>
+                    ПРОЕКТЫ
+                  </MobileLink>
                   <NavLink to="/news">НОВОСТИ</NavLink>
                   <NavLink to="/events">СОБЫТИЯ</NavLink>
                   <NavLink to="/contact">КОНТАКТЫ</NavLink>
@@ -255,7 +265,7 @@ const Header = () => {
               ) : isNewsPage ? (
                 <>
                   <NavLink to="/">ГЛАВНАЯ</NavLink>
-                  <NavLink to="/">О ФОНДЕ</NavLink>
+                  <NavLink to="/fond">О ФОНДЕ</NavLink>
                   <NavLink to="/">ПРОЕКТЫ</NavLink>
                   <NavLink to="/events">СОБЫТИЯ</NavLink>
                   <NavLink to="/contact">КОНТАКТЫ</NavLink>
@@ -263,7 +273,7 @@ const Header = () => {
               ) : isContactPage ? (
                 <>
                   <NavLink to="/">ГЛАВНАЯ</NavLink>
-                  <NavLink to="/">О ФОНДЕ</NavLink>
+                  <NavLink to="/fond">О ФОНДЕ</NavLink>
                   <NavLink to="/">ПРОЕКТЫ</NavLink>
                   <NavLink to="/news">НОВОСТИ</NavLink>
                   <NavLink to="/events">СОБЫТИЯ</NavLink>
@@ -271,7 +281,7 @@ const Header = () => {
               ) : isEventsPage ? (
                 <>
                   <NavLink to="/">ГЛАВНАЯ</NavLink>
-                  <NavLink to="/">О ФОНДЕ</NavLink>
+                  <NavLink to="/fond">О ФОНДЕ</NavLink>
                   <NavLink to="/">ПРОЕКТЫ</NavLink>
                   <NavLink to="/news">НОВОСТИ</NavLink>
                   <NavLink to="/contact">КОНТАКТЫ</NavLink>
@@ -279,13 +289,15 @@ const Header = () => {
               ) : (
                 <>
                   <NavLink to="/">ГЛАВНАЯ</NavLink>
-                  <NavLink to="/">О ФОНДЕ</NavLink>
+                  <NavLink to="/fond">О ФОНДЕ</NavLink>
                   <NavLink to="/">ПРОЕКТЫ</NavLink>
                   <NavLink to="/">НОВОСТИ</NavLink>
                   <NavLink to="/contact">КОНТАКТЫ</NavLink>
                 </>
               )}
-              <PrimaryButton onClick={() => alert('Спасибо за поддержку!')}>ПОДДЕРЖАТЬ</PrimaryButton>
+              <PrimaryButton onClick={() => alert("Спасибо за поддержку!")}>
+                ПОДДЕРЖАТЬ
+              </PrimaryButton>
             </MobileList>
           </MobileMenu>
         )}

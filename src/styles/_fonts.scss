@@ -1,0 +1,72 @@
+@mixin font($name, $path, $weight: 400, $style: normal, $format: "truetype") {
+  @font-face {
+    font-family: $name;
+    src: url(#{$path}) format(#{$format});
+    font-weight: $weight;
+    font-style: $style;
+    font-display: swap;
+  }
+}
+
+@include font(
+  "Proxima Nova",
+  "../Proxima Nova/proximanova_light.otf",
+  400,
+  normal,
+  "opentype"
+);
+
+@include font(
+  "Proxima Nova",
+  "../Proxima Nova/proximanova_regular.ttf",
+  500,
+  normal,
+  "truetype"
+);
+
+@include font(
+  "Proxima Nova",
+  "../Proxima Nova/proximanova_bold.otf",
+  600,
+  normal,
+  "opentype"
+);
+@include font(
+  "Proxima Nova",
+  "../Proxima Nova/proximanova_extrabold.otf",
+  700,
+  normal,
+  "opentype"
+);
+
+@include font("Raleway", "../Raleway/Raleway.ttf", 400, normal, "opentype");
+@include font(
+  "Raleway",
+  "../Raleway/Raleway-v4020-SemiBold.otf",
+  600,
+  normal,
+  "opentype"
+);
+@include font(
+  "Raleway",
+  "../Raleway/Raleway-v4020-Bold.otf",
+  700,
+  normal,
+  "opentype"
+);
+
+@include font(
+  "Futura PT",
+  "../FuturaPT/FuturaPTBook.otf",
+  400,
+  normal,
+  "opentype"
+);
+
+@include font(
+  "Futura PT",
+  "../FuturaPT/FuturaPTDemi.otf",
+  500,
+  normal,
+  "opentype"
+);
