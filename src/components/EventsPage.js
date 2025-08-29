@@ -637,6 +637,15 @@ const EventsPage = () => {
         audience: ['students', 'professionals', 'general']
     });
 
+    // Состояние для активных (примененных) фильтров
+    const [activeFilters, setActiveFilters] = useState({
+        theme: ['science', 'education', 'technology'],
+        foundation: ['coordination', 'technical'],
+        scale: ['local', 'regional', 'national'],
+        stage: ['planning', 'development', 'implementation'],
+        audience: ['students', 'professionals', 'general']
+    });
+
     const [expandedFilters, setExpandedFilters] = useState({
         theme: false,
         foundation: true,
@@ -669,6 +678,14 @@ const EventsPage = () => {
         });
     };
 
+    // Функция применения фильтров
+    const applyFilters = () => {
+        setActiveFilters(selectedFilters);
+    };
+
+    // Проверяем, есть ли несохраненные изменения в фильтрах
+    const hasUnsavedChanges = JSON.stringify(selectedFilters) !== JSON.stringify(activeFilters);
+
     const events = [
         {
             id: 1,
@@ -676,7 +693,12 @@ const EventsPage = () => {
             location: 'Королев, Московская область',
             date: '12 апреля',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
-            hoverImage: lecturerImage
+            hoverImage: lecturerImage,
+            theme: 'education',
+            foundation: 'technical',
+            scale: 'local',
+            stage: 'implementation',
+            audience: 'general'
         },
         {
             id: 2,
@@ -684,7 +706,12 @@ const EventsPage = () => {
             location: 'Королев, Московская область',
             date: '15 апреля',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
-            hoverImage: scienceWorkshopsImage
+            hoverImage: scienceWorkshopsImage,
+            theme: 'science',
+            foundation: 'technical',
+            scale: 'regional',
+            stage: 'development',
+            audience: 'students'
         },
         {
             id: 3,
@@ -692,7 +719,12 @@ const EventsPage = () => {
             location: 'Королев, Московская область',
             date: '18 апреля',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
-            hoverImage: lecturerImage
+            hoverImage: lecturerImage,
+            theme: 'education',
+            foundation: 'technical',
+            scale: 'national',
+            stage: 'planning',
+            audience: 'students'
         },
         {
             id: 4,
@@ -700,7 +732,12 @@ const EventsPage = () => {
             location: 'Королев, Московская область',
             date: '20 апреля',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
-            hoverImage: scienceWorkshopsImage
+            hoverImage: scienceWorkshopsImage,
+            theme: 'science',
+            foundation: 'coordination',
+            scale: 'local',
+            stage: 'implementation',
+            audience: 'students'
         },
         {
             id: 5,
@@ -708,7 +745,12 @@ const EventsPage = () => {
             location: 'Королев, Московская область',
             date: '22 апреля',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
-            hoverImage: lecturerImage
+            hoverImage: lecturerImage,
+            theme: 'science',
+            foundation: 'coordination',
+            scale: 'regional',
+            stage: 'development',
+            audience: 'professionals'
         },
         {
             id: 6,
@@ -716,12 +758,21 @@ const EventsPage = () => {
             location: 'Королев, Московская область',
             date: '25 апреля',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
-            hoverImage: scienceWorkshopsImage
+            hoverImage: lecturerImage,
+            theme: 'education',
+            foundation: 'technical',
+            scale: 'national',
+            stage: 'planning',
+            audience: 'general'
         }
     ];
 
     const getFilterCount = (category) => {
         return selectedFilters[category]?.length || 0;
+    };
+
+    const getActiveFilterCount = (category) => {
+        return activeFilters[category]?.length || 0;
     };
 
     const getFilterSymbol = (count) => {
@@ -731,6 +782,19 @@ const EventsPage = () => {
         if (count === 3) return '★★★';
         return '★★★★';
     };
+
+    // Функция фильтрации событий
+    const filteredEvents = events.filter(event => {
+        // Проверяем каждый тип фильтра по активным (примененным) фильтрам
+        const themeMatch = activeFilters.theme.length === 0 || activeFilters.theme.includes(event.theme);
+        const foundationMatch = activeFilters.foundation.length === 0 || activeFilters.foundation.includes(event.foundation);
+        const scaleMatch = activeFilters.scale.length === 0 || activeFilters.scale.includes(event.scale);
+        const stageMatch = activeFilters.stage.length === 0 || activeFilters.stage.includes(event.stage);
+        const audienceMatch = activeFilters.audience.length === 0 || activeFilters.audience.includes(event.audience);
+
+        // Событие должно соответствовать ВСЕМ выбранным фильтрам
+        return themeMatch && foundationMatch && scaleMatch && stageMatch && audienceMatch;
+    });
 
     return (
         <PageContainer>
@@ -745,7 +809,16 @@ const EventsPage = () => {
                 <Container>
                     <ContentGrid>
                         <FilterSidebar>
-                            <ApplyButton>ПРИМЕНИТЬ</ApplyButton>
+                            <ApplyButton
+                                onClick={applyFilters}
+                                style={{
+                                    background: hasUnsavedChanges
+                                        ? 'linear-gradient(83.48deg, #ff6b6b 0%, #ee5a24 100%)'
+                                        : 'linear-gradient(83.48deg, #312684 0%, #019CE5 100%)'
+                                }}
+                            >
+                                {hasUnsavedChanges ? 'ПРИМЕНИТЬ*' : 'ПРИМЕНИТЬ'}
+                            </ApplyButton>
 
                             <FilterCategory>
                                 <FilterButton onClick={() => toggleFilter('theme')}>
@@ -788,12 +861,6 @@ const EventsPage = () => {
                                             onClick={() => toggleSubFilter('foundation', 'coordination')}
                                         >
                                             Координация / партнерство
-                                        </SubFilterButton>
-                                        <SubFilterButton
-                                            selected={selectedFilters.foundation.includes('educational')}
-                                            onClick={() => toggleSubFilter('foundation', 'educational')}
-                                        >
-                                            Образовательная поддержка
                                         </SubFilterButton>
                                         <SubFilterButton
                                             selected={selectedFilters.foundation.includes('technical')}
@@ -894,32 +961,44 @@ const EventsPage = () => {
                         </FilterSidebar>
 
                         <EventsGrid>
-                            {events.map((event) => (
-                                <EventCard
-                                    key={event.id}
-                                    hoverImage={event.hoverImage}
-                                    whileHover={{ scale: 1.02 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <EventContent>
-                                        <EventTitle>{event.title}</EventTitle>
-                                        <EventLocation>
-                                            <img src={placeIcon} alt="Место" />
-                                            <span>{event.location}</span>
-                                        </EventLocation>
-                                        <EventDate>
-                                            <img src={dateIcon} alt="Дата" />
-                                            <span>{event.date}</span>
-                                        </EventDate>
-                                        <EventDescriptionHover>
-                                            {event.description}
-                                        </EventDescriptionHover>
-                                        <DetailsButton>
-                                            <span>&gt; ПОДРОБНЕЕ</span>
-                                        </DetailsButton>
-                                    </EventContent>
-                                </EventCard>
-                            ))}
+                            {filteredEvents.length > 0 ? (
+                                filteredEvents.map((event) => (
+                                    <EventCard
+                                        key={event.id}
+                                        hoverImage={event.hoverImage}
+                                        whileHover={{ scale: 1.02 }}
+                                        transition={{ duration: 0.3 }}
+                                    >
+                                        <EventContent>
+                                            <EventTitle>{event.title}</EventTitle>
+                                            <EventLocation>
+                                                <img src={placeIcon} alt="Место" />
+                                                <span>{event.location}</span>
+                                            </EventLocation>
+                                            <EventDate>
+                                                <img src={dateIcon} alt="Дата" />
+                                                <span>{event.date}</span>
+                                            </EventDate>
+                                            <EventDescriptionHover>
+                                                {event.description}
+                                            </EventDescriptionHover>
+                                            <DetailsButton>
+                                                <span>&gt; ПОДРОБНЕЕ</span>
+                                            </DetailsButton>
+                                        </EventContent>
+                                    </EventCard>
+                                ))
+                            ) : (
+                                <div style={{
+                                    gridColumn: '1 / -1',
+                                    textAlign: 'center',
+                                    padding: '2rem',
+                                    fontSize: '1.2rem',
+                                    color: '#666'
+                                }}>
+                                    По выбранным фильтрам событий не найдено
+                                </div>
+                            )}
                         </EventsGrid>
                     </ContentGrid>
                 </Container>
