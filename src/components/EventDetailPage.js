@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -10,6 +10,8 @@ import image1 from '../images/EventPage/image_1.png';
 import rocketIcon from '../images/EventPage/rocket.svg';
 import computerIcon from '../images/EventPage/computer.svg';
 import houseIcon from '../images/EventPage/house.svg';
+
+
 
 const PageContainer = styled.div`
   min-height: 100vh;
@@ -402,9 +404,10 @@ const ResultText = styled.p`
 
 
 
+
+
 const EventDetailPage = () => {
   const { eventId } = useParams();
-  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentStage, setCurrentStage] = useState(0);
 
@@ -577,7 +580,6 @@ const EventDetailPage = () => {
 
   useEffect(() => {
     if (!event) {
-      navigate('/events');
       return;
     }
 
@@ -596,7 +598,7 @@ const EventDetailPage = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [event, navigate]);
+  }, [event]);
 
   if (!event) {
     return null;
@@ -792,6 +794,8 @@ const EventDetailPage = () => {
               </motion.div>
             </ResultsSection>
           </motion.div>
+
+
         </Container>
       </ContentSection>
 

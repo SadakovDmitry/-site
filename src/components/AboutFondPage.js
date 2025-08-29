@@ -1,10 +1,22 @@
 import Mission from "./AboutFond-components/Mission";
 import Director from "./AboutFond-components/Director";
 import Section from "./AboutFond-components/Pattern";
+import { motion } from "framer-motion";
+import styled from "styled-components";
 
 import benefactor from "../images/AboutFondPage/people/benefactor.png";
 import astrotech from "../images/AboutFondPage/buildings/astrotech.png";
 import roscosmos from "../images/AboutFondPage/buildings/roscosmos.png";
+
+// Импорт иконок для стратегических направлений
+import atomIcon from "../images/AboutFondPage/icons/chrome-atom-molecule-icon-white-background-3d-rendering_476612-2231.png";
+import rocketIcon from "../images/AboutFondPage/icons/chrome-rocket-ship-ready-launch-space-exploration-adventure_632498-37867 1.png";
+import documentIcon from "../images/AboutFondPage/icons/png-3d-metallic-book-education-remix-transparent-background_53876-979856.png";
+import gearIcon from "../images/AboutFondPage/icons/mega-creator_-_2024-.png";
+import planetIcon from "../images/AboutFondPage/icons/y2k-chrome-planet-free-png.png";
+import ufoIcon from "../images/AboutFondPage/icons/y2k-chrome-atom-11486669-9316773.png";
+
+import infographik from "../images/AboutFondPage/infographik.svg";
 
 
 // TODO: перенести в файл с константами
@@ -72,6 +84,164 @@ const directorateData = [
   },
 ];
 
+// Стили для блока "История и статус"
+const HistoryStatusSection = styled.section`
+  text-align: center;
+  padding: 4rem 0;
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+`;
+
+const HistoryStatusContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+`;
+
+const InfographicContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const HistoryText = styled.div`
+  text-align: left;
+  font-family: 'Proxima Nova', sans-serif;
+  color: #000;
+  line-height: 1.6;
+
+  h3 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 3.4rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    color: #000;
+    text-transform: uppercase;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin-bottom: 1.0rem;
+    line-height: 1.1rem;
+    color: #000;
+  }
+`;
+
+const StrategicDirectionsSection = styled.section`
+  text-align: center;
+  padding: 4rem 0;
+  background: #ffffff;
+`;
+
+const StrategicGrid = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+`;
+
+const StrategicCard = styled(motion.div)`
+  background: transparent;
+  border-radius: 50px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  width: 280px;
+  height: 280px;
+  margin: 0 auto;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background: linear-gradient(180deg, #019CE5 0%, #312684 100%);
+    border-radius: 20px;
+    z-index: 1;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #ffffff;
+    border-radius: 20px;
+    z-index: 2;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+  }
+`;
+
+const StrategicIcon = styled.img`
+  width: 85px;
+  height: 85px;
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: block;
+  object-fit: contain;
+  z-index: 3;
+`;
+
+const StrategicTitle = styled.h3`
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #000;
+  margin-bottom: 0.3rem;
+  line-height: 1.0;
+  text-align: left;
+  margin-top: 5rem;
+  white-space: pre-line;
+  position: relative;
+  z-index: 3;
+`;
+
+const StrategicDescription = styled.p`
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.80rem;
+  font-weight: 300;
+  color: #000;
+  line-height: 1.1;
+  margin: 0;
+  text-align: left;
+  white-space: pre-line;
+  position: relative;
+  z-index: 3;
+`;
+
+const SectionTitle = styled.h2`
+  font-family: 'Raleway', sans-serif;
+  font-size: 60px;
+  font-weight: 400;
+  color: rgba(16, 16, 16, 1);
+  margin-bottom: 3rem;
+  text-align: left;
+  text-transform: uppercase;
+  padding-left: 9.4vw;
+  padding-right: 9.4vw;
+`;
+
 function AboutFond() {
   return (
     <>
@@ -86,6 +256,147 @@ function AboutFond() {
         title={"Правление"}
         blocks={directorateData}
       ></Section>
+
+
+
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+      >
+        <HistoryStatusSection>
+          <HistoryStatusContainer>
+            <InfographicContainer>
+              <motion.img
+                src={infographik}
+                alt="Инфографика фонда"
+                style={{
+                  width: '100%',
+                  maxWidth: '400px',
+                  height: 'auto'
+                }}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.2, delay: 0.8 }}
+              />
+            </InfographicContainer>
+
+            <HistoryText>
+              <h3>ИСТОРИЯ И СТАТУС</h3>
+              <p>
+                Фонд возник как ответ на стремление объединить людей, которым небезразлично будущее науки и технологий. В его основе лежала простая идея: поддерживать те инициативы, что способны открывать новые горизонты и вдохновлять общество.
+              </p>
+              <p>
+                С самого начала он задумывался не как узкая структура, а как пространство для сотрудничества — место, где встречаются учёные, предприниматели, государственные институты и энтузиасты. Каждый из них приносит свой вклад, и вместе эти усилия превращаются в проекты, которые помогают двигаться вперёд.
+              </p>
+              <p>
+                Сегодня фонд продолжает эту миссию: создавать условия, при которых наука и технологии становятся ближе к людям, а партнёрство разных сфер открывает дорогу к новым достижениям. Его история — это история поиска, объединения и веры в то, что совместная работа способна изменить будущее.
+              </p>
+            </HistoryText>
+          </HistoryStatusContainer>
+        </HistoryStatusSection>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.7, ease: "easeOut" }}
+      >
+        <StrategicDirectionsSection>
+          <SectionTitle>СТРАТЕГИЧЕСКИЕ НАПРАВЛЕНИЯ</SectionTitle>
+          <StrategicGrid>
+            <StrategicCard
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            >
+              <StrategicIcon src={atomIcon} alt="Научные исследования" />
+              <StrategicTitle>НАУЧНЫЕ<br />ИССЛЕДОВАНИЯ<br />И ТЕХНОЛОГИИ</StrategicTitle>
+              <StrategicDescription>
+                Поддержка прикладных<br />
+                и фундаментальных<br />
+                исследований,<br />
+                связанных с космосом<br />
+                и смежными областями.
+              </StrategicDescription>
+            </StrategicCard>
+
+            <StrategicCard
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            >
+              <StrategicIcon src={rocketIcon} alt="Инвестиции в стартапы" />
+              <StrategicTitle>ИНВЕСТИЦИИ<br />В СТАРТАПЫ<br />И ПРОЕКТЫ</StrategicTitle>
+              <StrategicDescription>
+                Финансирование<br />
+                инновационных<br />
+                технологических<br />
+                компаний и инициатив<br />
+                в космической отрасли.
+              </StrategicDescription>
+            </StrategicCard>
+
+            <StrategicCard
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            >
+              <StrategicIcon src={documentIcon} alt="Образование и просвещение" />
+              <StrategicTitle>ОБРАЗОВАНИЕ<br />И ПРОСВЕЩЕНИЕ<br />В НАУКЕ</StrategicTitle>
+              <StrategicDescription>
+                Организация программ,<br />
+                лекций и мероприятий<br />
+                для популяризации<br />
+                научных знаний<br />
+                и космических исследований.
+              </StrategicDescription>
+            </StrategicCard>
+
+            <StrategicCard
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            >
+              <StrategicIcon src={gearIcon} alt="Международное сотрудничество" />
+              <StrategicTitle>МЕЖДУНАРОДНОЕ<br />СОТРУДНИЧЕСТВО<br />И ПАРТНЕРСТВО</StrategicTitle>
+              <StrategicDescription>
+                Развитие связей<br />
+                с зарубежными<br />
+                организациями<br />
+                и исследовательскими<br />
+                центрами по всему миру.
+              </StrategicDescription>
+            </StrategicCard>
+
+            <StrategicCard
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            >
+              <StrategicIcon src={planetIcon} alt="Государственная поддержка" />
+              <StrategicTitle>ГОСУДАРСТВЕННАЯ<br />ПОДДЕРЖКА<br />И РАЗВИТИЕ</StrategicTitle>
+              <StrategicDescription>
+                Сотрудничество<br />
+                с государственными<br />
+                структурами для<br />
+                развития космической<br />
+                отрасли и технологий.
+              </StrategicDescription>
+            </StrategicCard>
+
+            <StrategicCard
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            >
+              <StrategicIcon src={ufoIcon} alt="Технологические инновации" />
+              <StrategicTitle>ТЕХНОЛОГИЧЕСКИЕ<br />ИННОВАЦИИ<br />И РАЗРАБОТКИ</StrategicTitle>
+              <StrategicDescription>
+                Поддержка создания<br />
+                новых технологий<br />
+                и инновационных<br />
+                решений для<br />
+                космических исследований.
+              </StrategicDescription>
+            </StrategicCard>
+          </StrategicGrid>
+        </StrategicDirectionsSection>
+      </motion.div>
     </>
   );
 }
