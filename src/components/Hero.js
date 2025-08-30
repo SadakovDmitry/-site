@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import EarthVideo from '../Earth Rotates.mp4';
+import EarthVideoMobile from '../images/main/Earth Rotates_alpha_3.mp4';
 
 const HeroSection = styled.section`
   position: relative;
   background: transparent;
   @media (max-width: 900px){
-    padding-top: calc(env(safe-area-inset-top, 0px) + 72px);
   }
 `;
 
@@ -16,7 +16,25 @@ const BackgroundStars = styled.div` display: none;`;
 
 // Контейнер оверлея поверх видео
 const OverlayLayer = styled.div`
-  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 900px) {
+    position: absolute;
+    z-index: 3;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const OverlayInner = styled.div`
@@ -35,6 +53,18 @@ const OverlayInner = styled.div`
   }
 
 //   @media (max-width: 900px){ max-width: 92vw; right: var(--container-x); top: clamp(12px, 8vw, 100px); }
+
+  @media (max-width: 900px) {
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    max-width: 100%;
+    width: 100%;
+    text-align: center;
+    padding: 0 20px;
+    z-index: 4;
+  }
 `;
 
 const TextContent = styled(motion.div)`
@@ -50,6 +80,22 @@ const TextContent = styled(motion.div)`
       font-size: clamp(1px, 4.2vw, 3.2rem);
       margin-bottom: 0.5rem;
     }
+
+    @media (max-width: 900px) {
+      text-align: center;
+      font-size: clamp(10px, 9vw, 62px);
+      margin-bottom: 10vw;
+      margin-top: 13vw;
+      line-height: 1.2;
+    }
+
+    @media (max-width: 540px) {
+      text-align: center;
+      font-size: clamp(10px, 9vw, 62px);
+      margin-bottom: 10vw;
+      margin-top: 33vw;
+      line-height: 1.2;
+    }
   }
 
   p {
@@ -64,8 +110,39 @@ const TextContent = styled(motion.div)`
       font-size: clamp(1px, 1.8vw, 3.2rem);
       margin-bottom: 1rem;
     }
+
+    @media (max-width: 900px) {
+      text-align: center;
+      font-size: clamp(8px, 4vw, 20px);
+      margin-bottom: 2rem;
+      line-height: 1.5;
+      max-width: 100%;
+    }
+
+    @media (max-width: 540px) {
+      text-align: center;
+      font-size: clamp(8px, 4vw, 20px);
+      margin-bottom: 2rem;
+      line-height: 1.5;
+      max-width: 100%;
+    }
   }
-  p strong { display:block; font-weight:700; color:#fff; margin-bottom: 0.25rem; }
+  p strong {
+    display: block;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+
+    @media (max-width: 900px) {
+      margin-bottom: 0.5rem;
+      padding-top: 70vw;
+    }
+
+    @media (max-width: 540px) {
+      margin-bottom: 0.5rem;
+      padding-top: 70vw;
+    }
+  }
 `;
 
 const CTAButton = styled(motion.button)`
@@ -90,10 +167,26 @@ const CTAButton = styled(motion.button)`
       margin-bottom: 0.5rem;
     }
 
+    @media (max-width: 900px) {
+      background: #000;
+      border: 1px solid #fff;
+      color: #fff;
+      padding: clamp(12px, 3vw, 16px) clamp(24px, 6vw, 32px);
+      font-size: clamp(14px, 3.5vw, 18px);
+      margin-bottom: 2rem;
+      border-radius: 25px;
+      min-width: 200px;
+    }
+
   &:hover {
     background: #00ffff;
     color: #000;
     box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+
+    @media (max-width: 900px) {
+      background: #fff;
+      color: #000;
+    }
   }
 `;
 
@@ -104,6 +197,10 @@ const StatsContainer = styled(motion.div)`
   @media (max-width: 1100px) {
     flex-wrap: wrap;
     gap: 1rem;
+  }
+
+  @media (max-width: 900px) {
+    display: none;
   }
 `;
 
@@ -153,18 +250,24 @@ const Hero = () => {
     threshold: 0.1
   });
 
-  const stats = [
-    { number: '18', label: 'ПРОЕКТОВ' },
-    { number: '42', label: 'ИНВЕСТОРА' },
-    { number: '7', label: 'ЛЕТ РАБОТЫ' }
-  ];
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 900);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <HeroSection ref={ref}>
       <BackgroundStars />
 
-      <EarthVideoStyled autoPlay loop muted playsInline>
-        <source src={EarthVideo} type="video/mp4" />
+      <EarthVideoStyled key={isMobile ? 'mobile' : 'desktop'} autoPlay loop muted playsInline>
+        <source src={isMobile ? EarthVideoMobile : EarthVideo} type="video/mp4" />
       </EarthVideoStyled>
 
       <OverlayLayer>
@@ -176,10 +279,11 @@ const Hero = () => {
           >
             <h1>ЗВЕЗДЫ — НАШ ПУТЬ НАЗНАЧЕНИЯ</h1>
             <p>
-              <b>Дорога в космос — это дорога зрелой нации.</b><br /> Мы здесь, чтобы сделать её прямой,
+              <strong>Дорога в космос — это дорога зрелой нации.</strong>
+              Мы здесь, чтобы сделать её прямой,
               открытой и вдохновляющей.
             </p>
-            <CTAButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.96 }}>Стать частью будущего</CTAButton>
+            <CTAButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.96 }}>СТАТЬ ЧАСТЬЮ БУДУЩЕГО</CTAButton>
           </TextContent>
 
           <StatsContainer

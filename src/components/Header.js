@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import MainLogo from '../MainLogo.svg';
+import MobileLogo from '../images/main/logo_mobile.svg';
 
 const HeaderContainer = styled(motion.header)`
   position: fixed;
@@ -27,7 +28,15 @@ const HeaderContent = styled.div`
 const Brand = styled.div`
   display: flex; align-items: center; gap: clamp(8px, 1vw, 12px);
   flex: 0 0 auto;
-  img { height: clamp(34px, 5.2vw, 64px); width: auto; display: block; }
+  img {
+    height: clamp(34px, 5.2vw, 64px);
+    width: auto;
+    display: block;
+
+    @media (max-width: 900px) {
+      height: clamp(50px, 8vw, 80px);
+    }
+  }
 `;
 
 const Capsule = styled.div`
@@ -44,22 +53,6 @@ const Capsule = styled.div`
   overflow: hidden;
   flex: 0 0 auto;
   @media (max-width: 900px){ display: none; }
-`;
-
-const NavButton = styled(motion.a)`
-  flex: 0 1 auto;
-  text-align: center;
-  background: transparent;
-  color: #5b5b5b;
-  border-radius: 9999px;
-  padding: clamp(0px, 0.5vw, 12px) clamp(1px, 0.5vw, 18px);
-  text-decoration: none;
-  font-weight: 400;
-  font-family: 'Raleway', sans-serif;
-  letter-spacing: 0.02em;
-  font-size: clamp(12px, 1.05vw, 16px);
-  cursor: pointer;
-  white-space: nowrap;
 `;
 
 const NavLink = styled(Link)`
@@ -89,8 +82,16 @@ const PrimaryButton = styled(motion.a)`
 
 const MobileMenuButton = styled.button`
   display: none;
-  background: none; border: none; color: #fff; font-size: 1.6rem; cursor: pointer;
-  @media (max-width: 900px){ display: block; }
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+
+  @media (max-width: 900px){
+    display: block;
+    font-size: 2.5rem;
+  }
 `;
 
 const MobileRow = styled.div`
@@ -162,12 +163,23 @@ const MobileNavLink = styled(Link)`
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 24);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 900);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const scrollTo = (id) => {
@@ -250,7 +262,7 @@ const Header = () => {
 
         <MobileRow>
           <Brand>
-            <img src={MainLogo} alt="Логотип" />
+            <img src={isMobile ? MobileLogo : MainLogo} alt="Логотип" />
           </Brand>
           <MobileMenuButton onClick={() => setOpen(!open)}>☰</MobileMenuButton>
         </MobileRow>
