@@ -7,6 +7,16 @@
     position: relative;
 
     height: 198vh;
+
+
+    @media (max-width: 768px) {
+        height: 100vh;
+    }
+
+    @media (max-width: 480px) {
+        height: 100vh;
+    }
+
     width: 100vw;
 
     background-color: rgba(255, 255, 255, 1);
@@ -32,23 +42,47 @@
 
     h2 {
         font-family: "FuturaPTDemi", sans-serif;
-        font-size: 21px;
+        font-size: clamp(18px, 2vw, 21px);
         // font-size: clamp(22px, 1.05vw, 49px);
+
+        @media (max-width: 768px) {
+            font-size: clamp(1px, 1.8vw, 18px);
+        }
+
+        @media (max-width: 480px) {
+            font-size: clamp(1px, 1.5vw, 16px);
+        }
     }
 
     .text,
     .desc {
         font-family: "Proxima Nova", sans-serif;
         font-weight: 300;
-        font-size: 21px;
+        font-size: clamp(18px, 2vw, 21px);
         // font-size: clamp(22px, 1.05vw, 49px);
         color: #333333;
+
+        @media (max-width: 768px) {
+            font-size: clamp(1px, 1.8vw, 18px);
+        }
+
+        @media (max-width: 480px) {
+            font-size: clamp(1px, 1.5vw, 16px);
+        }
     }
 
     .comma {
         font-weight: 700;
-        font-size: 40px;
+        font-size: clamp(30px, 4vw, 40px);
         // font-size: clamp(22px, 1.05vw, 49px);
+
+        @media (max-width: 768px) {
+            font-size: clamp(5px, 3.5vw, 30px);
+        }
+
+        @media (max-width: 480px) {
+            font-size: clamp(2px, 3vw, 25px);
+        }
 
         &.left {
             position: absolute;
@@ -66,18 +100,26 @@
     }
 
     .quote {
-        font-size: 24px;
+        font-size: clamp(1px, 1.5vw, 24px);
         // font-size: clamp(22px, 1.05vw, 49px);
         margin: 0;
         padding: 0;
         line-height: 1.0;
+
+        @media (max-width: 768px) {
+            font-size: clamp(1px, 1.5vw, 20px);
+        }
+
+        @media (max-width: 480px) {
+            font-size: clamp(1px, 1.5vw, 18px);
+        }
     }
 
     .title {
         position: absolute;
         top: 14.1vh;
         left: 9.4vw;
-        font-size: 60px;
+        font-size: clamp(1px, 6vw, 60px);
         // font-size: clamp(22px, 1.05vw, 49px);
     }
 
@@ -88,6 +130,16 @@
         gap: 8.6vh;
 
         margin-top: 35.1vh;
+
+        @media (max-width: 768px) {
+            gap: 6vh;
+            margin-top: 25vh;
+        }
+
+        @media (max-width: 480px) {
+            gap: 4vh;
+            margin-top: 20vh;
+        }
 
         // .block::before {
         //   filter: blur(1000px);
@@ -117,18 +169,64 @@
 
             padding: 88px 69px 74px 68px;
 
+            @media (max-width: 768px) {
+                padding: 40px 30px 30px 30px;
+                gap: 2.5vw;
+            }
+
+            @media (max-width: 480px) {
+                padding: 25px 20px 20px 20px;
+                gap: 2vw;
+            }
+
+            img {
+                width: clamp(120px, 20vw, 300px);
+                height: auto;
+                object-fit: contain;
+
+                @media (max-width: 1440px) {
+                    width: clamp(80px, 24vw, 300px);
+                }
+
+                @media (max-width: 768px) {
+                    width: clamp(80px, 20vw, 180px);
+                }
+
+                @media (max-width: 480px) {
+                    width: clamp(60px, 15vw, 100px);
+                }
+            }
+
             .qSection {
                 display: flex;
                 flex-direction: row;
                 position: relative;
                 padding: 20px 40px;
                 margin: 20px 0;
+
+                @media (max-width: 768px) {
+                    padding: 10px 20px;
+                    margin: 10px 0;
+                }
+
+                @media (max-width: 480px) {
+                    padding: 5px 10px;
+                    margin: 5px 0;
+                }
             }
         }
 
         h1 {
-            font-size: 45px;
+            font-size: clamp(1px, 4.5vw, 45px);
             // font-size: clamp(22px, 1.05vw, 49px);
+
+            @media (max-width: 768px) {
+                font-size: clamp(1px, 4vw, 2rem);
+            }
+
+            @media (max-width: 480px) {
+                font-size: clamp(1px, 3.5vw, 1.8rem);
+            }
         }
     }
 

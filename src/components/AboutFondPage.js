@@ -99,6 +99,22 @@ const HistoryStatusContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
+
+  @media (max-width: 1024px) {
+    gap: 3rem;
+    padding: 0 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 1.5rem;
+    padding: 0 0.5rem;
+  }
 `;
 
 const InfographicContainer = styled.div`
@@ -108,6 +124,18 @@ const InfographicContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 1024px) {
+    height: 350px;
+  }
+
+  @media (max-width: 768px) {
+    height: 350px;
+  }
+
+  @media (max-width: 480px) {
+    height: 100vw;
+  }
 `;
 
 const HistoryText = styled.div`
@@ -118,7 +146,7 @@ const HistoryText = styled.div`
 
   h3 {
     font-family: 'Raleway', sans-serif;
-    font-size: 3.4rem;
+    font-size: clamp(2rem, 4vw, 3.4rem);
     font-weight: 400;
     margin-bottom: 1.5rem;
     color: #000;
@@ -126,7 +154,7 @@ const HistoryText = styled.div`
   }
 
   p {
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
     margin-bottom: 1.0rem;
     line-height: 1.1rem;
     color: #000;
@@ -137,6 +165,18 @@ const StrategicDirectionsSection = styled.section`
   text-align: center;
   padding: 4rem 0;
   background: #ffffff;
+
+  @media (max-width: 1024px) {
+    padding: 3rem 0;
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem 0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 0;
+  }
 `;
 
 const StrategicGrid = styled.div`
@@ -147,6 +187,14 @@ const StrategicGrid = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
+
+  @media (max-width: 1000px) {
+    gap: 2.5rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 2rem;
+  }
 `;
 
 const StrategicCard = styled(motion.div)`
@@ -161,6 +209,16 @@ const StrategicCard = styled(motion.div)`
   width: 280px;
   height: 280px;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 1rem;
+    width: clamp(220px, 25vw, 280px);
+    height: clamp(220px, 25vw, 280px);
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem 0.8rem;
+  }
 
   &::before {
     content: '';
@@ -193,8 +251,8 @@ const StrategicCard = styled(motion.div)`
 `;
 
 const StrategicIcon = styled.img`
-  width: 85px;
-  height: 85px;
+  width: clamp(60px, 8vw, 85px);
+  height: clamp(60px, 8vw, 85px);
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
@@ -205,7 +263,7 @@ const StrategicIcon = styled.img`
 
 const StrategicTitle = styled.h3`
   font-family: 'Raleway', sans-serif;
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
   font-weight: 500;
   color: #000;
   margin-bottom: 0.3rem;
@@ -215,11 +273,19 @@ const StrategicTitle = styled.h3`
   white-space: pre-line;
   position: relative;
   z-index: 3;
+
+  @media (max-width: 768px) {
+    margin-top: 4rem;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 3.5rem;
+  }
 `;
 
 const StrategicDescription = styled.p`
   font-family: 'Raleway', sans-serif;
-  font-size: 0.80rem;
+  font-size: clamp(0.7rem, 1.8vw, 0.80rem);
   font-weight: 300;
   color: #000;
   line-height: 1.1;
@@ -232,7 +298,7 @@ const StrategicDescription = styled.p`
 
 const SectionTitle = styled.h2`
   font-family: 'Raleway', sans-serif;
-  font-size: 60px;
+  font-size: clamp(2.5rem, 6vw, 60px);
   font-weight: 400;
   color: rgba(16, 16, 16, 1);
   margin-bottom: 3rem;
@@ -240,6 +306,12 @@ const SectionTitle = styled.h2`
   text-transform: uppercase;
   padding-left: 9.4vw;
   padding-right: 9.4vw;
+
+  @media (max-width: 768px) {
+    margin-bottom: 2rem;
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
 `;
 
 function AboutFond() {
