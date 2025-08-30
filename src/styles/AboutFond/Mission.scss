@@ -1,28 +1,50 @@
 @import "../_fonts.scss";
 
 .Mission {
-  width: 100%;
-  height: 56.2vw;
+  width: 100vw;
+  height: 100vh;
   position: relative;
   overflow: hidden;
 
+  display: flex;
+  align-items: center;
+
   &::before {
-    content: '';
+    content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: linear-gradient(to left,
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(
+        to left,
         rgba(0, 0, 0, 0.5),
-        rgba(0, 0, 0, 0)),
+        rgba(0, 0, 0, 0)
+      ),
       url("../../images/AboutFondPage/bg.png");
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain;
+    background-size: cover;
     z-index: 1;
   }
 
+  @media (max-aspect-ratio: 1/1) {
+    &::before {
+      background-position: 20% 0%;
+      min-height: 100vh;
+    }
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  @media (max-aspect-ratio: 1/1) {
+    &::before {
+      background-size: cover;
+    }
+  }
+  @media (max-aspect-ratio: 1/1) {
+    &::before {
+      background-size: 156vh 100vh;
+    }
+  }
 
   .text {
     z-index: 2;
@@ -30,44 +52,65 @@
     flex-direction: column;
     position: absolute;
     left: 44.5%;
-    top: 27%;
+    padding-top: 10%;
+
+    @media (max-aspect-ratio: 1/1) {
+      left: 10%;
+      align-items: left;
+      justify-content: center;
+    }
 
     h1,
     h2 {
       text-transform: uppercase;
     }
 
-    // TODO: адаптировать текст
     h1 {
       font-family: "Raleway";
       font-weight: 400;
-      font-size: clamp(0.2rem, 3.5vw, 449px);
-      // font-size: clamp(22px, 1.05vw, 49px);
-
+      font-size: clamp(1px, 3.5vw, 49px);
       padding-bottom: 5.2vw;
+
+      @media (max-aspect-ratio: 1/1) {
+        font-size: clamp(40px, 5.5vw, 80px);
+      }
     }
 
     h2 {
       font-family: "Proxima Nova", sans-serif;
       font-weight: 600;
-      font-size: clamp(0.1rem, 1.8vw, 244px);
+      font-size: clamp(0.1rem, 1.8vw, 24px);
       // font-size: clamp(12px, 1.05vw, 16px);
 
       width: clamp(50px, 40vw, 43.8vw);
       padding-bottom: 0.7vw;
+
+      @media (max-aspect-ratio: 1/1) {
+        width: 90%;
+        font-size: clamp(10px, 4vw, 30px);
+      }
     }
 
     p {
       font-family: "Proxima Nova", sans-serif;
       font-weight: 400;
-      font-size: clamp(0.1rem, 1.3vw, 240px);
+      font-size: clamp(1px, 1.3vw, 24px);
       // font-size: clamp(12px, 1.05vw, 16px);
 
       width: clamp(50px, 35vw, 37.8vw);
+
+      @media (max-aspect-ratio: 1/1) {
+        width: 90%;
+        font-size: clamp(1px, 4vw, 20px);
+      }
+
     }
 
     .block {
       padding-bottom: 2.25vw;
+      @media (max-width: 1023px) {
+        padding-bottom: 4vw;
+      }
     }
   }
 }

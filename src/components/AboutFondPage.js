@@ -140,12 +140,12 @@ const InfographicContainer = styled.div`
 
 const HistoryText = styled.div`
   text-align: left;
-  font-family: 'Proxima Nova', sans-serif;
+  font-family: "Proxima Nova", sans-serif;
   color: #000;
   line-height: 1.6;
 
   h3 {
-    font-family: 'Raleway', sans-serif;
+    font-family: "Raleway", sans-serif;
     font-size: clamp(2rem, 4vw, 3.4rem);
     font-weight: 400;
     margin-bottom: 1.5rem;
@@ -155,7 +155,7 @@ const HistoryText = styled.div`
 
   p {
     font-size: clamp(0.9rem, 2vw, 1.1rem);
-    margin-bottom: 1.0rem;
+    margin-bottom: 1rem;
     line-height: 1.1rem;
     color: #000;
   }
@@ -251,8 +251,8 @@ const StrategicCard = styled(motion.div)`
 `;
 
 const StrategicIcon = styled.img`
-  width: clamp(60px, 8vw, 85px);
-  height: clamp(60px, 8vw, 85px);
+  width: clamp(50px, 8vw, 85px);
+  height: clamp(50px, 8vw, 85px);
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;

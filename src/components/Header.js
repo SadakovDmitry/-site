@@ -189,7 +189,7 @@ const Header = () => {
     <Capsule>
       {isHomePage ? (
         <>
-          <NavButton onClick={() => scrollTo("about")}>/ О ФОНДЕ</NavButton>
+          <NavLink to="/fond">/ О ФОНДЕ</NavLink>
           <NavLink to="/events">/ СОБЫТИЯ</NavLink>
           <NavLink to="/news">/ НОВОСТИ</NavLink>
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
