@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { Link } from 'react-router-dom';
 import image76 from '../image 76.png';
 import image77 from '../image 77.png';
 
@@ -180,7 +181,7 @@ const NewsCard = styled(motion.div)`
   &:hover .thumb img { transform: scale(1.03); }
 `;
 
-const AllNewsButton = styled(motion.button)`
+const AllNewsButton = styled(Link)`
   background: #1a1a2e;
   border: 1px solid #00ffff;
   color: #fff;
@@ -195,6 +196,8 @@ const AllNewsButton = styled(motion.button)`
   transition: all 0.3s ease;
   display: block;
   margin: 0 auto;
+  text-decoration: none;
+  text-align: center;
 
   &:hover {
     background: #00ffff;
@@ -204,71 +207,72 @@ const AllNewsButton = styled(motion.button)`
 `;
 
 const News = () => {
-    const [ref, inView] = useInView({
-        triggerOnce: true,
-        threshold: 0.1
-    });
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
 
-    const news = [
-        {
-            date: '20.07.2025',
-            title: 'ЗАПУСК НОВОГО СПУТНИКА',
-            description: 'Успешно завершен запуск образовательного спутника "Звездочка-1" для проведения научных экспериментов в космосе.',
-            image: image76
-        },
-        {
-            date: '18.07.2025',
-            title: 'ОТКРЫТИЕ ПЛАНЕТАРИЯ',
-            description: 'В Москве состоялось торжественное открытие современного планетария, созданного при поддержке фонда.',
-            image: image77
-        }
-    ];
+  const news = [
+    {
+      date: '20.07.2025',
+      title: 'ЗАПУСК НОВОГО СПУТНИКА',
+      description: 'Успешно завершен запуск образовательного спутника "Звездочка-1" для проведения научных экспериментов в космосе.',
+      image: image76
+    },
+    {
+      date: '18.07.2025',
+      title: 'ОТКРЫТИЕ ПЛАНЕТАРИЯ',
+      description: 'В Москве состоялось торжественное открытие современного планетария, созданного при поддержке фонда.',
+      image: image77
+    }
+  ];
 
-    return (
-        <NewsSection id="news" ref={ref}>
-            <Container>
-                <SectionTitle
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                >
-                    НОВОСТИ
-                </SectionTitle>
+  return (
+    <NewsSection id="news" ref={ref}>
+      <Container>
+        <SectionTitle
+          initial={{ opacity: 0, y: 50 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1, ease: "easeOut" }}
+        >
+          НОВОСТИ
+        </SectionTitle>
 
-                <NewsGrid>
-                    {news.map((item, index) => (
-                        <NewsCard
-                            key={item.title}
-                            initial={{ opacity: 0, y: 40 }}
-                            animate={inView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.7, delay: 0.2 + index * 0.1, ease: "easeOut" }}
-                        >
-                            <div className="news-body">
-                                <div className="thumb">
-                                    <img src={item.image} alt={item.title} />
-                                </div>
-                                <div className="content">
-                                    <h3 className="news-title">{item.title}</h3>
-                                    <div className="date">{item.date}</div>
-                                    <p className="news-description">{item.description}</p>
-                                </div>
-                            </div>
-                        </NewsCard>
-                    ))}
-                </NewsGrid>
+        <NewsGrid>
+          {news.map((item, index) => (
+            <NewsCard
+              key={item.title}
+              initial={{ opacity: 0, y: 40 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.2 + index * 0.1, ease: "easeOut" }}
+            >
+              <div className="news-body">
+                <div className="thumb">
+                  <img src={item.image} alt={item.title} />
+                </div>
+                <div className="content">
+                  <h3 className="news-title">{item.title}</h3>
+                  <div className="date">{item.date}</div>
+                  <p className="news-description">{item.description}</p>
+                </div>
+              </div>
+            </NewsCard>
+          ))}
+        </NewsGrid>
 
-                <AllNewsButton
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                >
-                    ВСЕ НОВОСТИ
-                </AllNewsButton>
-            </Container>
-        </NewsSection>
-    );
+        <AllNewsButton
+          to="/news"
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          ВСЕ НОВОСТИ
+        </AllNewsButton>
+      </Container>
+    </NewsSection>
+  );
 };
 
 export default News;

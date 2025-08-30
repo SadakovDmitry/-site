@@ -110,9 +110,9 @@ const DesktopRow = styled.div`
 const MobileMenu = styled(motion.div)`
   position: fixed;
   inset: 0;
-//   background: rgba(0,0,0,0.96);
+  background: rgba(0,0,0,0.8);
   z-index: 3000;
-//   backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   display: none;
   @media (max-width: 900px){ display: flex; }
   flex-direction: column; justify-content: flex-start; align-items: center; gap: 0.75rem;
@@ -144,6 +144,21 @@ const MobileLink = styled(motion.a)`
   margin: 0 auto;
 `;
 
+const MobileNavLink = styled(Link)`
+  display: block;
+  width: 60%;
+  text-align: center;
+  padding: clamp(8px, 2vw, 16px) clamp(12px, 3vw, 24px);
+  border-radius: 9999px;
+  background: #1c1f27;
+  color: #dbe7ff;
+  text-decoration: none;
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  border: 1px solid rgba(255,255,255,0.1);
+  margin: 0 auto;
+`;
+
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -161,6 +176,10 @@ const Header = () => {
     setOpen(false);
   };
 
+  const closeMobileMenu = () => {
+    setOpen(false);
+  };
+
   const isHomePage = location.pathname === '/';
   const isNewsPage = location.pathname === '/news';
   const isContactPage = location.pathname === '/contact';
@@ -171,16 +190,14 @@ const Header = () => {
       {isHomePage ? (
         <>
           <NavButton onClick={() => scrollTo("about")}>/ О ФОНДЕ</NavButton>
-          <NavButton onClick={() => scrollTo("projects")}>/ ПРОЕКТЫ</NavButton>
-          <NavLink to="/news">/ НОВОСТИ</NavLink>
           <NavLink to="/events">/ СОБЫТИЯ</NavLink>
+          <NavLink to="/news">/ НОВОСТИ</NavLink>
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
         </>
       ) : isNewsPage ? (
         <>
           <NavLink to="/">/ ГЛАВНАЯ</NavLink>
           <NavLink to="/fond">/ О ФОНДЕ</NavLink>
-          <NavLink to="/">/ ПРОЕКТЫ</NavLink>
           <NavLink to="/events">/ СОБЫТИЯ</NavLink>
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
         </>
@@ -188,15 +205,13 @@ const Header = () => {
         <>
           <NavLink to="/">/ ГЛАВНАЯ</NavLink>
           <NavLink to="/fond">/ О ФОНДЕ</NavLink>
-          <NavLink to="/">/ ПРОЕКТЫ</NavLink>
-          <NavLink to="/news">/ НОВОСТИ</NavLink>
           <NavLink to="/events">/ СОБЫТИЯ</NavLink>
+          <NavLink to="/news">/ НОВОСТИ</NavLink>
         </>
       ) : isEventsPage ? (
         <>
           <NavLink to="/">/ ГЛАВНАЯ</NavLink>
           <NavLink to="/fond">/ О ФОНДЕ</NavLink>
-          <NavLink to="/">/ ПРОЕКТЫ</NavLink>
           <NavLink to="/news">/ НОВОСТИ</NavLink>
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
         </>
@@ -204,8 +219,8 @@ const Header = () => {
         <>
           <NavLink to="/">/ ГЛАВНАЯ</NavLink>
           <NavLink to="/fond">/ О ФОНДЕ</NavLink>
-          <NavLink to="/">/ ПРОЕКТЫ</NavLink>
-          <NavLink to="/">/ НОВОСТИ</NavLink>
+          <NavLink to="/events">/ СОБЫТИЯ</NavLink>
+          <NavLink to="/news">/ НОВОСТИ</NavLink>
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
         </>
       )}
@@ -247,7 +262,7 @@ const Header = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setOpen(false)}
+            onClick={closeMobileMenu}
           >
             <MobileList onClick={(e) => e.stopPropagation()}>
               {isHomePage ? (
@@ -255,47 +270,44 @@ const Header = () => {
                   <MobileLink onClick={() => scrollTo("about")}>
                     О ФОНДЕ
                   </MobileLink>
-                  <MobileLink onClick={() => scrollTo("projects")}>
-                    ПРОЕКТЫ
-                  </MobileLink>
-                  <NavLink to="/news">НОВОСТИ</NavLink>
-                  <NavLink to="/events">СОБЫТИЯ</NavLink>
-                  <NavLink to="/contact">КОНТАКТЫ</NavLink>
+                  <MobileNavLink to="/events" onClick={closeMobileMenu}>СОБЫТИЯ</MobileNavLink>
+                  <MobileNavLink to="/news" onClick={closeMobileMenu}>НОВОСТИ</MobileNavLink>
+                  <MobileNavLink to="/contact" onClick={closeMobileMenu}>КОНТАКТЫ</MobileNavLink>
                 </>
               ) : isNewsPage ? (
                 <>
-                  <NavLink to="/">ГЛАВНАЯ</NavLink>
-                  <NavLink to="/fond">О ФОНДЕ</NavLink>
-                  <NavLink to="/">ПРОЕКТЫ</NavLink>
-                  <NavLink to="/events">СОБЫТИЯ</NavLink>
-                  <NavLink to="/contact">КОНТАКТЫ</NavLink>
+                  <MobileNavLink to="/" onClick={closeMobileMenu}>ГЛАВНАЯ</MobileNavLink>
+                  <MobileNavLink to="/fond" onClick={closeMobileMenu}>О ФОНДЕ</MobileNavLink>
+                  <MobileNavLink to="/events" onClick={closeMobileMenu}>СОБЫТИЯ</MobileNavLink>
+                  <MobileNavLink to="/contact" onClick={closeMobileMenu}>КОНТАКТЫ</MobileNavLink>
                 </>
               ) : isContactPage ? (
                 <>
-                  <NavLink to="/">ГЛАВНАЯ</NavLink>
-                  <NavLink to="/fond">О ФОНДЕ</NavLink>
-                  <NavLink to="/">ПРОЕКТЫ</NavLink>
-                  <NavLink to="/news">НОВОСТИ</NavLink>
-                  <NavLink to="/events">СОБЫТИЯ</NavLink>
+                  <MobileNavLink to="/" onClick={closeMobileMenu}>ГЛАВНАЯ</MobileNavLink>
+                  <MobileNavLink to="/fond" onClick={closeMobileMenu}>О ФОНДЕ</MobileNavLink>
+                  <MobileNavLink to="/events" onClick={closeMobileMenu}>СОБЫТИЯ</MobileNavLink>
+                  <MobileNavLink to="/news" onClick={closeMobileMenu}>НОВОСТИ</MobileNavLink>
                 </>
               ) : isEventsPage ? (
                 <>
-                  <NavLink to="/">ГЛАВНАЯ</NavLink>
-                  <NavLink to="/fond">О ФОНДЕ</NavLink>
-                  <NavLink to="/">ПРОЕКТЫ</NavLink>
-                  <NavLink to="/news">НОВОСТИ</NavLink>
-                  <NavLink to="/contact">КОНТАКТЫ</NavLink>
+                  <MobileNavLink to="/" onClick={closeMobileMenu}>ГЛАВНАЯ</MobileNavLink>
+                  <MobileNavLink to="/fond" onClick={closeMobileMenu}>О ФОНДЕ</MobileNavLink>
+                  <MobileNavLink to="/news" onClick={closeMobileMenu}>НОВОСТИ</MobileNavLink>
+                  <MobileNavLink to="/contact" onClick={closeMobileMenu}>КОНТАКТЫ</MobileNavLink>
                 </>
               ) : (
                 <>
-                  <NavLink to="/">ГЛАВНАЯ</NavLink>
-                  <NavLink to="/fond">О ФОНДЕ</NavLink>
-                  <NavLink to="/">ПРОЕКТЫ</NavLink>
-                  <NavLink to="/">НОВОСТИ</NavLink>
-                  <NavLink to="/contact">КОНТАКТЫ</NavLink>
+                  <MobileNavLink to="/" onClick={closeMobileMenu}>ГЛАВНАЯ</MobileNavLink>
+                  <MobileNavLink to="/fond" onClick={closeMobileMenu}>О ФОНДЕ</MobileNavLink>
+                  <MobileNavLink to="/events" onClick={closeMobileMenu}>СОБЫТИЯ</MobileNavLink>
+                  <MobileNavLink to="/news" onClick={closeMobileMenu}>НОВОСТИ</MobileNavLink>
+                  <MobileNavLink to="/contact" onClick={closeMobileMenu}>КОНТАКТЫ</MobileNavLink>
                 </>
               )}
-              <PrimaryButton onClick={() => alert("Спасибо за поддержку!")}>
+              <PrimaryButton onClick={() => {
+                alert("Спасибо за поддержку!");
+                closeMobileMenu();
+              }}>
                 ПОДДЕРЖАТЬ
               </PrimaryButton>
             </MobileList>

@@ -1,120 +1,202 @@
 @import "../_fonts.scss";
 
 .Director {
-  position: relative;
-
-  height: 160vh;
-  width: 100vw;
-
-  background-color: rgba(255, 255, 255, 1);
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  // TODO: адаптировать текст
-  .text {
-    z-index: 2;
     position: relative;
+    top: 0;
 
-    top: 6.7vh;
-
+    height: 120vw;
     width: 100vw;
 
-    color: rgba(16, 16, 16, 1);
-    text-align: center;
+    background-color: rgba(255, 255, 255, 1);
 
-    h1,
-    h2 {
-      text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: 768px) {
+        height: 120vh;
     }
 
-    h1,
-    .info,
-    .comma {
-      font-family: "Raleway", sans-serif;
+    @media (max-width: 480px) {
+        height: 100vh;
     }
 
-    h1,
-    .info {
-      font-weight: 400;
+    // TODO: адаптировать текст
+    .text {
+        z-index: 2;
+        position: relative;
+
+        top: 6.7vh;
+
+        width: 100vw;
+
+        color: rgba(16, 16, 16, 1);
+        text-align: center;
+
+        h1,
+        h2 {
+            text-transform: uppercase;
+        }
+
+        h1,
+        .info,
+        .comma {
+            font-family: "Raleway", sans-serif;
+        }
+
+        h1,
+        .info {
+            font-weight: 400;
+        }
+
+        h2 {
+            padding-top: 54px;
+
+            @media (max-width: 768px) {
+                padding-top: 34px;
+            }
+
+            @media (max-width: 480px) {
+                padding-top: 20px;
+            }
+
+            font-family: "FuturaPTDemi",
+            sans-serif;
+            font-size: clamp(1px, 2.5vw, 27px);
+            // font-size: clamp(22px, 1.05vw, 49px);
+        }
+
+        h1 {
+            font-size: clamp(1rem, 5.5vw, 58px);
+            padding-top: 11px;
+            padding-bottom: 3.7vw;
+
+            @media (max-width: 768px) {
+                padding-bottom: 2.7vw;
+            }
+
+            @media (max-width: 480px) {
+                padding-bottom: 0.7vw;
+            }
+
+            // font-size: clamp(22px, 1.05vw, 49px);
+        }
+
+        .block {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 1.2vw;
+            position: relative;
+            padding: 20px 40px;
+            margin: 20px 20vw;
+
+            @media (max-width: 768px) {
+                padding: 15px 25px;
+                margin: 15px 0;
+                gap: 1vw;
+            }
+
+            @media (max-width: 480px) {
+                padding: 10px 15px;
+                margin: 10px 0;
+                gap: 0.8vw;
+            }
+
+            .comma {
+                font-weight: 700;
+                font-size: clamp(1px, 7vw, 72px);
+                // font-size: clamp(22px, 1.05vw, 49px);
+                color: #000;
+            }
+
+            .left {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            .right {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+            }
+        }
+
+        .info {
+            font-size: clamp(1px, 1.6vw, 69px);
+
+            @media (max-width: 768px) {
+                font-size: clamp(1px, 3vw, 29px);
+            }
+
+            // font-size: clamp(22px, 1.05vw, 49px);
+            color: #333333;
+        }
+
+        .quote {
+            font-size: clamp(1px, 3vw, 29px);
+            color: #333333;
+            line-height: 1.2;
+            margin: 0;
+            padding: 0;
+        }
     }
 
-    h2 {
-      padding-top: 54px;
+    .card {
+        z-index: 2;
 
-      font-family: "FuturaPTDemi", sans-serif;
-      font-size: 27px;
-      // font-size: clamp(22px, 1.05vw, 49px);
+        .border {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 1);
+            border-radius: 20px;
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+
+            height: clamp(100px, 45vw, 65.4vh);
+            width: clamp(250px, 30vw, 67.2vw);
+
+            @media (max-width: 768px) {
+                height: clamp(100px, 85vw, 700px);
+                width: clamp(200px, 60vw, 850px);
+            }
+
+            @media (max-width: 480px) {
+                height: clamp(50px, 80vw, 600px);
+                width: clamp(150px, 60vw, 500px);
+            }
+        }
+
+        img {
+            width: clamp(200px, 25vw, 400px);
+            height: auto;
+            object-fit: contain;
+
+            @media (max-width: 768px) {
+                width: clamp(150px, 55vw, 600px);
+            }
+
+            @media (max-width: 480px) {
+                width: clamp(100px, 55vw, 250px);
+            }
+        }
     }
 
-    h1 {
-      font-size: 58px;
-      padding-top: 11px;
-      padding-bottom: 6.7vh;
-      // font-size: clamp(22px, 1.05vw, 49px);
+    .shadow {
+        position: absolute;
+        top: -922px;
+        width: 3140px;
+        height: 171vh;
+        background: rgba(49, 38, 132, 0.1);
+        border-radius: 50%;
+        filter: blur(326px);
+        z-index: 0;
+        overflow: visible;
     }
-
-    .block {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      gap: 1.2vw;
-
-      .comma {
-        font-weight: 700;
-        font-size: 72px;
-        // font-size: clamp(22px, 1.05vw, 49px);
-      }
-      .left {
-        margin-top: -4.5vh;
-      }
-
-      .right {
-        padding-top: 13.7vh;
-      }
-    }
-
-    .info {
-      font-size: 29px;
-      // font-size: clamp(22px, 1.05vw, 49px);
-    }
-  }
-
-  .card {
-    z-index: 2;
-    .border {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      background-color: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 1);
-      border-radius: 20px;
-      -webkit-backdrop-filter: blur(20px);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-
-      height: 65.4vh;
-      width: 27.2vw;
-    }
-
-    img {
-      width: 80.1%;
-      height: auto;
-    }
-  }
-
-  .shadow {
-    position: absolute;
-    top: -922px;
-    width: 3140px;
-    height: 171vh;
-    background: rgba(49, 38, 132, 0.1);
-    border-radius: 50%;
-    filter: blur(326px);
-    z-index: 0;
-    overflow: visible;
-  }
 }

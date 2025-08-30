@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { Link } from 'react-router-dom';
 import image75 from '../image 75.png';
 import image76 from '../image 76.png';
 import image77 from '../image 77.png';
@@ -199,7 +200,7 @@ const ProjectCard = styled(motion.div)`
   }
 `;
 
-const AllProjectsButton = styled(motion.button)`
+const AllProjectsButton = styled(Link)`
   background: #1a1a2e;
   border: 1px solid #00ffff;
   color: #fff;
@@ -214,6 +215,8 @@ const AllProjectsButton = styled(motion.button)`
   transition: all 0.3s ease;
   display: block;
   margin: 0 auto;
+  text-decoration: none;
+  text-align: center;
 
   &:hover {
     background: #00ffff;
@@ -304,6 +307,7 @@ const Projects = () => {
         </ProjectsGrid>
 
         <AllProjectsButton
+          to="/events"
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
