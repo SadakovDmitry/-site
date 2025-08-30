@@ -9,6 +9,7 @@ import NewsPage from './components/NewsPage';
 import EventsPage from './components/EventsPage';
 import TestPage from './components/TestPage';
 import EventDetailPage from './components/EventDetailPage';
+import ProjectsPage from './components/ProjectsPage';
 // Local font files (Proxima Nova)
 import ProximaRegular from './Proxima Nova/proximanova_regular.ttf';
 import ProximaSemibold from './Proxima Nova/proximanova_bold.otf';
@@ -83,6 +84,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/fond" element={<AboutFond />} />
+          <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/events" element={<EventsPage />} />
