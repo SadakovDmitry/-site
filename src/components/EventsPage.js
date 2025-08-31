@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { wordpressApi } from '../services/wordpressApi';
 import mainImage from '../images/EventsPage/events_main.png';
 import lecturerImage from '../images/EventsPage/lecturer_for_wide_room.png';
 import scienceWorkshopsImage from '../images/EventsPage/science_workshops.png';
@@ -693,86 +694,180 @@ const EventsPage = () => {
         navigate(`/events/${eventId}`);
     };
 
-    const events = [
-        {
-            id: 1,
-            title: 'ЛЕКТОРИЙ ДЛЯ ШИРОКОЙ АУДИТОРИИ',
-            location: 'Королев, Московская область',
-            date: '12 апреля',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
-            hoverImage: lecturerImage,
-            theme: 'education',
-            foundation: 'technical',
-            scale: 'local',
-            stage: 'implementation',
-            audience: 'general'
-        },
-        {
-            id: 2,
-            title: 'НАУЧНЫЕ ВОРКШОПЫ',
-            location: 'Королев, Московская область',
-            date: '15 апреля',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
-            hoverImage: scienceWorkshopsImage,
-            theme: 'science',
-            foundation: 'technical',
-            scale: 'regional',
-            stage: 'development',
-            audience: 'students'
-        },
-        {
-            id: 3,
-            title: 'ОБРАЗОВАТЕЛЬНЫЕ КУРСЫ',
-            location: 'Королев, Московская область',
-            date: '18 апреля',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
-            hoverImage: lecturerImage,
-            theme: 'education',
-            foundation: 'technical',
-            scale: 'national',
-            stage: 'planning',
-            audience: 'students'
-        },
-        {
-            id: 4,
-            title: 'СТУДЕНЧЕСКИЕ ЛАБОРАТОРИИ',
-            location: 'Королев, Московская область',
-            date: '20 апреля',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
-            hoverImage: scienceWorkshopsImage,
-            theme: 'science',
-            foundation: 'coordination',
-            scale: 'local',
-            stage: 'implementation',
-            audience: 'students'
-        },
-        {
-            id: 5,
-            title: 'КАРЬЕРА В НАУКЕ',
-            location: 'Королев, Московская область',
-            date: '22 апреля',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
-            hoverImage: lecturerImage,
-            theme: 'science',
-            foundation: 'coordination',
-            scale: 'regional',
-            stage: 'development',
-            audience: 'professionals'
-        },
-        {
-            id: 6,
-            title: 'ОТКРЫТЫЕ ЛЕКЦИИ',
-            location: 'Королев, Московская область',
-            date: '25 апреля',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
-            hoverImage: lecturerImage,
-            theme: 'education',
-            foundation: 'technical',
-            scale: 'national',
-            stage: 'planning',
-            audience: 'general'
-        }
-    ];
+    const [events, setEvents] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                setLoading(true);
+                const wordpressEvents = await wordpressApi.getEvents();
+
+                if (wordpressEvents.length > 0) {
+                    // Преобразуем данные WordPress в нужный формат
+                    const formattedEvents = wordpressEvents.map((event, index) => ({
+                        id: event.id,
+                        title: event.title,
+                        location: event.address,
+                        date: event.eventDate,
+                        description: event.description,
+                        hoverImage: event.featuredImage || lecturerImage,
+                        theme: 'education',
+                        foundation: 'technical',
+                        scale: 'local',
+                        stage: 'implementation',
+                        audience: 'general'
+                    }));
+                    setEvents(formattedEvents);
+                } else {
+                    // Fallback к статичным данным
+                    setEvents([
+                        {
+                            id: 1,
+                            title: 'ЛЕКТОРИЙ ДЛЯ ШИРОКОЙ АУДИТОРИИ',
+                            location: 'Королев, Московская область',
+                            date: '12 апреля',
+                            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
+                            hoverImage: lecturerImage,
+                            theme: 'education',
+                            foundation: 'technical',
+                            scale: 'local',
+                            stage: 'implementation',
+                            audience: 'general'
+                        },
+                        {
+                            id: 2,
+                            title: 'НАУЧНЫЕ ВОРКШОПЫ',
+                            location: 'Королев, Московская область',
+                            date: '15 апреля',
+                            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
+                            hoverImage: scienceWorkshopsImage,
+                            theme: 'science',
+                            foundation: 'technical',
+                            scale: 'regional',
+                            stage: 'development',
+                            audience: 'students'
+                        },
+                        {
+                            id: 3,
+                            title: 'ОБРАЗОВАТЕЛЬНЫЕ КУРСЫ',
+                            location: 'Королев, Московская область',
+                            date: '18 апреля',
+                            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
+                            hoverImage: lecturerImage,
+                            theme: 'education',
+                            foundation: 'technical',
+                            scale: 'national',
+                            stage: 'planning',
+                            audience: 'students'
+                        },
+                        {
+                            id: 4,
+                            title: 'СТУДЕНЧЕСКИЕ ЛАБОРАТОРИИ',
+                            location: 'Королев, Московская область',
+                            date: '20 апреля',
+                            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
+                            hoverImage: scienceWorkshopsImage,
+                            theme: 'science',
+                            foundation: 'coordination',
+                            scale: 'local',
+                            stage: 'implementation',
+                            audience: 'students'
+                        },
+                        {
+                            id: 5,
+                            title: 'КАРЬЕРА В НАУКЕ',
+                            location: 'Королев, Московская область',
+                            date: '22 апреля',
+                            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
+                            hoverImage: lecturerImage,
+                            theme: 'science',
+                            foundation: 'coordination',
+                            scale: 'regional',
+                            stage: 'development',
+                            audience: 'professionals'
+                        }
+                    ]);
+                }
+            } catch (err) {
+                console.error('Error loading events:', err);
+                setError('Ошибка загрузки событий');
+                // Fallback к статичным данным
+                setEvents([
+                    {
+                        id: 1,
+                        title: 'ЛЕКТОРИЙ ДЛЯ ШИРОКОЙ АУДИТОРИИ',
+                        location: 'Королев, Московская область',
+                        date: '12 апреля',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
+                        hoverImage: lecturerImage,
+                        theme: 'education',
+                        foundation: 'technical',
+                        scale: 'local',
+                        stage: 'implementation',
+                        audience: 'general'
+                    },
+                    {
+                        id: 2,
+                        title: 'НАУЧНЫЕ ВОРКШОПЫ',
+                        location: 'Королев, Московская область',
+                        date: '15 апреля',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
+                        hoverImage: scienceWorkshopsImage,
+                        theme: 'science',
+                        foundation: 'technical',
+                        scale: 'regional',
+                        stage: 'development',
+                        audience: 'students'
+                    },
+                    {
+                        id: 3,
+                        title: 'ОБРАЗОВАТЕЛЬНЫЕ КУРСЫ',
+                        location: 'Королев, Московская область',
+                        date: '18 апреля',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
+                        hoverImage: lecturerImage,
+                        theme: 'education',
+                        foundation: 'technical',
+                        scale: 'national',
+                        stage: 'planning',
+                        audience: 'students'
+                    },
+                    {
+                        id: 4,
+                        title: 'СТУДЕНЧЕСКИЕ ЛАБОРАТОРИИ',
+                        location: 'Королев, Московская область',
+                        date: '20 апреля',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
+                        hoverImage: scienceWorkshopsImage,
+                        theme: 'science',
+                        foundation: 'coordination',
+                        scale: 'local',
+                        stage: 'implementation',
+                        audience: 'students'
+                    },
+                    {
+                        id: 5,
+                        title: 'КАРЬЕРА В НАУКЕ',
+                        location: 'Королев, Московская область',
+                        date: '22 апреля',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt convallis velit.',
+                        hoverImage: lecturerImage,
+                        theme: 'science',
+                        foundation: 'coordination',
+                        scale: 'regional',
+                        stage: 'development',
+                        audience: 'professionals'
+                    }
+                ]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchEvents();
+    }, []);
 
     const getFilterCount = (category) => {
         return selectedFilters[category]?.length || 0;
@@ -968,7 +1063,27 @@ const EventsPage = () => {
                         </FilterSidebar>
 
                         <EventsGrid>
-                            {filteredEvents.length > 0 ? (
+                            {loading ? (
+                                <div style={{
+                                    gridColumn: '1 / -1',
+                                    textAlign: 'center',
+                                    padding: '2rem',
+                                    fontSize: '1.2rem',
+                                    color: '#666'
+                                }}>
+                                    Загрузка событий...
+                                </div>
+                            ) : error ? (
+                                <div style={{
+                                    gridColumn: '1 / -1',
+                                    textAlign: 'center',
+                                    padding: '2rem',
+                                    fontSize: '1.2rem',
+                                    color: '#ff6b6b'
+                                }}>
+                                    {error}
+                                </div>
+                            ) : filteredEvents.length > 0 ? (
                                 filteredEvents.map((event) => (
                                     <EventCard
                                         key={event.id}
