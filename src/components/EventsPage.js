@@ -353,19 +353,19 @@ const FilterCount = styled.span`
   right: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 0.7rem;
+  font-size: 0.5rem;
   color: white;
   font-weight: bold;
   z-index: 20;
   font-family: 'Futura PT', sans-serif;
 
   @media (max-width: 768px) {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     right: 0.8rem;
   }
 
   @media (max-width: 400px) {
-    font-size: 0.7rem;
+    font-size: 0.5rem;
     right: 0.6rem;
   }
 `;

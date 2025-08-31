@@ -334,23 +334,36 @@ const FormGroup = styled.div`
     padding: 1.2rem;
     border: 1px solid #000000;
     border-radius: 40px;
-    font-size: 1rem;
+    font-size: clamp(16px, 1.9vw, 124px);
     transition: border-color 0.3s ease;
     background: white;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
+    line-height: 1.5;
 
     &::placeholder {
       color:rgb(202, 206, 210);
       font-size: clamp(20px, 2vw, 100px);
       font-weight: 600;
-
     }
 
     &:focus {
       outline: none;
       border-color: #000000;
+    }
+
+    /* Дополнительные стили для лучшего контроля */
+    &::-webkit-input-placeholder {
+      font-size: clamp(20px, 2vw, 100px);
+    }
+
+    &::-moz-placeholder {
+      font-size: clamp(20px, 2vw, 100px);
+    }
+
+    &:-ms-input-placeholder {
+      font-size: clamp(20px, 2vw, 100px);
     }
   }
 

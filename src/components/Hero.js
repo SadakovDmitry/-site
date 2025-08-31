@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import EarthVideo from '../Earth Rotates.mp4';
 import EarthVideoMobile from '../images/main/Earth Rotates_alpha_3.mp4';
-import EarthImage from '../pre_load_photo.png'; // Изображение для десктопа
+import EarthImage from '../pre_load_image.png'; // Изображение для десктопа
 import EarthImageMobile from '../images/main/pre_load_mobile.png'; // Изображение для мобильной версии
 
 const HeroSection = styled.section`
@@ -236,8 +236,6 @@ const StatItem = styled.div`
   }
 `;
 
-const EarthContainer = styled(motion.div)` display: none;`;
-
 const VideoContainer = styled.div`
   position: relative;
   width: 100%;
@@ -252,7 +250,7 @@ const EarthVideoStyled = styled.video`
   max-width: 100%;
   background: transparent;
   opacity: ${props => props.isLoaded ? 1 : 0};
-  transition: opacity 0.5s ease;
+  transition: opacity 0.3s ease;
 `;
 
 const EarthImageStyled = styled.img`
@@ -263,7 +261,7 @@ const EarthImageStyled = styled.img`
   height: 100%;
   object-fit: cover;
   opacity: ${props => props.isLoaded ? 0 : 1};
-  transition: opacity 0.5s ease;
+  transition: opacity 0.3s ease;
   z-index: 1;
 `;
 
@@ -284,11 +282,12 @@ const Hero = () => {
     threshold: 0.1
   });
 
-  const [isMobile, setIsMobile] = React.useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [videoPlaying, setVideoPlaying] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 900);
     };
@@ -313,6 +312,21 @@ const Hero = () => {
     setImageLoaded(true);
   };
 
+  const handleVideoPlay = () => {
+    setVideoPlaying(true);
+  };
+
+  // Дополнительная логика для надежного переключения
+  useEffect(() => {
+    if (videoLoaded && !videoPlaying) {
+      // Если видео загружено, но еще не воспроизводится, ждем немного
+      const timer = setTimeout(() => {
+        setVideoPlaying(true);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [videoLoaded, videoPlaying]);
+
   return (
     <HeroSection ref={ref}>
       <BackgroundStars />
@@ -321,10 +335,10 @@ const Hero = () => {
         <EarthImageStyled
           src={isMobile ? EarthImageMobile : EarthImage}
           alt="Earth preview"
-          isLoaded={videoLoaded}
+          isLoaded={videoPlaying}
           onLoad={handleImageLoad}
         />
-        <LoadingIndicator isVisible={!videoLoaded && imageLoaded}>
+        <LoadingIndicator isVisible={!videoPlaying && imageLoaded}>
           <div style={{
             width: '40px',
             height: '40px',
@@ -347,8 +361,9 @@ const Hero = () => {
           muted
           playsInline
           preload="auto"
-          isLoaded={videoLoaded}
+          isLoaded={videoPlaying}
           onLoadedData={handleVideoLoad}
+          onPlay={handleVideoPlay}
         >
           <source src={isMobile ? EarthVideoMobile : EarthVideo} type="video/mp4" />
         </EarthVideoStyled>

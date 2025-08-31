@@ -130,21 +130,6 @@ const MobileList = styled.div`
   align-items: center;
 `;
 
-const MobileLink = styled(motion.a)`
-  display: block;
-  width: 60%;
-  text-align: center;
-  padding: clamp(8px, 2vw, 16px) clamp(12px, 3vw, 24px);
-  border-radius: 9999px;
-  background: #1c1f27;
-  color: #dbe7ff;
-  text-decoration: none;
-  font-family: 'Raleway', sans-serif;
-  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-  border: 1px solid rgba(255,255,255,0.1);
-  margin: 0 auto;
-`;
-
 const MobileNavLink = styled(Link)`
   display: block;
   width: 60%;
@@ -181,12 +166,6 @@ const Header = () => {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-    setOpen(false);
-  };
 
   const closeMobileMenu = () => {
     setOpen(false);
@@ -279,9 +258,7 @@ const Header = () => {
             <MobileList onClick={(e) => e.stopPropagation()}>
               {isHomePage ? (
                 <>
-                  <MobileLink onClick={() => scrollTo("about")}>
-                    О ФОНДЕ
-                  </MobileLink>
+                  <MobileNavLink to="/fond" onClick={closeMobileMenu}>О ФОНДЕ</MobileNavLink>
                   <MobileNavLink to="/events" onClick={closeMobileMenu}>СОБЫТИЯ</MobileNavLink>
                   <MobileNavLink to="/news" onClick={closeMobileMenu}>НОВОСТИ</MobileNavLink>
                   <MobileNavLink to="/contact" onClick={closeMobileMenu}>КОНТАКТЫ</MobileNavLink>
