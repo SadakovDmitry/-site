@@ -11,6 +11,16 @@ const cleanHtml = (html) => {
         .trim();
 };
 
+// Функция для декодирования HTML-сущностей
+const decodeHtmlEntities = (text) => {
+    if (!text) return '';
+
+    // Создаем временный элемент для декодирования
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = text;
+    return textarea.value;
+};
+
 export const wordpressApi = {
     // Получить все новости (записи с категорией "Новости" - ID 57498)
     async getNews() {
@@ -20,7 +30,7 @@ export const wordpressApi = {
 
             return posts.map(post => ({
                 id: post.id,
-                title: post.title.rendered,
+                title: decodeHtmlEntities(post.title.rendered),
                 content: cleanHtml(post.content.rendered),
                 excerpt: cleanHtml(post.excerpt.rendered),
                 date: formatDate(post.date),
@@ -37,8 +47,9 @@ export const wordpressApi = {
     // Получить события (записи с категорией "События" - ID 36172)
     async getEvents() {
         try {
-            const response = await fetch(`${WORDPRESS_CONFIG.API_URL}/posts?per_page=5&_embed&categories=36172`);
+            const response = await fetch(`${WORDPRESS_CONFIG.API_URL}/posts?per_page=50&_embed&categories=36172`);
             const posts = await response.json();
+            console.log(`API: Получено ${posts.length} событий из WordPress`);
 
             return posts.map(post => {
                 const rawContent = post.content.rendered;
@@ -50,7 +61,7 @@ export const wordpressApi = {
 
                 return {
                     id: post.id,
-                    title: post.title.rendered,
+                    title: decodeHtmlEntities(post.title.rendered),
                     address: addressMatch ? cleanHtml(addressMatch[2].trim()) : 'Адрес не указан',
                     eventDate: eventDateMatch ? cleanHtml(eventDateMatch[2].trim()) : 'Дата не указана',
                     description: descriptionMatch ? cleanHtml(descriptionMatch[2].trim()) : cleanHtml(post.excerpt.rendered),
@@ -81,7 +92,7 @@ export const wordpressApi = {
 
             return {
                 id: post.id,
-                title: post.title.rendered,
+                title: decodeHtmlEntities(post.title.rendered),
                 address: addressMatch ? cleanHtml(addressMatch[2].trim()) : 'Адрес не указан',
                 eventDate: eventDateMatch ? cleanHtml(eventDateMatch[2].trim()) : 'Дата не указана',
                 description: descriptionMatch ? cleanHtml(descriptionMatch[2].trim()) : cleanHtml(post.excerpt.rendered),
@@ -104,7 +115,7 @@ export const wordpressApi = {
 
             return {
                 id: post.id,
-                title: post.title.rendered,
+                title: decodeHtmlEntities(post.title.rendered),
                 content: cleanHtml(post.content.rendered),
                 excerpt: cleanHtml(post.excerpt.rendered),
                 date: formatDate(post.date),
@@ -126,7 +137,7 @@ export const wordpressApi = {
 
             return posts.map(post => ({
                 id: post.id,
-                title: post.title.rendered,
+                title: decodeHtmlEntities(post.title.rendered),
                 content: cleanHtml(post.content.rendered),
                 excerpt: cleanHtml(post.excerpt.rendered),
                 date: formatDate(post.date),

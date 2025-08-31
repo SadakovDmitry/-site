@@ -705,6 +705,7 @@ const EventsPage = () => {
                 const wordpressEvents = await wordpressApi.getEvents();
 
                 if (wordpressEvents.length > 0) {
+                    console.log(`Загружено ${wordpressEvents.length} событий из WordPress`);
                     // Преобразуем данные WordPress в нужный формат
                     const formattedEvents = wordpressEvents.map((event, index) => ({
                         id: event.id,

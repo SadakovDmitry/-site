@@ -316,7 +316,7 @@ const StageItem = styled(motion.div)`
   text-align: center;
   position: relative;
   box-shadow: ${props => props.active ? '0 8px 25px rgba(1, 156, 229, 0.3)' : '0 4px 15px rgba(0, 0, 0, 0.1)'};
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   z-index: 1;
 
   @media (max-width: 768px) {
@@ -344,6 +344,7 @@ const StageItem = styled(motion.div)`
   &:hover {
     transform: translateY(-5px);
     box-shadow: ${props => props.active ? '0 12px 30px rgba(1, 156, 229, 0.4)' : '0 8px 20px rgba(0, 0, 0, 0.15)'};
+    transition: all 0.2s ease;
   }
 `;
 
@@ -713,7 +714,7 @@ const EventDetailPage = () => {
                         opacity: index <= currentStage ? 1 : 0.3,
                         y: 0
                       }}
-                      transition={{ duration: 0.5, delay: index * 0.2 }}
+                      transition={{ duration: 0.3 }}
                     >
                       <StageText>{stage}</StageText>
                     </StageItem>
