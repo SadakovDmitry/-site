@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
+import { wordpressApi } from '../services/wordpressApi';
 import image76 from '../image 76.png';
 import image77 from '../image 77.png';
 
@@ -194,8 +195,7 @@ const AllNewsButton = styled(Link)`
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: all 0.3s ease;
-  display: block;
-  margin: 0 auto;
+  display: inline-block;
   text-decoration: none;
   text-align: center;
 
@@ -212,20 +212,64 @@ const News = () => {
     threshold: 0.1
   });
 
-  const news = [
-    {
-      date: '20.07.2025',
-      title: 'ЗАПУСК НОВОГО СПУТНИКА',
-      description: 'Успешно завершен запуск образовательного спутника "Звездочка-1" для проведения научных экспериментов в космосе.',
-      image: image76
-    },
-    {
-      date: '18.07.2025',
-      title: 'ОТКРЫТИЕ ПЛАНЕТАРИЯ',
-      description: 'В Москве состоялось торжественное открытие современного планетария, созданного при поддержке фонда.',
-      image: image77
-    }
-  ];
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        setLoading(true);
+        const wordpressNews = await wordpressApi.getNewsWithPagination(1, 2);
+
+        if (wordpressNews.length > 0) {
+          setNews(wordpressNews);
+        } else {
+          // Fallback к статичным данным если WordPress недоступен
+          setNews([
+            {
+              id: 1,
+              title: 'ЗАПУСК НОВОГО СПУТНИКА',
+              excerpt: 'Успешно завершен запуск образовательного спутника "Звездочка-1" для проведения научных экспериментов в космосе.',
+              date: '20.07.2025',
+              featuredImage: image76
+            },
+            {
+              id: 2,
+              title: 'ОТКРЫТИЕ ПЛАНЕТАРИЯ',
+              excerpt: 'В Москве состоялось торжественное открытие современного планетария, созданного при поддержке фонда.',
+              date: '18.07.2025',
+              featuredImage: image77
+            }
+          ]);
+        }
+      } catch (err) {
+        console.error('Error loading news:', err);
+        setError('Ошибка загрузки новостей');
+        // Fallback к статичным данным
+        setNews([
+          {
+            id: 1,
+            title: 'ЗАПУСК НОВОГО СПУТНИКА',
+            excerpt: 'Успешно завершен запуск образовательного спутника "Звездочка-1" для проведения научных экспериментов в космосе.',
+            date: '20.07.2025',
+            featuredImage: image76
+          },
+          {
+            id: 2,
+            title: 'ОТКРЫТИЕ ПЛАНЕТАРИЯ',
+            excerpt: 'В Москве состоялось торжественное открытие современного планетария, созданного при поддержке фонда.',
+            date: '18.07.2025',
+            featuredImage: image77
+          }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, []);
 
   return (
     <NewsSection id="news" ref={ref}>
@@ -239,37 +283,57 @@ const News = () => {
         </SectionTitle>
 
         <NewsGrid>
-          {news.map((item, index) => (
-            <NewsCard
-              key={item.title}
-              initial={{ opacity: 0, y: 40 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.2 + index * 0.1, ease: "easeOut" }}
-            >
-              <div className="news-body">
-                <div className="thumb">
-                  <img src={item.image} alt={item.title} />
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '2rem' }}>
+              <p>Загрузка новостей...</p>
+            </div>
+          ) : error ? (
+            <div style={{ textAlign: 'center', padding: '2rem', color: '#ff6b6b' }}>
+              <p>{error}</p>
+            </div>
+          ) : (
+            news.map((item, index) => (
+              <NewsCard
+                key={item.id || index}
+                initial={{ opacity: 0, y: 40 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7, delay: 0.2 + index * 0.1, ease: "easeOut" }}
+              >
+                <div className="news-body">
+                  <div className="thumb">
+                    <img
+                      src={item.featuredImage || item.image}
+                      alt={item.title}
+                      onError={(e) => {
+                        e.target.src = item.image || image76;
+                      }}
+                    />
+                  </div>
+                  <div className="content">
+                    <h3 className="news-title">{item.title}</h3>
+                    <div className="date">{item.date}</div>
+                    <p className="news-description">
+                      {item.excerpt || item.description}
+                    </p>
+                  </div>
                 </div>
-                <div className="content">
-                  <h3 className="news-title">{item.title}</h3>
-                  <div className="date">{item.date}</div>
-                  <p className="news-description">{item.description}</p>
-                </div>
-              </div>
-            </NewsCard>
-          ))}
+              </NewsCard>
+            ))
+          )}
         </NewsGrid>
 
-        <AllNewsButton
-          to="/news"
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          ВСЕ НОВОСТИ
-        </AllNewsButton>
+        <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+          <AllNewsButton
+            to="/news"
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            ВСЕ НОВОСТИ
+          </AllNewsButton>
+        </div>
       </Container>
     </NewsSection>
   );

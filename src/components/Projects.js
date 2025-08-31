@@ -213,8 +213,7 @@ const AllProjectsButton = styled(Link)`
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: all 0.3s ease;
-  display: block;
-  margin: 0 auto;
+  display: inline-block;
   text-decoration: none;
   text-align: center;
 
@@ -306,16 +305,18 @@ const Projects = () => {
           ))}
         </ProjectsGrid>
 
-        <AllProjectsButton
-          to="/events"
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          ВСЕ ПРОЕКТЫ
-        </AllProjectsButton>
+        <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+          <AllProjectsButton
+            to="/events"
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            ВСЕ ПРОЕКТЫ
+          </AllProjectsButton>
+        </div>
       </Container>
     </ProjectsSection>
   );

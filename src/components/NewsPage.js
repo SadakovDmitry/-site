@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { wordpressApi } from '../services/wordpressApi';
 import mainImage from '../images/NewsPage/main_image.png';
 import astronautImage from '../images/NewsPage/austronaut.png';
 
@@ -325,65 +326,156 @@ const RightFade = styled.div`
 const NewsPage = () => {
   const [inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const carouselRef = useRef(null);
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const news = [
-    {
-      id: 1,
-      image: astronautImage,
-      date: '# 05.07.2025',
-      title: 'ИССЛЕДОВАНИЯ МАРСА',
-      description: 'Планирование новой миссии на Марс. Разработка новых инструментов для исследования.'
-    },
-    {
-      id: 2,
-      image: astronautImage,
-      date: '# 08.07.2025',
-      title: 'КОСМИЧЕСКАЯ СТАНЦИЯ',
-      description: 'Обновление систем космической станции. Модернизация оборудования и улучшение безопасности.'
-    },
-    {
-      id: 3,
-      image: astronautImage,
-      date: '# 10.07.2025',
-      title: 'НОВЫЕ ТЕХНОЛОГИИ',
-      description: 'Внедрение инновационных технологий в космическую отрасль. Разработка новых материалов.'
-    },
-    {
-      id: 4,
-      image: astronautImage,
-      date: '# 12.07.2025',
-      title: 'МЕЖДУНАРОДНОЕ СОТРУДНИЧЕСТВО',
-      description: 'Подписание соглашения о международном сотрудничестве в области космических исследований.'
-    },
-    {
-      id: 5,
-      image: astronautImage,
-      date: '# 15.07.2025',
-      title: 'ПОДГОТОВКА К ЗАПУСКУ',
-      description: 'Подготовка к запуску новой ракеты-носителя. Проведены все необходимые испытания и проверки систем.'
-    },
-    {
-      id: 6,
-      image: astronautImage,
-      date: '# 18.07.2025',
-      title: 'ДОСТИЖЕНИЯ В РАКЕТОСТРОЕНИИ',
-      description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.'
-    },
-    {
-      id: 7,
-      image: astronautImage,
-      date: '# 20.07.2025',
-      title: 'НОВАЯ МИССИЯ В КОСМОС',
-      description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.'
-    },
-    {
-      id: 8,
-      image: astronautImage,
-      date: '# 23.07.2025',
-      title: 'ЗАГОЛОВОК НОВОСТИ',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-    }
-  ];
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        setLoading(true);
+        const wordpressNews = await wordpressApi.getNews();
+
+        if (wordpressNews.length > 0) {
+          // Преобразуем данные WordPress в нужный формат
+          const formattedNews = wordpressNews.map((item, index) => ({
+            id: item.id,
+            image: item.featuredImage || astronautImage,
+            date: `# ${item.date}`,
+            title: item.title,
+            description: item.excerpt || item.content.substring(0, 150) + '...'
+          }));
+          setNews(formattedNews);
+        } else {
+          // Fallback к статичным данным
+          setNews([
+            {
+              id: 1,
+              image: astronautImage,
+              date: '# 05.07.2025',
+              title: 'ИССЛЕДОВАНИЯ МАРСА',
+              description: 'Планирование новой миссии на Марс. Разработка новых инструментов для исследования.'
+            },
+            {
+              id: 2,
+              image: astronautImage,
+              date: '# 08.07.2025',
+              title: 'КОСМИЧЕСКАЯ СТАНЦИЯ',
+              description: 'Обновление систем космической станции. Модернизация оборудования и улучшение безопасности.'
+            },
+            {
+              id: 3,
+              image: astronautImage,
+              date: '# 10.07.2025',
+              title: 'НОВЫЕ ТЕХНОЛОГИИ',
+              description: 'Внедрение инновационных технологий в космическую отрасль. Разработка новых материалов.'
+            },
+            {
+              id: 4,
+              image: astronautImage,
+              date: '# 12.07.2025',
+              title: 'МЕЖДУНАРОДНОЕ СОТРУДНИЧЕСТВО',
+              description: 'Подписание соглашения о международном сотрудничестве в области космических исследований.'
+            },
+            {
+              id: 5,
+              image: astronautImage,
+              date: '# 15.07.2025',
+              title: 'ПОДГОТОВКА К ЗАПУСКУ',
+              description: 'Подготовка к запуску новой ракеты-носителя. Проведены все необходимые испытания и проверки систем.'
+            },
+            {
+              id: 6,
+              image: astronautImage,
+              date: '# 18.07.2025',
+              title: 'ДОСТИЖЕНИЯ В РАКЕТОСТРОЕНИИ',
+              description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.'
+            },
+            {
+              id: 7,
+              image: astronautImage,
+              date: '# 20.07.2025',
+              title: 'НОВАЯ МИССИЯ В КОСМОС',
+              description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.'
+            },
+            {
+              id: 8,
+              image: astronautImage,
+              date: '# 23.07.2025',
+              title: 'ЗАГОЛОВОК НОВОСТИ',
+              description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+            }
+          ]);
+        }
+      } catch (err) {
+        console.error('Error loading news:', err);
+        setError('Ошибка загрузки новостей');
+        // Fallback к статичным данным
+        setNews([
+          {
+            id: 1,
+            image: astronautImage,
+            date: '# 05.07.2025',
+            title: 'ИССЛЕДОВАНИЯ МАРСА',
+            description: 'Планирование новой миссии на Марс. Разработка новых инструментов для исследования.'
+          },
+          {
+            id: 2,
+            image: astronautImage,
+            date: '# 08.07.2025',
+            title: 'КОСМИЧЕСКАЯ СТАНЦИЯ',
+            description: 'Обновление систем космической станции. Модернизация оборудования и улучшение безопасности.'
+          },
+          {
+            id: 3,
+            image: astronautImage,
+            date: '# 10.07.2025',
+            title: 'НОВЫЕ ТЕХНОЛОГИИ',
+            description: 'Внедрение инновационных технологий в космическую отрасль. Разработка новых материалов.'
+          },
+          {
+            id: 4,
+            image: astronautImage,
+            date: '# 12.07.2025',
+            title: 'МЕЖДУНАРОДНОЕ СОТРУДНИЧЕСТВО',
+            description: 'Подписание соглашения о международном сотрудничестве в области космических исследований.'
+          },
+          {
+            id: 5,
+            image: astronautImage,
+            date: '# 15.07.2025',
+            title: 'ПОДГОТОВКА К ЗАПУСКУ',
+            description: 'Подготовка к запуску новой ракеты-носителя. Проведены все необходимые испытания и проверки систем.'
+          },
+          {
+            id: 6,
+            image: astronautImage,
+            date: '# 18.07.2025',
+            title: 'ДОСТИЖЕНИЯ В РАКЕТОСТРОЕНИИ',
+            description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.'
+          },
+          {
+            id: 7,
+            image: astronautImage,
+            date: '# 20.07.2025',
+            title: 'НОВАЯ МИССИЯ В КОСМОС',
+            description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.'
+          },
+          {
+            id: 8,
+            image: astronautImage,
+            date: '# 23.07.2025',
+            title: 'ЗАГОЛОВОК НОВОСТИ',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+          }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, []);
 
   return (
     <PageContainer>
@@ -409,16 +501,32 @@ const NewsPage = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <NewsCardsContainer>
-              {news.map((item, index) => (
-                <NewsCard key={index}>
-                  <NewsImage src={item.image} alt="News" />
-                  <NewsContent>
-                    <NewsDate>{item.date}</NewsDate>
-                    <NewsTitle>{item.title}</NewsTitle>
-                    <NewsDescription>{item.description}</NewsDescription>
-                  </NewsContent>
-                </NewsCard>
-              ))}
+              {loading ? (
+                <div style={{ textAlign: 'center', padding: '2rem', color: '#fff' }}>
+                  <p>Загрузка новостей...</p>
+                </div>
+              ) : error ? (
+                <div style={{ textAlign: 'center', padding: '2rem', color: '#ff6b6b' }}>
+                  <p>{error}</p>
+                </div>
+              ) : (
+                news.map((item, index) => (
+                  <NewsCard key={item.id || index}>
+                    <NewsImage
+                      src={item.image}
+                      alt="News"
+                      onError={(e) => {
+                        e.target.src = astronautImage;
+                      }}
+                    />
+                    <NewsContent>
+                      <NewsDate>{item.date}</NewsDate>
+                      <NewsTitle>{item.title}</NewsTitle>
+                      <NewsDescription>{item.description}</NewsDescription>
+                    </NewsContent>
+                  </NewsCard>
+                ))
+              )}
             </NewsCardsContainer>
 
             <TouchHint>
