@@ -66,6 +66,36 @@ export const wordpressApi = {
         }
     },
 
+    // Получить событие по ID
+    async getEventById(id) {
+        try {
+            const response = await fetch(`${WORDPRESS_CONFIG.API_URL}/posts/${id}?_embed`);
+            const post = await response.json();
+
+            const rawContent = post.content.rendered;
+
+            // Парсим поля из исходного контента
+            const addressMatch = rawContent.match(/(\[АДРЕС\]|АДРЕС\])\s*([^<\n]+)/);
+            const eventDateMatch = rawContent.match(/(\[ДАТА\]|ДАТА\])\s*([^<\n]+)/);
+            const descriptionMatch = rawContent.match(/(\[ОПИСАНИЕ\]|ОПИСАНИЕ\])\s*([\s\S]*?)(?=\[|<\/p>|$)/);
+
+            return {
+                id: post.id,
+                title: post.title.rendered,
+                address: addressMatch ? cleanHtml(addressMatch[2].trim()) : 'Адрес не указан',
+                eventDate: eventDateMatch ? cleanHtml(eventDateMatch[2].trim()) : 'Дата не указана',
+                description: descriptionMatch ? cleanHtml(descriptionMatch[2].trim()) : cleanHtml(post.excerpt.rendered),
+                date: formatDate(post.date),
+                featuredImage: post.jetpack_featured_media_url || getImageUrl(post._embedded?.['wp:featuredmedia']?.[0]?.source_url),
+                slug: post.slug,
+                link: post.link
+            };
+        } catch (error) {
+            console.error('Error fetching event by ID:', error);
+            return null;
+        }
+    },
+
     // Получить одну новость по ID
     async getNewsById(id) {
         try {
@@ -97,8 +127,8 @@ export const wordpressApi = {
             return posts.map(post => ({
                 id: post.id,
                 title: post.title.rendered,
-                content: post.content.rendered,
-                excerpt: post.excerpt.rendered,
+                content: cleanHtml(post.content.rendered),
+                excerpt: cleanHtml(post.excerpt.rendered),
                 date: formatDate(post.date),
                 featuredImage: post.jetpack_featured_media_url || getImageUrl(post._embedded?.['wp:featuredmedia']?.[0]?.source_url),
                 slug: post.slug,
