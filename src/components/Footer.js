@@ -89,22 +89,22 @@ const Footer = () => {
 
         <FooterSection>
           <h3>О ФОНДЕ</h3>
-          <Link to="/about">Карта сайта</Link>
+          <Link to="/fond">О фонде</Link>
         </FooterSection>
 
         <FooterSection>
           <h3>ПРОЕКТЫ</h3>
-          <Link to="/projects">Карта сайта</Link>
+          <Link to="/events">События</Link>
         </FooterSection>
 
         <FooterSection>
           <h3>НОВОСТИ</h3>
-          <Link to="/news">Карта сайта</Link>
+          <Link to="/news">Новости</Link>
         </FooterSection>
 
         <FooterSection>
           <h3>ПАРТНЕРЫ</h3>
-          <Link to="/partners">Карта сайта</Link>
+          <Link to="/contact">Контакты</Link>
         </FooterSection>
       </FooterContent>
 

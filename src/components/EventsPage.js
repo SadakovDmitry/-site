@@ -336,14 +336,14 @@ const FilterButton = styled.button`
     max-width: 350px;
     margin: 0 auto;
     padding: 0.3rem 0.8rem;
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     border-radius: 20px;
   }
 
   @media (max-width: 400px) {
     max-width: 300px;
     padding: 0.2rem 0.7rem;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     border-radius: 18px;
   }
 `;
@@ -360,12 +360,12 @@ const FilterCount = styled.span`
   font-family: 'Futura PT', sans-serif;
 
   @media (max-width: 768px) {
-    font-size: 0.6rem;
+    font-size: 0.8rem;
     right: 0.8rem;
   }
 
   @media (max-width: 400px) {
-    font-size: 0.5rem;
+    font-size: 0.7rem;
     right: 0.6rem;
   }
 `;
@@ -454,14 +454,14 @@ const SubFilterButton = styled.button`
     max-width: 320px;
     margin: 0 auto;
     padding: 0.15rem 0.7rem;
-    font-size: 0.78rem;
+    font-size: 1.0rem;
     border-radius: 18px;
   }
 
   @media (max-width: 400px) {
     max-width: 280px;
     padding: 0.1rem 0.6rem;
-    font-size: 0.75rem;
+    font-size: 0.95rem;
     border-radius: 15px;
   }
 `;

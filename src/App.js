@@ -10,6 +10,7 @@ import EventsPage from './components/EventsPage';
 import TestPage from './components/TestPage';
 import EventDetailPage from './components/EventDetailPage';
 import ProjectsPage from './components/ProjectsPage';
+import ScrollToTop from './components/ScrollToTop';
 // Local font files (Proxima Nova)
 import ProximaRegular from './Proxima Nova/proximanova_regular.ttf';
 import ProximaSemibold from './Proxima Nova/proximanova_bold.otf';
@@ -80,6 +81,7 @@ function App() {
     <Router>
       <AppContainer>
         <GlobalStyles />
+        <ScrollToTop />
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />

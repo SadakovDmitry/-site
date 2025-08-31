@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import EarthVideo from '../Earth Rotates.mp4';
 import EarthVideoMobile from '../images/main/Earth Rotates_alpha_3.mp4';
+import EarthImage from '../pre_load_photo.png'; // Изображение для десктопа
+import EarthImageMobile from '../images/main/pre_load_mobile.png'; // Изображение для мобильной версии
 
 const HeroSection = styled.section`
   position: relative;
@@ -236,12 +238,44 @@ const StatItem = styled.div`
 
 const EarthContainer = styled(motion.div)` display: none;`;
 
+const VideoContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: auto;
+  background: transparent;
+`;
+
 const EarthVideoStyled = styled.video`
   display: block;
   width: 100%;
   height: auto;
   max-width: 100%;
   background: transparent;
+  opacity: ${props => props.isLoaded ? 1 : 0};
+  transition: opacity 0.5s ease;
+`;
+
+const EarthImageStyled = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: ${props => props.isLoaded ? 0 : 1};
+  transition: opacity 0.5s ease;
+  z-index: 1;
+`;
+
+const LoadingIndicator = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  opacity: ${props => props.isVisible ? 1 : 0};
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 `;
 
 const Hero = () => {
@@ -251,6 +285,8 @@ const Hero = () => {
   });
 
   const [isMobile, setIsMobile] = React.useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   React.useEffect(() => {
     const checkMobile = () => {
@@ -262,13 +298,61 @@ const Hero = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Предзагрузка видео
+  useEffect(() => {
+    const videoSrc = isMobile ? EarthVideoMobile : EarthVideo;
+    const video = new Audio(videoSrc);
+    video.load();
+  }, [isMobile]);
+
+  const handleVideoLoad = () => {
+    setVideoLoaded(true);
+  };
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
   return (
     <HeroSection ref={ref}>
       <BackgroundStars />
 
-      <EarthVideoStyled key={isMobile ? 'mobile' : 'desktop'} autoPlay loop muted playsInline>
-        <source src={isMobile ? EarthVideoMobile : EarthVideo} type="video/mp4" />
-      </EarthVideoStyled>
+      <VideoContainer>
+        <EarthImageStyled
+          src={isMobile ? EarthImageMobile : EarthImage}
+          alt="Earth preview"
+          isLoaded={videoLoaded}
+          onLoad={handleImageLoad}
+        />
+        <LoadingIndicator isVisible={!videoLoaded && imageLoaded}>
+          <div style={{
+            width: '40px',
+            height: '40px',
+            border: '3px solid rgba(255, 255, 255, 0.3)',
+            borderTop: '3px solid #00ffff',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite'
+          }} />
+          <style>{`
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `}</style>
+        </LoadingIndicator>
+        <EarthVideoStyled
+          key={isMobile ? 'mobile' : 'desktop'}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          isLoaded={videoLoaded}
+          onLoadedData={handleVideoLoad}
+        >
+          <source src={isMobile ? EarthVideoMobile : EarthVideo} type="video/mp4" />
+        </EarthVideoStyled>
+      </VideoContainer>
 
       <OverlayLayer>
         <OverlayInner>
