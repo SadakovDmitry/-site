@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { wordpressApi } from '../services/wordpressApi';
+import PartnerModal from './PartnerModal';
 
 // Импорт изображений
 import mainImage from '../images/EventPage/main_image.png';
@@ -412,6 +413,7 @@ const EventDetailPage = () => {
   const { eventId } = useParams();
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentStage, setCurrentStage] = useState(0);
+  const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -771,6 +773,7 @@ const EventDetailPage = () => {
                     e.target.style.transform = 'translateY(0)';
                     e.target.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
                   }}
+                  onClick={() => setIsPartnerModalOpen(true)}
                 >
                   СТАТЬ ПАРТНЕРОМ ПРОЕКТА
                 </button>
@@ -798,6 +801,11 @@ const EventDetailPage = () => {
           </Modal>
         )}
       </AnimatePresence>
+
+      <PartnerModal
+        isOpen={isPartnerModalOpen}
+        onClose={() => setIsPartnerModalOpen(false)}
+      />
     </PageContainer>
   );
 };

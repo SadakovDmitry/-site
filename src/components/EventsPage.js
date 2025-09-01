@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { wordpressApi } from '../services/wordpressApi';
+import PartnerModal from './PartnerModal';
 import mainImage from '../images/EventsPage/events_main.png';
 import lecturerImage from '../images/EventsPage/lecturer_for_wide_room.png';
 import scienceWorkshopsImage from '../images/EventsPage/science_workshops.png';
@@ -697,6 +698,7 @@ const EventsPage = () => {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -1126,6 +1128,11 @@ const EventsPage = () => {
                     </ContentGrid>
                 </Container>
             </ContentSection>
+
+            <PartnerModal
+                isOpen={isPartnerModalOpen}
+                onClose={() => setIsPartnerModalOpen(false)}
+            />
         </PageContainer>
     );
 };
