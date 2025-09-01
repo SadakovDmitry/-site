@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { wordpressApi } from '../services/wordpressApi';
 import PartnerModal from './PartnerModal';
+import mainVideo from '../ФСРК видео/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc_1.mp4';
 import mainImage from '../images/EventsPage/events_main.png';
 import lecturerImage from '../images/EventsPage/lecturer_for_wide_room.png';
 import scienceWorkshopsImage from '../images/EventsPage/science_workshops.png';
@@ -81,7 +82,7 @@ const HeroSection = styled.div`
   overflow: hidden;
 `;
 
-const BannerImage = styled.img`
+const BannerVideo = styled.video`
   position: absolute;
   top: 0;
   left: 0;
@@ -1002,7 +1003,15 @@ const EventsPage = () => {
     return (
         <PageContainer>
             <HeroSection>
-                <BannerImage src={mainImage} alt="События" />
+                <BannerVideo
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                >
+                    <source src={mainVideo} type="video/mp4" />
+                </BannerVideo>
                 <Overlay>
                     <HeroTitle>СОБЫТИЯ</HeroTitle>
                 </Overlay>

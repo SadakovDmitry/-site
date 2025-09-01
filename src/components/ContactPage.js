@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import videoContact from '../images/ContactPage/video_contact.png';
+import videoContact from '../ФСРК видео/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc.mp4';
 import phoneIcon from '../images/ContactPage/phone.svg';
 import emailIcon from '../images/ContactPage/e-mail.svg';
 import clockIcon from '../images/ContactPage/clock.svg';
@@ -83,7 +83,7 @@ const HeroBanner = styled.div`
   overflow: hidden;
 `;
 
-const BannerImage = styled.img`
+const BannerVideo = styled.video`
   position: absolute;
   top: 0;
   left: 0;
@@ -554,7 +554,15 @@ const ContactPage = () => {
     return (
         <PageContainer>
             <HeroBanner>
-                <BannerImage src={videoContact} alt="Contact Banner" />
+                <BannerVideo
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                >
+                    <source src={videoContact} type="video/mp4" />
+                </BannerVideo>
                 <Overlay>
                     <HeroTitle
                         initial={{ opacity: 0, y: 30 }}

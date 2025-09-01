@@ -34,6 +34,15 @@ const FooterSection = styled.div`
 const Brand = styled.div`
   display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
   img { height: clamp(28px, 4vw, 40px); width:auto; display:block; }
+
+  @media (max-width: 600px) {
+    justify-content: center;
+    margin-bottom: 20px;
+
+    img {
+      height: clamp(40px, 8vw, 60px);
+    }
+  }
 `;
 
 const SocialLinks = styled.div`
@@ -89,22 +98,18 @@ const Footer = () => {
 
         <FooterSection>
           <h3>О ФОНДЕ</h3>
-          <Link to="/fond">О фонде</Link>
         </FooterSection>
 
         <FooterSection>
           <h3>ПРОЕКТЫ</h3>
-          <Link to="/events">События</Link>
         </FooterSection>
 
         <FooterSection>
           <h3>НОВОСТИ</h3>
-          <Link to="/news">Новости</Link>
         </FooterSection>
 
         <FooterSection>
           <h3>ПАРТНЕРЫ</h3>
-          <Link to="/contact">Контакты</Link>
         </FooterSection>
       </FooterContent>
 

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { wordpressApi } from '../services/wordpressApi';
+import mainVideo from '../ФСРК видео/abstract-news-background-v3-2025-08-29-09-52-49-utc (video-converter.com).mp4';
 import mainImage from '../images/NewsPage/main_image.png';
 import astronautImage from '../images/NewsPage/austronaut.png';
 
@@ -16,7 +17,7 @@ import RalewayBold from '../Raleway/Raleway-v4020-Bold.otf';
 
 const PageContainer = styled.div`
   min-height: 100vh;
-  background: #1a1a1a;
+  background: #ffffff;
 
   @font-face {
     font-family: 'Proxima Nova';
@@ -76,7 +77,7 @@ const HeroBanner = styled.div`
   overflow: hidden;
 `;
 
-const BannerImage = styled.img`
+const BannerVideo = styled.video`
   position: absolute;
   top: 0;
   left: 0;
@@ -122,8 +123,8 @@ const HeroTitle = styled(motion.h1)`
 const ContentSection = styled.section`
   background: #ffffff;
   padding: 5rem 0;
-  min-height: 30vh;
   position: relative;
+  margin: 0;
 
   &::before {
     content: '';
@@ -132,9 +133,25 @@ const ContentSection = styled.section`
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(ellipse at top left, rgba(1, 156, 229, 0.3) 0%, transparent 50%);
+    background: radial-gradient(ellipse at top left, rgba(1, 156, 229, 0.1) 0%, transparent 50%);
     pointer-events: none;
     z-index: 3;
+  }
+
+  @media (max-width: 768px) {
+    padding: 3rem 0;
+
+    &::before {
+      background: radial-gradient(ellipse at top left, rgba(1, 156, 229, 0.05) 0%, transparent 40%);
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 2rem 0;
+
+    &::before {
+      background: none;
+    }
   }
 `;
 
@@ -480,7 +497,15 @@ const NewsPage = () => {
   return (
     <PageContainer>
       <HeroBanner>
-        <BannerImage src={mainImage} alt="News Banner" />
+        <BannerVideo
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+        >
+          <source src={mainVideo} type="video/mp4" />
+        </BannerVideo>
         <Overlay>
           <HeroTitle
             initial={{ opacity: 0, y: 30 }}
