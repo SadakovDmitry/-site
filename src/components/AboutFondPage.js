@@ -11,6 +11,11 @@ import logoNauchnyePribory from "../images/AboutFondPage/лого_научные
 
 import benefactor from "../images/AboutFondPage/people/benefactor.png";
 
+import muhin from "../images/AboutFondPage/Muhin.jpg";
+import shkaplerov from "../images/AboutFondPage/Shkaplerov.jpg";
+import smirnov from "../images/AboutFondPage/Smirnov.jpg";
+import smoktiy from "../images/AboutFondPage/Smoktiy.jpg";
+
 // Импорт иконок для стратегических направлений
 import atomIcon from "../images/AboutFondPage/icons/chrome-atom-molecule-icon-white-background-3d-rendering_476612-2231.png";
 import rocketIcon from "../images/AboutFondPage/icons/chrome-rocket-ship-ready-launch-space-exploration-adventure_632498-37867 1.png";
@@ -254,6 +259,10 @@ const BoardMembersGrid = styled.div`
   max-width: 1400px;
   margin: 0 9vw;
   padding: 0 0rem;
+
+  @media (max-width: 480px) {
+    gap: 1rem;
+  }
 `;
 
 const BoardMemberCard = styled(motion.div)`
@@ -267,6 +276,10 @@ const BoardMemberCard = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
 `;
 
 const MemberImage = styled.img`
@@ -548,7 +561,7 @@ function AboutFond() {
               transition={{ duration: 0.3 }}
             >
               <MemberTopSection>
-                <MemberImage src={benefactor} alt="Антон Шкаплеров" />
+                <MemberImage src={shkaplerov} alt="Антон Шкаплеров" />
                 <MemberRightSection>
                   <MemberRole>КОСМОНАВТ</MemberRole>
                   <MemberName>
@@ -570,7 +583,7 @@ function AboutFond() {
               transition={{ duration: 0.3 }}
             >
               <MemberTopSection>
-                <MemberImage src={benefactor} alt="Олег Мухин" />
+                <MemberImage src={muhin} alt="Олег Мухин" />
                 <MemberRightSection>
                   <MemberRole>
                     ПЕРВЫЙ<br />
@@ -596,7 +609,7 @@ function AboutFond() {
               transition={{ duration: 0.3 }}
             >
               <MemberTopSection>
-                <MemberImage src={benefactor} alt="Олег Смоктий" />
+                <MemberImage src={smoktiy} alt="Олег Смоктий" />
                 <MemberRightSection>
                   <MemberRole>ПРОФЕССОР</MemberRole>
                   <MemberName>
@@ -618,7 +631,7 @@ function AboutFond() {
               transition={{ duration: 0.3 }}
             >
               <MemberTopSection>
-                <MemberImage src={benefactor} alt="Анатолий Смирнов" />
+                <MemberImage src={smirnov} alt="Анатолий Смирнов" />
                 <MemberRightSection>
                   <MemberRole>ЮРИСТ</MemberRole>
                   <MemberName>
