@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { wordpressApi } from '../services/wordpressApi';
 import PartnerModal from './PartnerModal';
 import mainImage from '../images/EventsPage/events_main.png';
@@ -215,20 +215,103 @@ const FilterSidebar = styled.div`
   }
 
   @media (max-width: 768px) {
-    width: 90%;
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 1.5rem;
-    border-radius: 40px;
-  }
-
-  @media (max-width: 400px) {
-    width: 95%;
-    max-width: 350px;
-    padding: 1rem;
-    border-radius: 30px;
+    display: none;
   }
 `;
+
+// Мобильная версия фильтров
+const MobileFilterBar = styled.div`
+  display: none;
+  background: #f8f9fa;
+  background: linear-gradient(89.87deg, #D8D8D8 0%, #FFFFFF 50%, #D8D8D8 100%);
+
+  border-radius: 50px;
+  padding: 1rem 1.5rem;
+  margin: 2rem 0;
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 100;
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+`;
+
+const MobileMenuButton = styled.button`
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .hamburger-line {
+    width: 20px;
+    height: 2px;
+    background-color: #333;
+    transition: all 0.3s ease;
+  }
+
+  &.open .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  &.open .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  &.open .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+`;
+
+const MobileFilterMenu = styled(motion.div)`
+  position: relative;
+  background: transparent;
+  z-index: 1;
+  display: none;
+  margin-top: -9.2rem;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+
+const MobileFilterContent = styled.div`
+  background: radial-gradient(ellipse at center, #ffffff 0%, #d8d8d8 100%);
+  background: linear-gradient(89.87deg, #D8D8D8 0%, #FFFFFF 50%, #D8D8D8 100%);
+
+  border: none;
+  border-radius: 60px;
+  padding: 2rem;
+  padding-top: 6rem;
+  width: 50%;
+  max-height: 50vh;
+  overflow-y: auto;
+  position: relative;
+  z-index: -1;
+
+  @media (max-width: 480px) {
+    width: 100%;
+    max-height: 60vh;
+  }
+`;
+
+
+
+
 
 const ApplyButton = styled.button`
   background: linear-gradient(83.48deg, #312684 0%, #019CE5 100%);
@@ -319,14 +402,14 @@ const FilterButton = styled.button`
   padding: 0.0rem 1.0rem;
   border-radius: 25px;
   font-family: 'Futura PT', sans-serif;
-  font-size: 1.6rem;
-  font-weight: 500;
+  font-size: 1.4rem;
+  font-weight: 300;
   cursor: pointer;
   width: 100%;
   text-align: left;
   position: relative;
   transition: all 0.3s ease;
-  z-index: 15;
+  z-index: 25;
 
   &:hover {
     background: #333333;
@@ -357,8 +440,9 @@ const FilterCount = styled.span`
   font-size: 0.5rem;
   color: white;
   font-weight: bold;
-  z-index: 20;
+  z-index: 10;
   font-family: 'Futura PT', sans-serif;
+  pointer-events: none;
 
   @media (max-width: 768px) {
     font-size: 0.6rem;
@@ -658,8 +742,23 @@ const EventsPage = () => {
         audience: false
     });
 
+    const [mobileExpandedFilters, setMobileExpandedFilters] = useState({
+        theme: false,
+        foundation: true,
+        scale: false,
+        stage: false,
+        audience: false
+    });
+
     const toggleFilter = (filterName) => {
         setExpandedFilters(prev => ({
+            ...prev,
+            [filterName]: !prev[filterName]
+        }));
+    };
+
+    const toggleMobileFilter = (filterName) => {
+        setMobileExpandedFilters(prev => ({
             ...prev,
             [filterName]: !prev[filterName]
         }));
@@ -699,6 +798,7 @@ const EventsPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -876,9 +976,7 @@ const EventsPage = () => {
         return selectedFilters[category]?.length || 0;
     };
 
-    const getActiveFilterCount = (category) => {
-        return activeFilters[category]?.length || 0;
-    };
+
 
     const getFilterSymbol = (count) => {
         if (count === 0) return '';
@@ -1065,6 +1163,185 @@ const EventsPage = () => {
                             </FilterCategory>
                         </FilterSidebar>
 
+                        {/* Мобильная панель фильтров */}
+                        <MobileFilterBar>
+                            <MobileMenuButton
+                                className={isMobileMenuOpen ? 'open' : ''}
+                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            >
+                                <div className="hamburger-line"></div>
+                                <div className="hamburger-line"></div>
+                                <div className="hamburger-line"></div>
+                            </MobileMenuButton>
+                            <ApplyButton
+                                onClick={applyFilters}
+                                style={{
+                                    background: hasUnsavedChanges
+                                        ? 'linear-gradient(83.48deg, #ff6b6b 0%, #ee5a24 100%)'
+                                        : 'linear-gradient(83.48deg, #312684 0%, #019CE5 100%)',
+                                    width: '50%',
+                                    margin: 0,
+                                    padding: '0.8rem 2rem',
+                                    fontSize: '1.4rem'
+                                }}
+                            >
+                                {hasUnsavedChanges ? 'ПРИМЕНИТЬ*' : 'ПРИМЕНИТЬ'}
+                            </ApplyButton>
+                        </MobileFilterBar>
+
+                        {/* Мобильное выдвигающееся меню фильтров */}
+                        <AnimatePresence>
+                            {isMobileMenuOpen && (
+                                <MobileFilterMenu
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    <MobileFilterContent>
+                                        <FilterCategory>
+                                            <FilterButton onClick={() => toggleMobileFilter('theme')}>
+                                                Тематика
+                                                <FilterCount>{getFilterSymbol(getFilterCount('theme'))}</FilterCount>
+                                            </FilterButton>
+                                            {mobileExpandedFilters.theme && (
+                                                <SubFilters>
+                                                    <SubFilterButton
+                                                        selected={selectedFilters.theme.includes('science')}
+                                                        onClick={() => toggleSubFilter('theme', 'science')}
+                                                    >
+                                                        Наука
+                                                    </SubFilterButton>
+                                                    <SubFilterButton
+                                                        selected={selectedFilters.theme.includes('education')}
+                                                        onClick={() => toggleSubFilter('theme', 'education')}
+                                                    >
+                                                        Образование
+                                                    </SubFilterButton>
+                                                    <SubFilterButton
+                                                        selected={selectedFilters.theme.includes('technology')}
+                                                        onClick={() => toggleSubFilter('theme', 'technology')}
+                                                    >
+                                                        Технологии
+                                                    </SubFilterButton>
+                                                </SubFilters>
+                                            )}
+                                        </FilterCategory>
+
+                                        <FilterCategory>
+                                            <FilterButton onClick={() => toggleMobileFilter('foundation')}>
+                                                Участие Фонда
+                                                <FilterCount>{getFilterSymbol(getFilterCount('foundation'))}</FilterCount>
+                                            </FilterButton>
+                                            {mobileExpandedFilters.foundation && (
+                                                <SubFilters>
+                                                    <SubFilterButton
+                                                        selected={selectedFilters.foundation.includes('coordination')}
+                                                        onClick={() => toggleSubFilter('foundation', 'coordination')}
+                                                    >
+                                                        Координация / партнерство
+                                                    </SubFilterButton>
+                                                    <SubFilterButton
+                                                        selected={selectedFilters.foundation.includes('technical')}
+                                                        onClick={() => toggleSubFilter('foundation', 'technical')}
+                                                    >
+                                                        Научно-техническое сопровождение
+                                                    </SubFilterButton>
+                                                </SubFilters>
+                                            )}
+                                        </FilterCategory>
+
+                                        <FilterCategory>
+                                            <FilterButton onClick={() => toggleMobileFilter('scale')}>
+                                                Масштаб
+                                                <FilterCount>{getFilterSymbol(getFilterCount('scale'))}</FilterCount>
+                                            </FilterButton>
+                                            {mobileExpandedFilters.scale && (
+                                                <SubFilters>
+                                                    <SubFilterButton
+                                                        selected={selectedFilters.scale.includes('local')}
+                                                        onClick={() => toggleSubFilter('scale', 'local')}
+                                                    >
+                                                        Локальный
+                                                    </SubFilterButton>
+                                                    <SubFilterButton
+                                                        selected={selectedFilters.scale.includes('regional')}
+                                                        onClick={() => toggleSubFilter('scale', 'regional')}
+                                                    >
+                                                        Региональный
+                                                    </SubFilterButton>
+                                                    <SubFilterButton
+                                                        selected={selectedFilters.scale.includes('national')}
+                                                        onClick={() => toggleSubFilter('scale', 'national')}
+                                                    >
+                                                        Национальный
+                                                    </SubFilterButton>
+                                                </SubFilters>
+                                            )}
+                                        </FilterCategory>
+
+                                        <FilterCategory>
+                                            <FilterButton onClick={() => toggleMobileFilter('stage')}>
+                                                Стадия проекта
+                                                <FilterCount>{getFilterSymbol(getFilterCount('stage'))}</FilterCount>
+                                            </FilterButton>
+                                            {mobileExpandedFilters.stage && (
+                                                <SubFilters>
+                                                    <SubFilterButton
+                                                        selected={selectedFilters.stage.includes('planning')}
+                                                        onClick={() => toggleSubFilter('stage', 'planning')}
+                                                    >
+                                                        Планирование
+                                                    </SubFilterButton>
+                                                    <SubFilterButton
+                                                        selected={selectedFilters.stage.includes('development')}
+                                                        onClick={() => toggleSubFilter('stage', 'development')}
+                                                    >
+                                                        Разработка
+                                                    </SubFilterButton>
+                                                    <SubFilterButton
+                                                        selected={selectedFilters.stage.includes('implementation')}
+                                                        onClick={() => toggleSubFilter('stage', 'implementation')}
+                                                    >
+                                                        Реализация
+                                                    </SubFilterButton>
+                                                </SubFilters>
+                                            )}
+                                        </FilterCategory>
+
+                                        <FilterCategory>
+                                            <FilterButton onClick={() => toggleMobileFilter('audience')}>
+                                                Аудитория
+                                                <FilterCount>{getFilterSymbol(getFilterCount('audience'))}</FilterCount>
+                                            </FilterButton>
+                                            {mobileExpandedFilters.audience && (
+                                                <SubFilters>
+                                                    <SubFilterButton
+                                                        selected={selectedFilters.audience.includes('students')}
+                                                        onClick={() => toggleSubFilter('audience', 'students')}
+                                                    >
+                                                        Студенты
+                                                    </SubFilterButton>
+                                                    <SubFilterButton
+                                                        selected={selectedFilters.audience.includes('professionals')}
+                                                        onClick={() => toggleSubFilter('audience', 'professionals')}
+                                                    >
+                                                        Профессионалы
+                                                    </SubFilterButton>
+                                                    <SubFilterButton
+                                                        selected={selectedFilters.audience.includes('general')}
+                                                        onClick={() => toggleSubFilter('audience', 'general')}
+                                                    >
+                                                        Широкая аудитория
+                                                    </SubFilterButton>
+                                                </SubFilters>
+                                            )}
+                                        </FilterCategory>
+                                    </MobileFilterContent>
+                                </MobileFilterMenu>
+                            )}
+                        </AnimatePresence>
+
                         <EventsGrid>
                             {loading ? (
                                 <div style={{
@@ -1128,6 +1405,8 @@ const EventsPage = () => {
                     </ContentGrid>
                 </Container>
             </ContentSection>
+
+
 
             <PartnerModal
                 isOpen={isPartnerModalOpen}

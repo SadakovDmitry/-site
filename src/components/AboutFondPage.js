@@ -1,12 +1,15 @@
 import Mission from "./AboutFond-components/Mission";
 import Director from "./AboutFond-components/Director";
-import Section from "./AboutFond-components/Pattern";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
+import voenmeh from "../images/AboutFondPage/военммех.png";
+import nauchnyePribory from "../images/AboutFondPage/научные_приборы.png";
+import federatsiyaKosmonavtiki from "../images/AboutFondPage/федерация_космонавтики.png";
+import logoVoenmeh from "../images/AboutFondPage/лого_военмех.png";
+import logoNauchnyePribory from "../images/AboutFondPage/лого_научные_приборы.png";
+
 import benefactor from "../images/AboutFondPage/people/benefactor.png";
-import astrotech from "../images/AboutFondPage/buildings/astrotech.png";
-import roscosmos from "../images/AboutFondPage/buildings/roscosmos.png";
 
 // Импорт иконок для стратегических направлений
 import atomIcon from "../images/AboutFondPage/icons/chrome-atom-molecule-icon-white-background-3d-rendering_476612-2231.png";
@@ -20,69 +23,11 @@ import infographik from "../images/AboutFondPage/infographik.svg";
 
 
 // TODO: перенести в файл с константами
-const constitutiveData = [
-  {
-    h2: "Частный благотворитель",
-    h1: "Петр небесный",
-    desc: "Активный сторонник космических исследований",
-    quote:
-      "Каждый шаг вперёд в науке — это шаг к пониманию нашего будущего. Поддержка таких инициатив для меня — способ быть частью общего пути.",
-    text: "Человек, которая поддерживает проекты, способные вдохновлять и объединять людей. Его внимание сосредоточено на инициативах, несущих новые смыслы и открывающих перспективы. Для фонда он олицетворяет ценность индивидуального вклада в общее дело.",
-    img: benefactor,
-  },
 
-  {
-    h2: "Частный благотворитель",
-    h1: "Петр небесный",
-    desc: "Активный сторонник космических исследований",
-    quote:
-      "Каждый шаг вперёд в науке — это шаг к пониманию нашего будущего. Поддержка таких инициатив для меня — способ быть частью общего пути.",
-    text: "Человек, которая поддерживает проекты, способные вдохновлять и объединять людей. Его внимание сосредоточено на инициативах, несущих новые смыслы и открывающих перспективы. Для фонда он олицетворяет ценность индивидуального вклада в общее дело.",
-    img: benefactor,
-  },
-];
 
-const trusteesData = [
-  {
-    h2: "Частный благотворитель",
-    h1: "Петр небесный",
-    desc: "Активный сторонник космических исследований",
-    quote:
-      "Каждый шаг вперёд в науке — это шаг к пониманию нашего будущего. Поддержка таких инициатив для меня — способ быть частью общего пути.",
-    text: "Человек, которая поддерживает проекты, способные вдохновлять и объединять людей. Его внимание сосредоточено на инициативах, несущих новые смыслы и открывающих перспективы. Для фонда он олицетворяет ценность индивидуального вклада в общее дело.",
-    img: benefactor,
-  },
 
-  {
-    h2: "Частный благотворитель",
-    h1: "Петр небесный",
-    desc: "Активный сторонник космических исследований",
-    quote:
-      "Каждый шаг вперёд в науке — это шаг к пониманию нашего будущего. Поддержка таких инициатив для меня — способ быть частью общего пути.",
-    text: "Человек, которая поддерживает проекты, способные вдохновлять и объединять людей. Его внимание сосредоточено на инициативах, несущих новые смыслы и открывающих перспективы. Для фонда он олицетворяет ценность индивидуального вклада в общее дело.",
-    img: benefactor,
-  },
-];
 
-const directorateData = [
-  {
-    h2: "Технологическая компания",
-    h1: "AstroTech",
-    quote:
-      "Мы верим, что самые большие открытия рождаются там, где встречаются идеи, технологии и смелость мечтать. Именно поэтому для нас важно сотрудничество с фондом",
-    text: "Современная организация, ориентированная на движение вперёд и поиск новых возможностей. Компания связывает в себе стремление к инновациям и желание быть частью больших перемен. Для фонда она выступает примером партнёра, готового к совместным шагам в будущее.",
-    img: astrotech,
-  },
 
-  {
-    h2: "Космическое агентство",
-    h1: "Роскосмос",
-    quote:
-      "Когда усилия разных организаций объединяются, открываются новые горизонты. Наше партнёрство с фондом — это вклад в движение вперёд, к целям, которые выходят за пределы сегодняшнего дня.",
-    text: "Структура, с которой фонд объединяет усилия ради достижения масштабных целей. Агентство отражает дух сотрудничества и стремление к новым горизонтам. Его участие подчёркивает важность синергии науки, общества и будущего",
-    img: roscosmos,
-  },
-];
 
 // Стили для блока "История и статус"
 const HistoryStatusSection = styled.section`
@@ -151,6 +96,10 @@ const HistoryText = styled.div`
     margin-bottom: 1.5rem;
     color: #000;
     text-transform: uppercase;
+
+    @media (max-width: 768px) {
+      text-align: center;
+    }
   }
 
   p {
@@ -159,6 +108,222 @@ const HistoryText = styled.div`
     line-height: 1.1rem;
     color: #000;
   }
+`;
+
+const FoundersSection = styled.section`
+  text-align: center;
+  padding: 4rem 0;
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+`;
+
+const FoundersTitle = styled.h2`
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  color: #000000;
+  text-transform: uppercase;
+  text-align: left;
+  margin: 0 0 3rem 9vw;
+  letter-spacing: 0.05em;
+
+  @media (max-width: 768px) {
+    text-align: center;
+    margin: 0 0 3rem 2rem;
+  }
+
+  @media (max-width: 480px) {
+    text-align: center;
+    margin: 0 0 3rem 1rem;
+  }
+`;
+
+const FoundersGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+  margin: 0 9vw;
+  padding: 0 0rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+`;
+
+const FounderCard = styled(motion.div)`
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid #e9ecef;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+  }
+`;
+
+const FounderImageContainer = styled.div`
+  position: relative;
+  width: 100%;
+  min-width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    min-width: 100px;
+  }
+`;
+
+const FounderImage = styled.img`
+  width: 100%;
+  height: 25vw;
+  object-fit: cover;
+  border-radius: 15px;
+
+  @media (max-width: 768px) {
+    height: 45vw;
+  }
+
+  @media (max-width: 480px) {
+    height: 45vw;
+  }
+`;
+
+const FounderLogo = styled.img`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: auto;
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+`;
+
+const FounderText = styled.p`
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  font-weight: 500;
+  color: #333;
+  text-align: left;
+  line-height: 1.4;
+  margin: 0;
+`;
+
+// Стили для секции "ЧЛЕНЫ ПРАВЛЕНИЯ"
+const BoardMembersSection = styled.section`
+  text-align: center;
+  padding: 4rem 0;
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+`;
+
+const BoardMembersTitle = styled.h2`
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  color: #000000;
+  text-transform: uppercase;
+  text-align: left;
+  margin: 0 0 3rem 9vw;
+  letter-spacing: 0.05em;
+
+  @media (max-width: 768px) {
+    text-align: center;
+    margin: 0 0 3rem 2rem;
+  }
+
+  @media (max-width: 480px) {
+    text-align: center;
+    margin: 0 0 3rem 1rem;
+  }
+`;
+
+const BoardMembersGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+  max-width: 1400px;
+  margin: 0 9vw;
+  padding: 0 0rem;
+`;
+
+const BoardMemberCard = styled(motion.div)`
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid #e9ecef;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
+
+const MemberImage = styled.img`
+  width: 40%;
+  height: 20vw;
+  object-fit: cover;
+  border-radius: 15px;
+  flex-shrink: 0;
+
+
+`;
+
+const MemberTopSection = styled.div`
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+`;
+
+const MemberRightSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+`;
+
+
+
+const MemberRole = styled.h3`
+  font-family: 'Futura PT', sans-serif;
+  font-size: clamp(0.4rem, 1.1vw, 1rem);
+  font-weight: 600;
+  color: #333;
+  text-align: left;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1.3;
+`;
+
+const MemberName = styled.h4`
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(0.5rem, 2.1vw, 10.2rem);
+  font-weight: 400;
+  color: #000;
+  text-align: left;
+  margin: 0;
+  line-height: 1.0;
+  align-self: flex-start;
+`;
+
+const MemberDescription = styled.p`
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(0.4rem, 1.8vw, 20.9rem);
+  font-weight: 400;
+  color: #666;
+  text-align: left;
+  line-height: 1.2;
+  margin: 0;
 `;
 
 const StrategicDirectionsSection = styled.section`
@@ -308,6 +473,7 @@ const SectionTitle = styled.h2`
   padding-right: 9.4vw;
 
   @media (max-width: 768px) {
+    text-align: center;
     margin-bottom: 2rem;
     padding-left: 5vw;
     padding-right: 5vw;
@@ -319,15 +485,184 @@ function AboutFond() {
     <>
       <Mission></Mission>
       <Director></Director>
-      <Section title={"Учредители"} blocks={constitutiveData}></Section>
-      <Section
-        title={"Попечительский совет"}
-        blocks={trusteesData}
-      ></Section>
-      <Section
-        title={"Правление"}
-        blocks={directorateData}
-      ></Section>
+
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+      >
+        <FoundersSection>
+          <FoundersTitle>УЧРЕДИТЕЛИ ФОНДА</FoundersTitle>
+          <FoundersGrid>
+            <FounderCard
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <FounderImageContainer>
+                <FounderImage src={federatsiyaKosmonavtiki} alt="Федерация космонавтики России" />
+              </FounderImageContainer>
+              <FounderText>
+                САНКТ-ПЕТЕРБУРГСКАЯ РЕГИОНАЛЬНАЯ ОРГАНИЗАЦИЯ ОБЩЕРОССИЙСКОЙ ОБЩЕСТВЕННОЙ ОРГАНИЗАЦИИ «ФЕДЕРАЦИЯ КОСМОНАВТИКИ РОССИИ»
+              </FounderText>
+            </FounderCard>
+
+            <FounderCard
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <FounderImageContainer>
+                <FounderImage src={nauchnyePribory} alt="Научные приборы" />
+                <FounderLogo src={logoNauchnyePribory} alt="Логотип Научные приборы" />
+              </FounderImageContainer>
+              <FounderText>
+                АО НАУЧНЫЕ ПРИБОРЫ
+              </FounderText>
+            </FounderCard>
+
+            <FounderCard
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <FounderImageContainer>
+                <FounderImage src={voenmeh} alt="БГТУ ВОЕНМЕХ" />
+                <FounderLogo src={logoVoenmeh} alt="Логотип ВОЕНМЕХ" />
+              </FounderImageContainer>
+              <FounderText>
+                БГТУ «ВОЕНМЕХ» ИМ. Д.Ф. УСТИНОВА
+              </FounderText>
+            </FounderCard>
+          </FoundersGrid>
+        </FoundersSection>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+      >
+        <BoardMembersSection>
+          <BoardMembersTitle>ЧЛЕНЫ ПРАВЛЕНИЯ</BoardMembersTitle>
+          <BoardMembersGrid>
+            <BoardMemberCard
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <MemberTopSection>
+                <MemberImage src={benefactor} alt="Антон Шкаплеров" />
+                <MemberRightSection>
+                  <MemberRole>КОСМОНАВТ</MemberRole>
+                  <MemberName>
+                    ШКАПЛЕРОВ<br />
+                    Антон<br />
+                    Николаевич
+                  </MemberName>
+                </MemberRightSection>
+              </MemberTopSection>
+              <MemberDescription>
+                Герой Российской Федерации<br />
+                с четырьмя космическими<br />
+                полетами за плечами
+              </MemberDescription>
+            </BoardMemberCard>
+
+            <BoardMemberCard
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <MemberTopSection>
+                <MemberImage src={benefactor} alt="Олег Мухин" />
+                <MemberRightSection>
+                  <MemberRole>
+                    ПЕРВЫЙ<br />
+                    ВИЦЕ-ПРЕЗИДЕНТ
+                  </MemberRole>
+                  <MemberName>
+                    МУХИН<br />
+                    Олег<br />
+                    Петрович
+                  </MemberName>
+                </MemberRightSection>
+              </MemberTopSection>
+              <MemberDescription>
+                Санкт-Петербургская региональная<br />
+                организация Общероссийской<br />
+                общественной организации<br />
+                «Федерация космонавтики России»
+              </MemberDescription>
+            </BoardMemberCard>
+
+            <BoardMemberCard
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <MemberTopSection>
+                <MemberImage src={benefactor} alt="Олег Смоктий" />
+                <MemberRightSection>
+                  <MemberRole>ПРОФЕССОР</MemberRole>
+                  <MemberName>
+                    СМОКТИЙ<br />
+                    Олег<br />
+                    Иванович
+                  </MemberName>
+                </MemberRightSection>
+              </MemberTopSection>
+              <MemberDescription>
+                Доктор физико-математических наук,<br />
+                профессор. Заслуженный деятель<br />
+                науки Российской Федерации.
+              </MemberDescription>
+            </BoardMemberCard>
+
+            <BoardMemberCard
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <MemberTopSection>
+                <MemberImage src={benefactor} alt="Анатолий Смирнов" />
+                <MemberRightSection>
+                  <MemberRole>ЮРИСТ</MemberRole>
+                  <MemberName>
+                    СМИРНОВ<br />
+                    Анатолий<br />
+                    Александрович
+                  </MemberName>
+                </MemberRightSection>
+              </MemberTopSection>
+              <MemberDescription>
+                Заслуженный юрист<br />
+                Российской Федерации<br />
+                Кандидат экономических наук
+              </MemberDescription>
+            </BoardMemberCard>
+
+            <BoardMemberCard
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <MemberTopSection>
+                <MemberImage src={benefactor} alt="Рустав Нугманов" />
+                <MemberRightSection>
+                  <MemberRole>
+                    ДИРЕКТОР<br />
+                    И ПРЕДСЕДАТЕЛЬ
+                  </MemberRole>
+                  <MemberName>
+                    НУГМАНОВ<br />
+                    Рустав<br />
+                    Ренатович
+                  </MemberName>
+                </MemberRightSection>
+              </MemberTopSection>
+              <MemberDescription>
+                Председатель правления Фонда<br />
+                сохранения исторического<br />
+                культурного наследия<br />
+                Член Федерации космонавтики России
+              </MemberDescription>
+            </BoardMemberCard>
+          </BoardMembersGrid>
+        </BoardMembersSection>
+      </motion.div>
 
 
 
