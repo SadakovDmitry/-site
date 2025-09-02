@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { wordpressApi } from '../services/wordpressApi';
+import { useVideoPreloader } from '../hooks/useVideoPreloader';
+import OptimizedVideo from './OptimizedVideo';
 import mainVideo from '../ФСРК видео/abstract-news-background-v3-2025-08-29-09-52-49-utc (video-converter.com).mp4';
 import mainImage from '../images/NewsPage/main_image.png';
 import astronautImage from '../images/NewsPage/austronaut.png';
@@ -359,6 +361,10 @@ const RightFade = styled.div`
 const NewsPage = () => {
   const [inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const carouselRef = useRef(null);
+
+  // Хук для предзагрузки видео
+  const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('news');
+
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -513,15 +519,14 @@ const NewsPage = () => {
   return (
     <PageContainer>
       <HeroBanner>
-        <BannerVideo
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-        >
-          <source src={mainVideo} type="video/mp4" />
-        </BannerVideo>
+        <OptimizedVideo
+          videoSrc={mainVideo}
+          placeholderImage={mainImage}
+          videoLoaded={videoLoaded}
+          imageLoaded={imageLoaded}
+          showVideo={showVideo}
+          onVideoLoad={() => { }}
+        />
         <Overlay>
           <HeroTitle
             initial={{ opacity: 0, y: 30 }}

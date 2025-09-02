@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { wordpressApi } from '../services/wordpressApi';
 import PartnerModal from './PartnerModal';
+import { useVideoPreloader } from '../hooks/useVideoPreloader';
+import OptimizedVideo from './OptimizedVideo';
 import mainVideo from '../ФСРК видео/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc_1.mp4';
 import mainImage from '../images/EventsPage/events_main.png';
 import lecturerImage from '../images/EventsPage/lecturer_for_wide_room.png';
@@ -740,6 +742,10 @@ const DetailsButton = styled.button`
 
 const EventsPage = () => {
     const navigate = useNavigate();
+
+    // Хук для предзагрузки видео
+    const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('events');
+
     const [selectedFilters, setSelectedFilters] = useState({
         theme: ['science', 'education', 'technology'],
         foundation: ['coordination', 'technical'],
@@ -1025,15 +1031,14 @@ const EventsPage = () => {
     return (
         <PageContainer>
             <HeroSection>
-                <BannerVideo
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                >
-                    <source src={mainVideo} type="video/mp4" />
-                </BannerVideo>
+                <OptimizedVideo
+                    videoSrc={mainVideo}
+                    placeholderImage={mainImage}
+                    videoLoaded={videoLoaded}
+                    imageLoaded={imageLoaded}
+                    showVideo={showVideo}
+                    onVideoLoad={() => { }}
+                />
                 <Overlay>
                     <HeroTitle>СОБЫТИЯ</HeroTitle>
                 </Overlay>

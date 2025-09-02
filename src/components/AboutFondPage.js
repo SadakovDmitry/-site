@@ -2,6 +2,8 @@ import Mission from "./AboutFond-components/Mission";
 import Director from "./AboutFond-components/Director";
 import { motion } from "framer-motion";
 import styled from "styled-components";
+import { useVideoPreloader } from '../hooks/useVideoPreloader';
+import OptimizedVideo from './OptimizedVideo';
 
 import voenmeh from "../images/AboutFondPage/военммех.png";
 import nauchnyePribory from "../images/AboutFondPage/научные_приборы.png";
@@ -573,6 +575,9 @@ const SectionTitle = styled.h2`
 `;
 
 function AboutFond() {
+  // Хук для предзагрузки видео
+  const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('fond');
+
   return (
     <>
       <Mission></Mission>

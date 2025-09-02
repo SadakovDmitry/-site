@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useVideoPreloader } from '../hooks/useVideoPreloader';
+import OptimizedVideo from './OptimizedVideo';
 import videoContact from '../ФСРК видео/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc.mp4';
+import mainImage from '../images/ContactPage/video_contact.png';
 import phoneIcon from '../images/ContactPage/phone.svg';
 import emailIcon from '../images/ContactPage/e-mail.svg';
 import clockIcon from '../images/ContactPage/clock.svg';
@@ -536,6 +539,10 @@ const SocialIcon = styled(motion.div)`
 
 const ContactPage = () => {
     const [inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+
+    // Хук для предзагрузки видео
+    const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('contact');
+
     const [formData, setFormData] = useState({
         name: '',
         organization: '',
@@ -576,15 +583,14 @@ const ContactPage = () => {
     return (
         <PageContainer>
             <HeroBanner>
-                <BannerVideo
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                >
-                    <source src={videoContact} type="video/mp4" />
-                </BannerVideo>
+                <OptimizedVideo
+                    videoSrc={videoContact}
+                    placeholderImage={mainImage}
+                    videoLoaded={videoLoaded}
+                    imageLoaded={imageLoaded}
+                    showVideo={showVideo}
+                    onVideoLoad={() => { }}
+                />
                 <Overlay>
                     <HeroTitle
                         initial={{ opacity: 0, y: 30 }}

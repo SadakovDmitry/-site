@@ -1,4 +1,7 @@
 import mainVideo from '../../ФСРК видео/rocket-launch-2025-08-29-11-13-57-utc.mp4';
+import { useVideoPreloader } from '../../hooks/useVideoPreloader';
+import OptimizedVideo from '../OptimizedVideo';
+import aboutFondImage from '../../images/AboutFondPage/pre_load_photo_about.png';
 
 function Block({ h2, p }) {
   return (
@@ -10,26 +13,19 @@ function Block({ h2, p }) {
 }
 
 function Mission() {
+  // Хук для предзагрузки видео
+  const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('fond');
+
   return (
     <div className="Mission">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          zIndex: 1
-        }}
-      >
-        <source src={mainVideo} type="video/mp4" />
-      </video>
+      <OptimizedVideo
+        videoSrc={mainVideo}
+        placeholderImage={aboutFondImage}
+        videoLoaded={videoLoaded}
+        imageLoaded={imageLoaded}
+        showVideo={showVideo}
+        onVideoLoad={() => { }}
+      />
       <div
         style={{
           position: 'absolute',

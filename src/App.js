@@ -11,6 +11,7 @@ import TestPage from './components/TestPage';
 import EventDetailPage from './components/EventDetailPage';
 import ProjectsPage from './components/ProjectsPage';
 import ScrollToTop from './components/ScrollToTop';
+import VideoPreloader from './components/VideoPreloader';
 // Local font files (Proxima Nova)
 import ProximaRegular from './Proxima Nova/proximanova_regular.ttf';
 import ProximaSemibold from './Proxima Nova/proximanova_bold.otf';
@@ -81,6 +82,7 @@ function App() {
     <Router>
       <AppContainer>
         <GlobalStyles />
+        <VideoPreloader />
         <ScrollToTop />
         <Header />
         <Routes>
