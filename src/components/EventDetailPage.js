@@ -601,7 +601,7 @@ const EventDetailPage = () => {
     <PageContainer>
 
       <HeroSection>
-        <BannerImage src={mainImage} alt={event.title} />
+        <BannerImage src={event.gallery && event.gallery.length > 0 ? event.gallery[0].image : mainImage} alt={event.title} />
         <Overlay>
           <motion.div
             initial={{ opacity: 0, y: 50 }}

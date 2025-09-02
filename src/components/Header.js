@@ -36,6 +36,10 @@ const Brand = styled.div`
     @media (max-width: 900px) {
       height: clamp(50px, 8vw, 80px);
     }
+
+    @media (max-width: 390px) {
+      height: clamp(40px, 6vw, 60px);
+    }
   }
 `;
 
@@ -59,7 +63,7 @@ const NavLink = styled(Link)`
   flex: 0 1 auto;
   text-align: center;
   background: transparent;
-  color: #5b5b5b;
+  color: #000000;
   border-radius: 9999px;
   padding: clamp(0px, 0.5vw, 12px) clamp(1px, 0.5vw, 18px);
   text-decoration: none;
@@ -74,7 +78,7 @@ const NavLink = styled(Link)`
 const PrimaryButton = styled(motion.a)`
   text-align: center;
   padding: clamp(8px, .9vw, 12px) clamp(16px, 1.4vw, 22px); border-radius: 9999px; min-width: clamp(120px, 12vw, 180px);
-  background: linear-gradient(180deg, #1aa0ff 0%, #1161b7 100%);
+  background: linear-gradient(83.48deg, #312684 0%, #019CE5 100%);
   color: #fff; font-weight: 700; text-decoration: none; font-size: clamp(12px, 1.05vw, 16px);
   box-shadow: 0 6px 14px rgba(0, 136, 255, 0.45);
   white-space: nowrap;
@@ -87,17 +91,218 @@ const MobileMenuButton = styled.button`
   color: #fff;
   font-size: 1.6rem;
   cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
 
   @media (max-width: 900px){
     display: block;
-    font-size: 2.5rem;
+    font-size: 2rem;
+  }
+`;
+
+const CurrentPageTitle = styled.div`
+  display: none;
+  color: #fff;
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+
+  @media (max-width: 900px){
+    display: block;
+  }
+`;
+
+const MobileDropdownMenu = styled(motion.div)`
+  position: absolute;
+  top: 100%;
+  // left: 9vw;
+  left: 3rem;
+  // transform: translateX(-20%);
+  background: linear-gradient(180deg, #f2f2f2, #dcdcdc);
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 30px;
+  padding: clamp(8px, 1vw, 12px);
+  min-width: clamp(140px, 20vw, 180px);
+  z-index: 2000;
+  box-shadow: 0 6px 18px rgba(0,0,0,.25) inset, 0 8px 24px rgba(0,0,0,.2);
+  margin-top: 4px;
+
+  @media (max-width: 480px){
+    left: 2rem;
+    padding: clamp(6px, 0.8vw, 10px);
+    min-width: clamp(120px, 18vw, 150px);
+    border-radius: 20px;
+  }
+
+  @media (max-width: 390px){
+    left: 1.5rem;
+    padding: clamp(4px, 0.6vw, 8px);
+    min-width: clamp(100px, 16vw, 130px);
+    border-radius: 15px;
+  }
+`;
+
+const MobileDropdownLink = styled(Link)`
+  display: block;
+  padding: clamp(1px, 0.4vw, 12px) clamp(1px, 0.5vw, 16px);
+  color: #000000;
+  text-decoration: none;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  font-size: clamp(16px, 1.5vw, 20px);
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+  text-align: center;
+
+  &:hover {
+    background-color: rgba(0,0,0,0.05);
+    color: #1aa0ff;
+  }
+
+  @media (max-width: 480px) {
+    padding: clamp(1px, 0.3vw, 8px) clamp(1px, 0.4vw, 12px);
+    font-size: clamp(14px, 1.2vw, 16px);
+    border-radius: 4px;
+  }
+
+  @media (max-width: 390px) {
+    padding: clamp(1px, 0.2vw, 6px) clamp(1px, 0.3vw, 10px);
+    font-size: clamp(12px, 1vw, 14px);
+    border-radius: 3px;
   }
 `;
 
 const MobileRow = styled.div`
-  display: none; align-items: center; justify-content: space-between; gap: 0.5rem;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
   width: 100%;
   @media (max-width: 900px){ display: flex; }
+`;
+
+const MobileCapsule = styled.div`
+  display: none;
+  align-items: center;
+  gap: clamp(0px, 2vw, 24px);
+  // gap: 0px;
+  padding: clamp(8px, 1.5vw, 12px);
+  padding-top: 0vw;
+  padding-bottom: 0vw;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #f2f2f2, #dcdcdc);
+  border: 1px solid rgba(0,0,0,0.15);
+  box-shadow: 0 6px 18px rgba(0,0,0,.25) inset, 0 8px 24px rgba(0,0,0,.2);
+  max-width: 100%;
+  min-width: 0;
+  overflow: visible;
+  flex: 0 0 auto;
+  position: relative;
+  @media (max-width: 900px){ display: flex; }
+
+  @media (max-width: 480px) {
+    gap: clamp(0px, 1.5vw, 16px);
+    padding: clamp(6px, 1vw, 8px);
+    padding-top: 0vw;
+    padding-bottom: 0vw;
+  }
+
+  @media (max-width: 390px) {
+    gap: clamp(0px, 1vw, 12px);
+    padding: clamp(4px, 0.8vw, 6px);
+    padding-top: 0vw;
+    padding-bottom: 0vw;
+  }
+`;
+
+const MobileNavButton = styled.button`
+  background: none;
+  border: none;
+  color: #000000;
+  font-size: 2.8rem;
+  cursor: pointer;
+  padding: clamp(8px, 1vw, 16px);
+  padding-top: 0vw;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: rgba(0,0,0,0.1);
+  }
+
+  @media (max-width: 480px) {
+    font-size: 2.2rem;
+    padding: clamp(6px, 0.8vw, 12px);
+    padding-top: 0vw;
+    padding-bottom: 0.5vw;
+  }
+
+  @media (max-width: 390px) {
+    font-size: 1.8rem;
+    padding: clamp(4px, 0.6vw, 8px);
+    padding-top: 0vw;
+    padding-bottom: 0.3vw;
+  }
+`;
+
+const MobilePageTitle = styled.span`
+  color: #000000;
+  font-weight: 400;
+  font-family: 'Raleway', sans-serif;
+  letter-spacing: 0.02em;
+  font-size: clamp(16px, 1.5vw, 20px);
+  white-space: nowrap;
+  flex: 1;
+  text-align: center;
+  margin-right: clamp(0px, 3vw, 32px);
+
+  @media (max-width: 480px) {
+    font-size: clamp(14px, 1.2vw, 16px);
+    margin-right: clamp(0px, 2vw, 20px);
+  }
+
+  @media (max-width: 390px) {
+    font-size: clamp(12px, 1vw, 14px);
+    margin-right: clamp(0px, 1.5vw, 16px);
+  }
+`;
+
+const MobilePrimaryButton = styled(motion.button)`
+  text-align: center;
+  padding: clamp(12px, 1.2vw, 18px) clamp(20px, 1.8vw, 28px);
+  border-radius: 9999px;
+  min-width: clamp(120px, 12vw, 160px);
+  background: linear-gradient(83.48deg, #312684 0%, #019CE5 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: clamp(14px, 1.3vw, 18px);
+  box-shadow: 0 6px 14px rgba(0, 136, 255, 0.45);
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+
+  @media (max-width: 480px) {
+    padding: clamp(8px, 0.9vw, 12px) clamp(14px, 1.3vw, 20px);
+    min-width: clamp(90px, 10vw, 120px);
+    font-size: clamp(12px, 1vw, 14px);
+  }
+
+  @media (max-width: 390px) {
+    padding: clamp(6px, 0.7vw, 10px) clamp(10px, 1vw, 16px);
+    min-width: clamp(70px, 8vw, 100px);
+    font-size: clamp(10px, 0.8vw, 12px);
+  }
 `;
 
 const DesktopRow = styled.div`
@@ -106,43 +311,6 @@ const DesktopRow = styled.div`
   justify-content: space-between;
   width: 100%;
   @media (max-width: 900px){ display: none; }
-`;
-
-const MobileMenu = styled(motion.div)`
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.8);
-  z-index: 3000;
-  backdrop-filter: blur(10px);
-  display: none;
-  @media (max-width: 900px){ display: flex; }
-  flex-direction: column; justify-content: flex-start; align-items: center; gap: 0.75rem;
-  padding: calc(env(safe-area-inset-top, 0px) + 80px) 1rem 1rem; /* чтобы не обрезалось под фикс‑хедером */
-`;
-
-const MobileList = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 10px;
-  padding: 20px;
-  padding-top: 0;
-  align-items: center;
-`;
-
-const MobileNavLink = styled(Link)`
-  display: block;
-  width: 60%;
-  text-align: center;
-  padding: clamp(8px, 2vw, 16px) clamp(12px, 3vw, 24px);
-  border-radius: 9999px;
-  background: #1c1f27;
-  color: #dbe7ff;
-  text-decoration: none;
-  font-family: 'Raleway', sans-serif;
-  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-  border: 1px solid rgba(255,255,255,0.1);
-  margin: 0 auto;
 `;
 
 const Header = () => {
@@ -171,10 +339,44 @@ const Header = () => {
     setOpen(false);
   };
 
+  // Определяем текущую страницу
   const isHomePage = location.pathname === '/';
   const isNewsPage = location.pathname === '/news';
   const isContactPage = location.pathname === '/contact';
   const isEventsPage = location.pathname === '/events';
+
+  const getCurrentPageTitle = () => {
+    switch (location.pathname) {
+      case '/':
+        return '/ ГЛАВНАЯ';
+      case '/fond':
+        return '/ О ФОНДЕ';
+      case '/events':
+        return '/ СОБЫТИЯ';
+      case '/news':
+        return '/ НОВОСТИ';
+      case '/contact':
+        return '/ КОНТАКТЫ';
+      case '/projects':
+        return '/ ПРОЕКТЫ';
+      default:
+        return '/ ГЛАВНАЯ';
+    }
+  };
+
+  const getMobileMenuLinks = () => {
+    const allLinks = [
+      { to: '/', title: '/ ГЛАВНАЯ' },
+      { to: '/fond', title: '/ О ФОНДЕ' },
+      { to: '/events', title: '/ СОБЫТИЯ' },
+      { to: '/news', title: '/ НОВОСТИ' },
+      { to: '/contact', title: '/ КОНТАКТЫ' },
+      { to: '/projects', title: '/ ПРОЕКТЫ' }
+    ];
+
+    // Исключаем текущую страницу
+    return allLinks.filter(link => link.to !== location.pathname);
+  };
 
   const Items = (
     <Capsule>
@@ -243,66 +445,35 @@ const Header = () => {
           <Brand>
             <img src={isMobile ? MobileLogo : MainLogo} alt="Логотип" />
           </Brand>
-          <MobileMenuButton onClick={() => setOpen(!open)}>☰</MobileMenuButton>
+          <MobileCapsule>
+            <MobileNavButton onClick={() => setOpen(!open)}>☰</MobileNavButton>
+            <MobilePageTitle>{getCurrentPageTitle()}</MobilePageTitle>
+            <MobilePrimaryButton onClick={() => alert("Спасибо за поддержку!")}>
+              ПОДДЕРЖАТЬ
+            </MobilePrimaryButton>
+            <AnimatePresence>
+              {open && (
+                <MobileDropdownMenu
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {getMobileMenuLinks().map((link) => (
+                    <MobileDropdownLink
+                      key={link.to}
+                      to={link.to}
+                      onClick={closeMobileMenu}
+                    >
+                      {link.title}
+                    </MobileDropdownLink>
+                  ))}
+                </MobileDropdownMenu>
+              )}
+            </AnimatePresence>
+          </MobileCapsule>
         </MobileRow>
       </HeaderContent>
-
-      <AnimatePresence>
-        {open && (
-          <MobileMenu
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={closeMobileMenu}
-          >
-            <MobileList onClick={(e) => e.stopPropagation()}>
-              {isHomePage ? (
-                <>
-                  <MobileNavLink to="/fond" onClick={closeMobileMenu}>О ФОНДЕ</MobileNavLink>
-                  <MobileNavLink to="/events" onClick={closeMobileMenu}>СОБЫТИЯ</MobileNavLink>
-                  <MobileNavLink to="/news" onClick={closeMobileMenu}>НОВОСТИ</MobileNavLink>
-                  <MobileNavLink to="/contact" onClick={closeMobileMenu}>КОНТАКТЫ</MobileNavLink>
-                </>
-              ) : isNewsPage ? (
-                <>
-                  <MobileNavLink to="/" onClick={closeMobileMenu}>ГЛАВНАЯ</MobileNavLink>
-                  <MobileNavLink to="/fond" onClick={closeMobileMenu}>О ФОНДЕ</MobileNavLink>
-                  <MobileNavLink to="/events" onClick={closeMobileMenu}>СОБЫТИЯ</MobileNavLink>
-                  <MobileNavLink to="/contact" onClick={closeMobileMenu}>КОНТАКТЫ</MobileNavLink>
-                </>
-              ) : isContactPage ? (
-                <>
-                  <MobileNavLink to="/" onClick={closeMobileMenu}>ГЛАВНАЯ</MobileNavLink>
-                  <MobileNavLink to="/fond" onClick={closeMobileMenu}>О ФОНДЕ</MobileNavLink>
-                  <MobileNavLink to="/events" onClick={closeMobileMenu}>СОБЫТИЯ</MobileNavLink>
-                  <MobileNavLink to="/news" onClick={closeMobileMenu}>НОВОСТИ</MobileNavLink>
-                </>
-              ) : isEventsPage ? (
-                <>
-                  <MobileNavLink to="/" onClick={closeMobileMenu}>ГЛАВНАЯ</MobileNavLink>
-                  <MobileNavLink to="/fond" onClick={closeMobileMenu}>О ФОНДЕ</MobileNavLink>
-                  <MobileNavLink to="/news" onClick={closeMobileMenu}>НОВОСТИ</MobileNavLink>
-                  <MobileNavLink to="/contact" onClick={closeMobileMenu}>КОНТАКТЫ</MobileNavLink>
-                </>
-              ) : (
-                <>
-                  <MobileNavLink to="/" onClick={closeMobileMenu}>ГЛАВНАЯ</MobileNavLink>
-                  <MobileNavLink to="/fond" onClick={closeMobileMenu}>О ФОНДЕ</MobileNavLink>
-                  <MobileNavLink to="/events" onClick={closeMobileMenu}>СОБЫТИЯ</MobileNavLink>
-                  <MobileNavLink to="/news" onClick={closeMobileMenu}>НОВОСТИ</MobileNavLink>
-                  <MobileNavLink to="/contact" onClick={closeMobileMenu}>КОНТАКТЫ</MobileNavLink>
-                </>
-              )}
-              <PrimaryButton onClick={() => {
-                alert("Спасибо за поддержку!");
-                closeMobileMenu();
-              }}>
-                ПОДДЕРЖАТЬ
-              </PrimaryButton>
-            </MobileList>
-          </MobileMenu>
-        )}
-      </AnimatePresence>
     </HeaderContainer>
   );
 };

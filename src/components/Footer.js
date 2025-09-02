@@ -132,19 +132,19 @@ const Footer = () => {
         </FooterSection>
 
         <FooterSection>
-          <h3>/ О ФОНДЕ</h3>
+          <h3><Link to="/fond" style={{ color: 'inherit', textDecoration: 'none' }}>/ О ФОНДЕ</Link></h3>
         </FooterSection>
 
         <FooterSection>
-          <h3>/ ПРОЕКТЫ</h3>
+          <h3><Link to="/projects" style={{ color: 'inherit', textDecoration: 'none' }}>/ ПРОЕКТЫ</Link></h3>
         </FooterSection>
 
         <FooterSection>
-          <h3>/ НОВОСТИ</h3>
+          <h3><Link to="/news" style={{ color: 'inherit', textDecoration: 'none' }}>/ НОВОСТИ</Link></h3>
         </FooterSection>
 
         <FooterSection>
-          <h3>/ ПАРТНЕРЫ</h3>
+          <h3><Link to="/events" style={{ color: 'inherit', textDecoration: 'none' }}>/ ПАРТНЕРЫ</Link></h3>
         </FooterSection>
       </FooterContent>
 
