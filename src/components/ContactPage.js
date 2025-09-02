@@ -81,6 +81,10 @@ const HeroBanner = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    height: 100vh;
+  }
 `;
 
 const BannerVideo = styled.video`
@@ -94,6 +98,10 @@ const BannerVideo = styled.video`
   object-fit: cover;
   object-position: center 20%;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    object-position: center center;
+  }
 `;
 
 const Overlay = styled.div`
@@ -124,6 +132,12 @@ const HeroTitle = styled(motion.h1)`
   outline: none;
   z-index: 3;
   margin: 0;
+
+  @media (max-width: 768px) {
+    text-align: center;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    margin-bottom: 2rem;
+  }
 `;
 
 const ContentSection = styled.section`
@@ -311,6 +325,10 @@ const FormTitle = styled.h2`
   text-align: center;
   margin-bottom: 3rem;
   letter-spacing: 0.05em;
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 const Form = styled.form`
@@ -449,6 +467,10 @@ const SocialTitle = styled.h2`
   text-transform: uppercase;
   margin-bottom: 2rem;
   letter-spacing: 0.05em;
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 const SocialIcons = styled.div`

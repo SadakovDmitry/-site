@@ -31,6 +31,10 @@ const SectionTitle = styled(motion.h2)`
   font-weight: 400;
   margin-bottom: 2rem;
   color: #fff;
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 const Overflow = styled.div`

@@ -80,6 +80,10 @@ const HeroSection = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    height: 100vh;
+  }
 `;
 
 const BannerVideo = styled.video`
@@ -93,6 +97,10 @@ const BannerVideo = styled.video`
   object-fit: cover;
   object-position: center 20%;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    object-position: center center;
+  }
 `;
 
 const Overlay = styled.div`
@@ -123,6 +131,12 @@ const HeroTitle = styled.h1`
   outline: none;
   z-index: 3;
   margin: 0;
+
+  @media (max-width: 768px) {
+    text-align: center;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    margin-bottom: 2rem;
+  }
 `;
 
 // Основной контент
@@ -266,7 +280,7 @@ const MobileMenuButton = styled.button`
   }
 
   &.open .hamburger-line:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
+    transform: rotate(45deg) translate(4px, 4px);
   }
 
   &.open .hamburger-line:nth-child(2) {
@@ -274,7 +288,7 @@ const MobileMenuButton = styled.button`
   }
 
   &.open .hamburger-line:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -6px);
+    transform: rotate(-45deg) translate(4px, -3px);
   }
 `;
 
@@ -299,14 +313,14 @@ const MobileFilterContent = styled.div`
   padding: 2rem;
   padding-top: 6rem;
   width: 50%;
-  max-height: 50vh;
+  max-height: 100vh;
   overflow-y: auto;
   position: relative;
   z-index: -1;
 
   @media (max-width: 480px) {
     width: 100%;
-    max-height: 60vh;
+    max-height: 100vh;
   }
 `;
 
@@ -317,9 +331,9 @@ const MobileFilterContent = styled.div`
 const ApplyButton = styled.button`
   background: linear-gradient(83.48deg, #312684 0%, #019CE5 100%);
   background-clip: padding-box;
-  color: white;
+  color: rgba(255, 255, 255, 0);
   border: none;
-  padding: 0.7rem 2rem;
+  padding: 1.7rem 2rem;
   border-radius: 60px;
   font-family: 'Futura PT', sans-serif;
   font-size: 1.5rem;
@@ -360,6 +374,10 @@ const ApplyButton = styled.button`
     font-family: 'Futura PT', sans-serif;
     font-size: 1.5rem;
     font-weight: 400;
+
+    @media (max-width: 480px) {
+      font-size: clamp(0.5rem, 6vw, 1.5rem);
+    }
   }
 
 
@@ -421,14 +439,14 @@ const FilterButton = styled.button`
     max-width: 350px;
     margin: 0 auto;
     padding: 0.3rem 0.8rem;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     border-radius: 20px;
   }
 
   @media (max-width: 400px) {
     max-width: 300px;
     padding: 0.2rem 0.7rem;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     border-radius: 18px;
   }
 `;
@@ -638,6 +656,10 @@ const EventTitle = styled.h3`
   color: white;
   margin-bottom: 1rem;
   transition: color 0.4s ease;
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 const EventLocation = styled.div`

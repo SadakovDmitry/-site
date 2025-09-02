@@ -25,6 +25,10 @@ const Heading = styled.h2`
   font-weight: 400;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 const FullBleed = styled.section`
@@ -47,22 +51,38 @@ const OverlayText = styled(motion.div)`
   position: absolute; left: var(--container-x); bottom: clamp(18px, 5vw, 40px);
   max-width: min(1200px, 92vw);
 
+  @media (max-width: 768px) {
+    left: 20%;
+    transform: translateX(-20%);
+    text-align: center;
+  }
+
   .sub {
+    width: 75%;
     font-family: 'Raleway', sans-serif;
     color: #e9faff;
     font-weight: 400;
     letter-spacing: 0.03em;
     font-size: clamp(1.1rem, 3vw, 2.2rem);
     margin-bottom: 12px;
+
+    @media (max-width: 768px) {
+      text-align: center;
+    }
   }
   .sub::before{ content: '/ '; opacity: 0.9; }
 
   .text {
+    width: 75%;
     color:#e7f5ff;
     font-size: clamp(0.6rem, 1.6vw, 1.25rem);
-    line-height: 1.9;
+    line-height: 1.4;
     letter-spacing: 0.01em;
     text-shadow: 0 1px 1px rgba(0,0,0,0.25);
+
+    @media (max-width: 768px) {
+      text-align: center;
+    }
   }
 `;
 
@@ -108,6 +128,10 @@ const SubTitle = styled(motion.h3)`
   letter-spacing: .02em;
   margin-bottom: clamp(18px, 2vw, 24px);
   &::before{ content:'/ '; color:#0b0d13; opacity:.9; margin-right: 0; }
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 const Grid = styled.div`
@@ -166,80 +190,80 @@ const Info = styled.div`
 `;
 
 const About = () => {
-    const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
-    const [shouldCenter, setShouldCenter] = useState(false);
+  const [shouldCenter, setShouldCenter] = useState(false);
 
-    useEffect(() => {
-        const handleResize = () => {
-            const width = window.innerWidth;
-            if (width <= 1400 && width > 760) {
-                // На экранах 760px-1400px у нас 2 колонки
-                // Если у нас 3 учредителя, то 3-й будет в новой строке
-                setShouldCenter(true); // У нас всегда 3 учредителя
-            } else {
-                setShouldCenter(false);
-            }
-        };
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width <= 1400 && width > 760) {
+        // На экранах 760px-1400px у нас 2 колонки
+        // Если у нас 3 учредителя, то 3-й будет в новой строке
+        setShouldCenter(true); // У нас всегда 3 учредителя
+      } else {
+        setShouldCenter(false);
+      }
+    };
 
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-    return (
-        <section id="about" ref={ref}>
-            <HeadingBar>
-                <Heading>О ФОНДЕ</Heading>
-            </HeadingBar>
+  return (
+    <section id="about" ref={ref}>
+      <HeadingBar>
+        <Heading>О ФОНДЕ</Heading>
+      </HeadingBar>
 
-            <FullBleed>
-                <Bg src={banner} alt="Космический горизонт" initial={{ scale: 1.08 }} animate={inView ? { scale: 1 } : {}} transition={{ duration: 1.2 }} />
-                <Overlay />
-                <OverlayText initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2 }}>
-                    <div className="sub">ЦЕЛИ СОЗДАНИЯ</div>
-                    <div className="text">
-                        Цели создания Фонд был основан в 2018 году с целью популяризации космических исследований,
-                        поддержки молодых ученых и инженеров, а также содействия развитию технологий в области
-                        космонавтики. Мы стремимся вдохновлять новое поколение на освоение космоса и создание
-                        инновационных решений для будущего человечества.
-                    </div>
-                </OverlayText>
-            </FullBleed>
+      <FullBleed>
+        <Bg src={banner} alt="Космический горизонт" initial={{ scale: 1.08 }} animate={inView ? { scale: 1 } : {}} transition={{ duration: 1.2 }} />
+        <Overlay />
+        <OverlayText initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2 }}>
+          <div className="sub">ЦЕЛИ СОЗДАНИЯ</div>
+          <div className="text">
+            Цели создания Фонд был основан в 2018 году с целью популяризации космических исследований,
+            поддержки молодых ученых и инженеров, а также содействия развитию технологий в области
+            космонавтики. Мы стремимся вдохновлять новое поколение на освоение космоса и создание
+            инновационных решений для будущего человечества.
+          </div>
+        </OverlayText>
+      </FullBleed>
 
-            <FoundersSection>
-                <FoundersContainer>
-                    <SubTitle initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}}>УЧРЕДИТЕЛИ</SubTitle>
-                    <Grid className={shouldCenter ? 'center-single' : ''}>
-                        <FounderTile initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.05 }}>
-                            <ImageWrap><img src={founder1} alt="Петр Небесный" /></ImageWrap>
-                            <Info>
-                                <div className="role">Частный благотворитель</div>
-                                <div className="name">Петр Небесный</div>
-                                <div className="desc">Активный сторонник космических исследований</div>
-                            </Info>
-                        </FounderTile>
-                        <FounderTile initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.1 }}>
-                            <ImageWrap><img src={founder2} alt="AstroTech" /></ImageWrap>
-                            <Info>
-                                <div className="role">Технологическая компания</div>
-                                <div className="name">“AstroTech”</div>
-                                <div className="desc">Разработчик передовых космических технологий</div>
-                            </Info>
-                        </FounderTile>
-                        <FounderTile initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.15 }}>
-                            <ImageWrap><img src={founder3} alt="Роскосмос" /></ImageWrap>
-                            <Info>
-                                <div className="role">Космическое агентство</div>
-                                <div className="name">“Роскосмос”</div>
-                                <div className="desc">Стратегический партнер фонда</div>
-                            </Info>
-                        </FounderTile>
-                    </Grid>
-                </FoundersContainer>
-            </FoundersSection>
-        </section>
-    );
+      <FoundersSection>
+        <FoundersContainer>
+          <SubTitle initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}}>УЧРЕДИТЕЛИ</SubTitle>
+          <Grid className={shouldCenter ? 'center-single' : ''}>
+            <FounderTile initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.05 }}>
+              <ImageWrap><img src={founder1} alt="Петр Небесный" /></ImageWrap>
+              <Info>
+                <div className="role">Частный благотворитель</div>
+                <div className="name">Петр Небесный</div>
+                <div className="desc">Активный сторонник космических исследований</div>
+              </Info>
+            </FounderTile>
+            <FounderTile initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.1 }}>
+              <ImageWrap><img src={founder2} alt="AstroTech" /></ImageWrap>
+              <Info>
+                <div className="role">Технологическая компания</div>
+                <div className="name">“AstroTech”</div>
+                <div className="desc">Разработчик передовых космических технологий</div>
+              </Info>
+            </FounderTile>
+            <FounderTile initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.15 }}>
+              <ImageWrap><img src={founder3} alt="Роскосмос" /></ImageWrap>
+              <Info>
+                <div className="role">Космическое агентство</div>
+                <div className="name">“Роскосмос”</div>
+                <div className="desc">Стратегический партнер фонда</div>
+              </Info>
+            </FounderTile>
+          </Grid>
+        </FoundersContainer>
+      </FoundersSection>
+    </section>
+  );
 };
 
 export default About;

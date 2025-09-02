@@ -38,7 +38,7 @@ import infographik from "../images/AboutFondPage/infographik.svg";
 const HistoryStatusSection = styled.section`
   text-align: center;
   padding: 4rem 0;
-  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  background: #ffffff;
 `;
 
 const HistoryStatusContainer = styled.div`
@@ -57,13 +57,17 @@ const HistoryStatusContainer = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 0 1rem;
+    gap: 3rem;
+    padding: 0 3rem;
+    grid-template-areas:
+      "title"
+      "image"
+      "text";
   }
 
   @media (max-width: 480px) {
-    gap: 1.5rem;
-    padding: 0 0.5rem;
+     gap: 1rem;
+    padding: 0 3rem;
   }
 `;
 
@@ -81,10 +85,12 @@ const InfographicContainer = styled.div`
 
   @media (max-width: 768px) {
     height: 350px;
+    grid-area: image;
+    margin-top: 2rem;
   }
 
   @media (max-width: 480px) {
-    height: 100vw;
+    height: 70vw;
   }
 `;
 
@@ -93,6 +99,11 @@ const HistoryText = styled.div`
   font-family: "Proxima Nova", sans-serif;
   color: #000;
   line-height: 1.6;
+
+  @media (max-width: 768px) {
+    grid-area: text;
+    margin-top: 2rem;
+  }
 
   h3 {
     font-family: "Raleway", sans-serif;
@@ -104,6 +115,30 @@ const HistoryText = styled.div`
 
     @media (max-width: 768px) {
       text-align: center;
+      grid-area: title;
+      margin-bottom: 3rem;
+      margin-top: -44rem;
+      display: block;
+    }
+
+    @media (min-width: 769px) {
+      display: none;
+    }
+  }
+
+  h3.mobile-title {
+    display: none;
+
+    @media (max-width: 768px) {
+      display: block;
+    }
+  }
+
+  h3.desktop-title {
+    display: none;
+
+    @media (min-width: 769px) {
+      display: block;
     }
   }
 
@@ -115,10 +150,34 @@ const HistoryText = styled.div`
   }
 `;
 
+const MobileTitleContainer = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    grid-area: title;
+  }
+
+  h3 {
+    font-family: "Raleway", sans-serif;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    font-weight: 400;
+    color: #000;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 3rem;
+    margin-top: 1rem;
+
+    @media (max-width: 768px) {
+      font-size: clamp(2rem, 6.5vw, 20rem);
+    }
+  }
+`;
+
 const FoundersSection = styled.section`
   text-align: center;
   padding: 4rem 0;
-  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  background: #ffffff;
 `;
 
 const FoundersTitle = styled.h2`
@@ -133,6 +192,7 @@ const FoundersTitle = styled.h2`
 
   @media (max-width: 768px) {
     text-align: center;
+    font-size: clamp(2rem, 6.5vw, 20rem);
     margin: 0 0 3rem 2rem;
   }
 
@@ -216,19 +276,27 @@ const FounderLogo = styled.img`
 
 const FounderText = styled.p`
   font-family: 'Proxima Nova', sans-serif;
-  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  font-size: clamp(0.9rem, 1.7vw, 2rem);
   font-weight: 500;
   color: #333;
   text-align: left;
-  line-height: 1.4;
+  line-height: 1.1;
   margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: clamp(0.1rem, 3vw, 1.3rem);
+  }
+
+  @media (max-width: 480px) {
+    font-size: clamp(0.2rem, 3.5vw, 1.4rem);
+  }
 `;
 
 // Стили для секции "ЧЛЕНЫ ПРАВЛЕНИЯ"
 const BoardMembersSection = styled.section`
   text-align: center;
   padding: 4rem 0;
-  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  background: #ffffff;
 `;
 
 const BoardMembersTitle = styled.h2`
@@ -243,6 +311,7 @@ const BoardMembersTitle = styled.h2`
 
   @media (max-width: 768px) {
     text-align: center;
+    font-size: clamp(2rem, 6.5vw, 20rem);
     margin: 0 0 3rem 2rem;
   }
 
@@ -260,6 +329,10 @@ const BoardMembersGrid = styled.div`
   margin: 0 9vw;
   padding: 0 0rem;
 
+  @media (max-width: 768px) {
+    gap: 2rem;
+  }
+
   @media (max-width: 480px) {
     gap: 1rem;
   }
@@ -276,6 +349,10 @@ const BoardMemberCard = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
 
   @media (max-width: 480px) {
     padding: 1rem;
@@ -454,10 +531,12 @@ const StrategicTitle = styled.h3`
 
   @media (max-width: 768px) {
     margin-top: 4rem;
+    text-align: center;
   }
 
   @media (max-width: 480px) {
     margin-top: 3.5rem;
+    text-align: center;
   }
 `;
 
@@ -515,7 +594,7 @@ function AboutFond() {
                 <FounderImage src={federatsiyaKosmonavtiki} alt="Федерация космонавтики России" />
               </FounderImageContainer>
               <FounderText>
-                САНКТ-ПЕТЕРБУРГСКАЯ РЕГИОНАЛЬНАЯ ОРГАНИЗАЦИЯ ОБЩЕРОССИЙСКОЙ ОБЩЕСТВЕННОЙ ОРГАНИЗАЦИИ «ФЕДЕРАЦИЯ КОСМОНАВТИКИ РОССИИ»
+                САНКТ-ПЕТЕРБУРГСКАЯ РЕГИОНАЛЬНАЯ ОРГАНИЗАЦИЯ ОБЩЕРОССИЙСКОЙ ОБЩЕСТВЕННОЙ ОРГАНИЗАЦИИ <b>«ФЕДЕРАЦИЯ КОСМОНАВТИКИ РОССИИ»</b>
               </FounderText>
             </FounderCard>
 
@@ -528,7 +607,7 @@ function AboutFond() {
                 <FounderLogo src={logoNauchnyePribory} alt="Логотип Научные приборы" />
               </FounderImageContainer>
               <FounderText>
-                АО НАУЧНЫЕ ПРИБОРЫ
+                АО <b>НАУЧНЫЕ ПРИБОРЫ</b>
               </FounderText>
             </FounderCard>
 
@@ -541,12 +620,12 @@ function AboutFond() {
                 <FounderLogo src={logoVoenmeh} alt="Логотип ВОЕНМЕХ" />
               </FounderImageContainer>
               <FounderText>
-                БГТУ «ВОЕНМЕХ» ИМ. Д.Ф. УСТИНОВА
+                <b>БГТУ «ВОЕНМЕХ»</b> ИМ. Д.Ф. УСТИНОВА
               </FounderText>
             </FounderCard>
           </FoundersGrid>
         </FoundersSection>
-      </motion.div>
+      </motion.div >
 
       <motion.div
         initial={{ opacity: 0, y: 50 }}
@@ -686,6 +765,9 @@ function AboutFond() {
       >
         <HistoryStatusSection>
           <HistoryStatusContainer>
+            <MobileTitleContainer>
+              <h3>ИСТОРИЯ И СТАТУС</h3>
+            </MobileTitleContainer>
             <InfographicContainer>
               <motion.img
                 src={infographik}
@@ -702,7 +784,7 @@ function AboutFond() {
             </InfographicContainer>
 
             <HistoryText>
-              <h3>ИСТОРИЯ И СТАТУС</h3>
+              <h3 className="desktop-title">ИСТОРИЯ И СТАТУС</h3>
               <p>
                 Фонд возник как ответ на стремление объединить людей, которым небезразлично будущее науки и технологий. В его основе лежала простая идея: поддерживать те инициативы, что способны открывать новые горизонты и вдохновлять общество.
               </p>

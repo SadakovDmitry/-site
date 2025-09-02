@@ -68,6 +68,10 @@ const HeroTitle = styled.h1`
   outline: none;
   z-index: 3;
   margin: 0;
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 const ContentSection = styled.div`
@@ -101,6 +105,10 @@ const SectionTitle = styled.h2`
   color: #212529;
   margin-bottom: 2rem;
   text-align: center;
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 const GalleryContainer = styled.div`

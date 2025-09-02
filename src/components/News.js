@@ -84,22 +84,25 @@ const NewsCard = styled(motion.div)`
   backdrop-filter: blur(10px);
   border: 1px solid rgba(0,0,0,0.06);
   border-radius: 24px;
-  padding: 1.5rem 1.75rem;
-  display: grid;
-  grid-template-rows: auto auto 1fr;
-  min-height: 240px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-height: 300px;
   transition: all 0.3s ease;
   position: relative;
   overflow: visible;
+  max-width: 800px;
+  margin: 0 auto;
 
   @media (max-width: 1150px) {
-    padding: 1.25rem 1.5rem;
-    min-height: 220px;
+    padding: 1.5rem;
+    min-height: 280px;
   }
 
   @media (max-width: 950px) {
-    padding: 1rem 1.25rem;
-    min-height: 200px;
+    padding: 1.25rem;
+    min-height: 260px;
   }
 
   &:hover {
@@ -122,6 +125,11 @@ const NewsCard = styled(motion.div)`
 
     @media (max-width: 950px) {
       font-size: 1.3rem;
+    }
+
+    @media (max-width: 480px) {
+      line-height: 1.1;
+      font-size: 1.0rem;
     }
   }
 
@@ -180,6 +188,39 @@ const NewsCard = styled(motion.div)`
   .news-description { color: #000000; font-size: 1rem; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
   &:hover .thumb img { transform: scale(1.03); }
+
+  .news-header {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .news-image {
+    width: 50%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+    flex-shrink: 0;
+
+    @media (max-width: 768px) {
+      height: 150px;
+    }
+  }
+
+  .news-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+  }
+
+  .news-description {
+    color: #000000;
+    font-size: 1rem;
+    line-height: 1.2;
+    margin-top: 0.5rem;
+    font-family: 'Proxima Nova', 'Raleway', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  }
 `;
 
 const AllNewsButton = styled(Link)`
@@ -299,24 +340,23 @@ const News = () => {
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7, delay: 0.2 + index * 0.1, ease: "easeOut" }}
               >
-                <div className="news-body">
-                  <div className="thumb">
-                    <img
-                      src={item.featuredImage || item.image}
-                      alt={item.title}
-                      onError={(e) => {
-                        e.target.src = item.image || image76;
-                      }}
-                    />
-                  </div>
-                  <div className="content">
+                <div className="news-header">
+                  <img
+                    className="news-image"
+                    src={item.featuredImage || item.image}
+                    alt={item.title}
+                    onError={(e) => {
+                      e.target.src = item.image || image76;
+                    }}
+                  />
+                  <div className="news-content">
                     <h3 className="news-title">{item.title}</h3>
                     <div className="date">{item.date}</div>
-                    <p className="news-description">
-                      {item.excerpt || item.description}
-                    </p>
                   </div>
                 </div>
+                <p className="news-description">
+                  {item.excerpt || item.description}
+                </p>
               </NewsCard>
             ))
           )}
