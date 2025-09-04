@@ -136,7 +136,7 @@ const Footer = () => {
         </FooterSection>
 
         <FooterSection>
-          <h3><Link to="/projects" style={{ color: 'inherit', textDecoration: 'none' }}>/ ПРОЕКТЫ</Link></h3>
+          <h3><Link to="/projects" style={{ color: 'inherit', textDecoration: 'none' }}>/ СОБЫТИЯ</Link></h3>
         </FooterSection>
 
         <FooterSection>

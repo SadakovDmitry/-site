@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import MainLogo from '../MainLogo.svg';
 import MobileLogo from '../images/main/logo_mobile.svg';
+import PartnerModal from './PartnerModal';
 
 const HeaderContainer = styled(motion.header)`
   position: fixed;
@@ -194,9 +195,9 @@ const MobileCapsule = styled.div`
   align-items: center;
   gap: clamp(0px, 2vw, 24px);
   // gap: 0px;
-  padding: clamp(8px, 1.5vw, 12px);
-  padding-top: 0vw;
-  padding-bottom: 0vw;
+  padding: clamp(12px, 2vw, 16px);
+  padding-top: clamp(8px, 1.5vw, 12px);
+  padding-bottom: clamp(8px, 1.5vw, 12px);
   border-radius: 9999px;
   background: linear-gradient(180deg, #f2f2f2, #dcdcdc);
   border: 1px solid rgba(0,0,0,0.15);
@@ -210,16 +211,16 @@ const MobileCapsule = styled.div`
 
   @media (max-width: 480px) {
     gap: clamp(0px, 1.5vw, 16px);
-    padding: clamp(6px, 1vw, 8px);
-    padding-top: 0vw;
-    padding-bottom: 0vw;
+    padding: clamp(10px, 1.5vw, 12px);
+    padding-top: clamp(6px, 1.2vw, 10px);
+    padding-bottom: clamp(6px, 1.2vw, 10px);
   }
 
   @media (max-width: 390px) {
     gap: clamp(0px, 1vw, 12px);
-    padding: clamp(4px, 0.8vw, 6px);
-    padding-top: 0vw;
-    padding-bottom: 0vw;
+    padding: clamp(8px, 1.2vw, 10px);
+    padding-top: clamp(5px, 1vw, 8px);
+    padding-bottom: clamp(5px, 1vw, 8px);
   }
 `;
 
@@ -229,13 +230,29 @@ const MobileNavButton = styled.button`
   color: #000000;
   font-size: 2.8rem;
   cursor: pointer;
-  padding: clamp(8px, 1vw, 16px);
-  padding-top: 0vw;
+  padding: clamp(10px, 1.5vw, 20px);
+  padding-top: clamp(8px, 1.2vw, 16px);
+  padding-bottom: clamp(8px, 1.2vw, 16px);
   border-radius: 50%;
   transition: background-color 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 1px;
+
+  &::before,
+  &::after,
+  & > span {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: #000000;
+    border-radius: 1px;
+    transition: all 0.3s ease;
+  }
 
   &:hover {
     background-color: rgba(0,0,0,0.1);
@@ -243,16 +260,34 @@ const MobileNavButton = styled.button`
 
   @media (max-width: 480px) {
     font-size: 2.2rem;
-    padding: clamp(6px, 0.8vw, 12px);
-    padding-top: 0vw;
-    padding-bottom: 0.5vw;
+    padding: clamp(8px, 1.2vw, 16px);
+    padding-top: clamp(6px, 1vw, 12px);
+    padding-bottom: clamp(6px, 1vw, 12px);
+    margin-top: 1px;
+    gap: 5px;
+
+    &::before,
+    &::after,
+    & > span {
+      width: 22px;
+      height: 1.8px;
+    }
   }
 
   @media (max-width: 390px) {
     font-size: 1.8rem;
-    padding: clamp(4px, 0.6vw, 8px);
-    padding-top: 0vw;
-    padding-bottom: 0.3vw;
+    padding: clamp(6px, 1vw, 12px);
+    padding-top: clamp(5px, 0.8vw, 10px);
+    padding-bottom: clamp(5px, 0.8vw, 10px);
+    margin-top: 0px;
+    gap: 4px;
+
+    &::before,
+    &::after,
+    & > span {
+      width: 20px;
+      height: 1.5px;
+    }
   }
 `;
 
@@ -317,6 +352,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -417,7 +453,7 @@ const Header = () => {
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
         </>
       )}
-      <PrimaryButton onClick={() => alert("Спасибо за поддержку!")}>
+      <PrimaryButton onClick={() => setIsPartnerModalOpen(true)}>
         ПОДДЕРЖАТЬ
       </PrimaryButton>
     </Capsule>
@@ -446,9 +482,11 @@ const Header = () => {
             <img src={isMobile ? MobileLogo : MainLogo} alt="Логотип" />
           </Brand>
           <MobileCapsule>
-            <MobileNavButton onClick={() => setOpen(!open)}>☰</MobileNavButton>
+            <MobileNavButton onClick={() => setOpen(!open)}>
+              <span></span>
+            </MobileNavButton>
             <MobilePageTitle>{getCurrentPageTitle()}</MobilePageTitle>
-            <MobilePrimaryButton onClick={() => alert("Спасибо за поддержку!")}>
+            <MobilePrimaryButton onClick={() => setIsPartnerModalOpen(true)}>
               ПОДДЕРЖАТЬ
             </MobilePrimaryButton>
             <AnimatePresence>
@@ -474,6 +512,11 @@ const Header = () => {
           </MobileCapsule>
         </MobileRow>
       </HeaderContent>
+
+      <PartnerModal
+        isOpen={isPartnerModalOpen}
+        onClose={() => setIsPartnerModalOpen(false)}
+      />
     </HeaderContainer>
   );
 };

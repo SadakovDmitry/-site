@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -319,6 +319,28 @@ const FormSection = styled(motion.div)`
   z-index: 1;
 `;
 
+// Секция с картой (такая же ширина, как у формы)
+const MapSection = styled(motion.div)`
+  background: transparent;
+  padding: 1rem 0;
+  margin-bottom: 3rem;
+`;
+
+const MapContainer = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 20px;
+  border: 2px solid rgba(49, 38, 132, 1);
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+`;
+
+const MapMount = styled.div`
+  width: 100%;
+  min-height: 486px;
+`;
+
 const FormTitle = styled.h2`
   font-family: 'Raleway', sans-serif;
   font-size: clamp(30px, 3.5vw, 100px);
@@ -539,6 +561,7 @@ const SocialIcon = styled(motion.div)`
 
 const ContactPage = () => {
     const [inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+    const mapRef = useRef(null);
 
     // Хук для предзагрузки видео
     const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('contact');
@@ -579,6 +602,30 @@ const ContactPage = () => {
             });
         }
     };
+
+    // Встраивание карты Яндекс Конструктор
+    useEffect(() => {
+        if (!mapRef.current) return;
+
+        const existing = document.querySelector('script[data-ymap-constructor]');
+        if (existing) existing.remove();
+
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.charset = 'utf-8';
+        script.async = true;
+        script.setAttribute('data-ymap-constructor', 'true');
+        script.src = 'https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A1b0ac23a955aa9fa79ea14edb000b1ddcb5e16b1a7a8fc2ac8c031c5e701af0f&width=100%25&height=486&lang=ru_RU&scroll=true';
+
+        mapRef.current.innerHTML = '';
+        mapRef.current.appendChild(script);
+
+        return () => {
+            if (script && script.parentNode) {
+                script.parentNode.removeChild(script);
+            }
+        };
+    }, []);
 
     return (
         <PageContainer>
@@ -649,6 +696,16 @@ const ContactPage = () => {
                             </div>
                         </ContactItem>
                     </ContactInfo>
+
+                    <MapSection
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={inView ? { opacity: 1, y: 0 } : {}}
+                        transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+                    >
+                        <MapContainer>
+                            <MapMount ref={mapRef} />
+                        </MapContainer>
+                    </MapSection>
 
                     <FormSection
                         initial={{ opacity: 0, y: 50 }}

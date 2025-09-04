@@ -27,6 +27,7 @@ import planetIcon from "../images/AboutFondPage/icons/y2k-chrome-planet-free-png
 import ufoIcon from "../images/AboutFondPage/icons/y2k-chrome-atom-11486669-9316773.png";
 
 import infographik from "../images/AboutFondPage/infographik.svg";
+import Frame49 from "../Frame 49.png";
 
 
 // TODO: перенести в файл с константами
@@ -574,6 +575,86 @@ const SectionTitle = styled.h2`
   }
 `;
 
+// Документы и политика (фон как у секции "Партнеры")
+const DocsSection = styled.section`
+  padding: 60px 0;
+  position: relative;
+  overflow: hidden;
+`;
+
+const DocsBgImage = styled.img`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+`;
+
+const DocsContainer = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 1;
+`;
+
+const DocsTitle = styled(motion.h2)`
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(2.0rem, 6vw, 60px);
+  font-weight: 400;
+  margin-bottom: 2rem;
+  color: #ffffff;
+  text-transform: uppercase;
+  padding-left: 9.4vw;
+  padding-right: 9.4vw;
+
+  @media (max-width: 768px) {
+    text-align: center;
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+`;
+
+const DocsButtonsRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  padding-left: 9.4vw;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 0;
+  }
+`;
+
+const DocButton = styled.button`
+  background: linear-gradient(180deg, #f2f2f2, #dcdcdc);
+  border: 1px solid rgba(0,0,0,0.15);
+  box-shadow: 0 6px 18px rgba(0,0,0,.25) inset, 0 8px 24px rgba(0,0,0,.2);
+  color: #000000;
+  border-radius: 9999px;
+  padding: clamp(10px, 1vw, 14px) clamp(20px, 2vw, 32px);
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-size: clamp(0.9rem, 1.4vw, 1.2rem);
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    filter: brightness(0.98);
+  }
+
+  @media (max-width: 768px) {
+    width: auto;
+    text-align: center;
+  }
+`;
+
 function AboutFond() {
   // Хук для предзагрузки видео
   const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('fond');
@@ -903,6 +984,24 @@ function AboutFond() {
             </StrategicCard>
           </StrategicGrid>
         </StrategicDirectionsSection>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.75, ease: "easeOut" }}
+      >
+        <DocsSection>
+          <DocsBgImage src={Frame49} alt="" />
+          <DocsContainer>
+            <DocsTitle>ДОКУМЕНТЫ И ПОЛИТИКА</DocsTitle>
+            <DocsButtonsRow>
+              <DocButton>Устав</DocButton>
+              <DocButton>Годовые отчеты</DocButton>
+              <DocButton>Партнерские соглашения</DocButton>
+            </DocsButtonsRow>
+          </DocsContainer>
+        </DocsSection>
       </motion.div>
     </>
   );
