@@ -20,12 +20,13 @@ function Mission() {
     <div className="Mission">
       <OptimizedVideo
         videoSrc={mainVideo}
-        placeholderImage={aboutFondImage}
+        placeholderImage={null}
         videoLoaded={videoLoaded}
         imageLoaded={imageLoaded}
         showVideo={showVideo}
         onVideoLoad={() => { }}
       />
+
       <div
         style={{
           position: 'absolute',
@@ -33,8 +34,8 @@ function Mission() {
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))',
-          zIndex: 2
+          background: 'linear-gradient(to left, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0))',
+          zIndex: 1
         }}
       />
 

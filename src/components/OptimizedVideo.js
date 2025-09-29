@@ -62,7 +62,7 @@ const OptimizedVideo = ({
         <VideoContainer>
             {/* Placeholder изображение */}
             <AnimatePresence>
-                {imageLoaded && !showVideo && (
+                {imageLoaded && !showVideo && placeholderImage && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}

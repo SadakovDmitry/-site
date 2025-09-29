@@ -24,7 +24,7 @@ const Heading = styled.h2`
   font-size: 3rem;
   font-weight: 400;
   margin: 0;
-  margin-left: 20px;
+  margin-left: 3.5%;
   color: #0b0d13;
   text-align: left;
 
@@ -69,7 +69,7 @@ const OverlayText = styled(motion.div)`
     letter-spacing: 0.03em;
     font-size: clamp(1.1rem, 3vw, 2.2rem);
     margin-bottom: 12px;
-    margin-left: 20px;
+    margin-left: 4%;
 
     @media (max-width: 768px) {
       text-align: center;
@@ -85,7 +85,7 @@ const OverlayText = styled(motion.div)`
     line-height: 1.4;
     letter-spacing: 0.01em;
     text-shadow: 0 1px 1px rgba(0,0,0,0.25);
-    margin-left: 20px;
+    margin-left: 4%;
 
     @media (max-width: 768px) {
       text-align: center;

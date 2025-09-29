@@ -88,6 +88,11 @@ const EventsGrid = styled.div`
     margin: 0 auto;
   }
 
+  @media (max-width: 765px) {
+    max-width: none;
+    width: 100%;
+  }
+
   &.center-single {
     grid-template-columns: repeat(2, 1fr);
     justify-content: center;
@@ -189,6 +194,12 @@ const EventCard = styled(motion.div)`
 
   &:hover .event-image img {
     transform: scale(1.05);
+  }
+
+  @media (max-width: 765px) {
+    max-width: 800px;
+    width: 100%;
+    grid-template-rows: auto auto 1fr auto; /* дата/ссылка, заголовок, описание, картинка */
   }
 `;
 

@@ -2,67 +2,29 @@
 
 .Mission {
   width: 100vw;
-  height: 100vh;
+  height: auto;
   position: relative;
   overflow: hidden;
 
-  display: flex;
-  align-items: center;
 
-  &::before {
-    content: "";
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background-image: linear-gradient(to left,
-        rgba(0, 0, 0, 0.5),
-        rgba(0, 0, 0, 0)),
-      url("../../images/AboutFondPage/bg.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    z-index: 1;
-  }
-
-  @media (max-aspect-ratio: 1/1) {
-    &::before {
-      background-position: 20% 0%;
-      min-height: 100vh;
-    }
-
-    width: 100%;
-    min-height: 100vh;
-  }
-
-  @media (max-aspect-ratio: 1/1) {
-    &::before {
-      background-size: cover;
-    }
-  }
-
-  @media (max-aspect-ratio: 1/1) {
-    &::before {
-      background-size: 156vh 100vh;
-    }
-  }
 
   .text {
     z-index: 2;
     display: flex;
     flex-direction: column;
     position: absolute;
-    left: 44.5%;
+    left: 54.5%;
     color: #ffffff;
+    top: 20%;
 
-    padding-top: 10%;
-
-    @media (max-aspect-ratio: 1/1) {
+    @media (max-width: 768px) {
       left: 50%;
       transform: translateX(-50%);
       align-items: center;
       justify-content: center;
       width: 90%;
       text-align: center;
+      top: 30%;
     }
 
     h1,
@@ -71,16 +33,23 @@
     }
 
     h1 {
-      font-family: "Raleday";
+      font-family: "Raleway";
       font-weight: 400;
       font-size: clamp(1px, 3.5vw, 49px);
       padding-bottom: 5.2vw;
       color: #ffffff;
+      line-height: 1.1;
 
-      @media (max-aspect-ratio: 1/1) {
-        font-size: clamp(30px, 4vw, 50px);
-        text-align: center;
+      @media (max-width: 768px) {
+        font-size: clamp(3px, 4vw, 100px);
+        padding-bottom: 1.5vw;
+        line-height: 1.1;
       }
+
+      // @media (max-aspect-ratio: 1/1) {
+      //   font-size: clamp(30px, 4vw, 50px);
+      //   text-align: center;
+      // }
     }
 
     h2 {
@@ -88,16 +57,24 @@
       font-weight: 600;
       font-size: clamp(0.1rem, 1.8vw, 24px);
       // font-size: clamp(12px, 1.05vw, 16px);
+      line-height: 1.1;
 
       width: clamp(50px, 40vw, 43.8vw);
       padding-bottom: 0.7vw;
       color: #ffffff;
 
-      @media (max-aspect-ratio: 1/1) {
+      @media (max-width: 768px) {
+        font-size: clamp(1px, 2.5vw, 100px);
+        padding-bottom: 0.2vw;
+        line-height: 1.0;
         width: 100%;
-        font-size: clamp(10px, 4vw, 30px);
-        text-align: center;
       }
+
+      // @media (max-aspect-ratio: 1/1) {
+      //   width: 100%;
+      //   font-size: clamp(10px, 4vw, 30px);
+      //   text-align: center;
+      // }
     }
 
     p {
@@ -106,19 +83,33 @@
       font-size: clamp(1px, 1.3vw, 24px);
       // font-size: clamp(12px, 1.05vw, 16px);
 
-      width: clamp(50px, 35vw, 37.8vw);
+      line-height: 1.1;
       color: #ffffff;
+      width: 90%;
 
-      @media (max-aspect-ratio: 1/1) {
-        width: 100%;
-        font-size: clamp(1px, 4vw, 20px);
-        text-align: center;
+      @media (max-width: 768px) {
+        font-size: clamp(0.5px, 2vw, 100px);
+        line-height: 1.0;
+        width: 80%;
+        margin-left: 10vw;
+        margin-bottom: 0.05vw;
       }
+
+      // @media (max-aspect-ratio: 1/1) {
+      //   width: 100%;
+      //   font-size: clamp(1px, 4vw, 20px);
+      //   text-align: center;
+      // }
 
     }
 
     .block {
       padding-bottom: 2.25vw;
+
+      @media (max-width: 768px) {
+        padding-bottom: 10px;
+        margin-bottom: 0.2vw;
+      }
 
       @media (max-width: 1023px) {
         padding-bottom: 4vw;
