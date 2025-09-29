@@ -16,6 +16,18 @@ const ModalOverlay = styled(motion.div)`
   justify-content: center;
   z-index: 1000;
   padding: 20px;
+  overflow-y: auto;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 5px;
+    padding-top: 10px;
+  }
 
   @font-face {
     font-family: 'Futura PT';
@@ -28,58 +40,102 @@ const ModalOverlay = styled(motion.div)`
 
 const ModalContent = styled(motion.div)`
   background: #ffffff;
-  padding: 1rem;
-  border-radius: 60px;
+  padding: 2rem;
+  border-radius: 30px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  max-width: 1200px;
-  width: 100%;
+  max-width: 600px;
+  width: 90%;
   position: relative;
   text-align: center;
-  position: relative;
   z-index: 1;
+  margin: 20px auto;
 
   @media (max-width: 768px) {
-    padding: 1rem;
+    padding: 1.5rem;
     margin: 10px;
+    width: 95%;
+    border-radius: 25px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+    margin: 5px;
+    width: 98%;
+    border-radius: 20px;
   }
 `;
 
 const CloseButton = styled.button`
   position: absolute;
-  top: 30px;
-  right: 30px;
-  background: transparent;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.9);
   border: none;
-  color: #212529;
-  font-size: 2rem;
+  color: #666;
+  font-size: 1.5rem;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
   z-index: 10;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    color: #666;
+    color: #333;
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 480px) {
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
   }
 `;
 
 const FormTitle = styled.h2`
   font-family: 'Futura PT', sans-serif;
-  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-size: clamp(1rem, 2.2vw, 1.8rem);
   font-weight: 200;
   color: #ffffff;
   text-transform: uppercase;
   text-align: center;
   margin: 0 auto 1.5rem auto;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   background: linear-gradient(90deg, #312684 0%, #019CE5 100%);
-  padding: 1.2rem 2rem;
-  border-radius: 40px;
+  padding: 1rem 1.5rem;
+  border-radius: 30px;
   box-shadow: 0 4px 15px rgba(49, 38, 132, 0.3);
-  width: 70%;
+  width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (max-width: 768px) {
+    width: 90%;
+    padding: 0.8rem 1rem;
+    font-size: clamp(0.8rem, 3vw, 1.2rem);
+  }
+
+  @media (max-width: 480px) {
+    width: 95%;
+    padding: 0.6rem 0.8rem;
+    font-size: clamp(0.7rem, 2.5vw, 1rem);
+  }
 `;
 
 const Form = styled.form`
@@ -91,36 +147,67 @@ const Form = styled.form`
 const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
-  margin-bottom: 0.2rem;
+  gap: 0.3rem;
+  margin-bottom: 0.5rem;
 
   label {
     display: none;
   }
 
+  @media (max-width: 768px) {
+    margin-bottom: 0.3rem;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 0.2rem;
+  }
+
   input, textarea {
     font-family: 'Proxima Nova', sans-serif;
-    padding: 0.6rem;
-    border: 1px solid #000000;
-    border-radius: 40px;
-    font-size: clamp(16px, 1.9vw, 124px);
-    transition: border-color 0.3s ease;
+    padding: 0.8rem 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 25px;
+    font-size: clamp(14px, 1.5vw, 18px);
+    transition: all 0.3s ease;
     background: white;
-    width: 70%;
+    width: 80%;
     margin: 0 auto;
-    line-height: 1.5;
-    text-align: center;
+    line-height: 1.4;
+    text-align: left;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
     &::placeholder {
-      color: rgb(202, 206, 210);
-      font-size: clamp(20px, 2vw, 100px);
-      font-weight: 600;
+      color: #999;
+      font-size: clamp(12px, 1.2vw, 16px);
+      font-weight: 400;
     }
 
     &:focus {
       outline: none;
-      border-color: #000000;
+      border-color: #019CE5;
+      box-shadow: 0 0 0 2px rgba(1, 156, 229, 0.2);
     }
+
+    @media (max-width: 768px) {
+      width: 90%;
+      padding: 0.6rem 0.8rem;
+      font-size: clamp(12px, 2vw, 16px);
+
+      &::placeholder {
+        font-size: clamp(10px, 1.8vw, 14px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      width: 95%;
+      padding: 0.5rem 0.7rem;
+      font-size: clamp(10px, 1.5vw, 14px);
+
+      &::placeholder {
+        font-size: clamp(8px, 1.5vw, 12px);
+      }
+    }
+
 
     /* Дополнительные стили для лучшего контроля */
     &::-webkit-input-placeholder {
@@ -137,8 +224,18 @@ const FormGroup = styled.div`
   }
 
   textarea {
-    min-height: 60px;
+    min-height: 80px;
     resize: vertical;
+    text-align: left;
+    line-height: 1.4;
+
+    @media (max-width: 768px) {
+      min-height: 70px;
+    }
+
+    @media (max-width: 480px) {
+      min-height: 60px;
+    }
   }
 `;
 
@@ -146,7 +243,7 @@ const SubmitButton = styled(motion.button)`
   font-family: 'Futura PT', sans-serif;
   background: ${props => {
         if (props.status === 'success') {
-            return 'linear-gradient(135deg, #007bff 0%, #0056b3 100%)';
+            return 'linear-gradient(135deg, #019CE5 0%, #312684 100%)';
         } else if (props.status === 'error') {
             return '#f8f9fa';
         } else {
@@ -155,10 +252,10 @@ const SubmitButton = styled(motion.button)`
     }};
   color: ${props => props.status === 'error' ? '#6c757d' : 'white'};
   border: none;
-  padding: 1.0rem 4rem;
-  border-radius: 50px;
-  font-size: 2rem;
-  font-weight: 200;
+  padding: 0.8rem 2.5rem;
+  border-radius: 30px;
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 400;
   cursor: pointer;
   align-self: center;
   transition: all 0.3s ease;
@@ -166,13 +263,28 @@ const SubmitButton = styled(motion.button)`
   margin-top: 1rem;
   box-shadow: ${props => {
         if (props.status === 'success') {
-            return '0 4px 15px rgba(0, 123, 255, 0.3)';
+            return '0 4px 15px rgba(1, 156, 229, 0.3)';
         } else if (props.status === 'error') {
             return '0 4px 15px rgba(108, 117, 125, 0.2)';
         } else {
-            return '0 4px 15px rgba(33, 37, 41, 0.3)';
+            return '0 4px 15px rgba(49, 38, 132, 0.3)';
         }
     }};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (max-width: 768px) {
+    padding: 0.6rem 2rem;
+    font-size: clamp(12px, 2vw, 16px);
+    width: 80%;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.5rem 1.5rem;
+    font-size: clamp(10px, 1.5vw, 14px);
+    width: 90%;
+  }
   position: relative;
   overflow: hidden;
 

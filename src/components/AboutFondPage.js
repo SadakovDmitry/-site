@@ -222,7 +222,7 @@ const FoundersGrid = styled.div`
 const FounderCard = styled(motion.div)`
   background: #ffffff;
   border-radius: 20px;
-  padding: 3rem 2rem;
+  padding: 2rem 1.5rem;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   cursor: pointer;
@@ -233,8 +233,8 @@ const FounderCard = styled(motion.div)`
   gap: 2rem;
 
   @media (max-width: 768px) {
-    padding: 2rem 1.5rem;
-    gap: 1.5rem;
+    padding: 1.5rem 1rem;
+    gap: 1rem;
   }
 `;
 
@@ -283,7 +283,7 @@ const FounderText = styled.p`
   font-size: clamp(0.9rem, 1.7vw, 2rem);
   font-weight: 500;
   color: #333;
-  text-align: left;
+  text-align: center;
   line-height: 1.1;
   margin: 0;
 
@@ -303,7 +303,36 @@ const BoardMembersSection = styled.section`
   background: #ffffff;
 `;
 
+// Стили для секции "ЧЛЕНЫ ПОПЕЧИТЕЛЬСКОГО СОВЕТА"
+const TrusteesSection = styled.section`
+  text-align: center;
+  padding: 4rem 0;
+  background: #ffffff;
+`;
+
 const BoardMembersTitle = styled.h2`
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  color: #000000;
+  text-transform: uppercase;
+  text-align: left;
+  margin: 0 0 3rem 9vw;
+  letter-spacing: 0.05em;
+
+  @media (max-width: 768px) {
+    text-align: center;
+    font-size: clamp(2rem, 6.5vw, 20rem);
+    margin: 0 0 3rem 2rem;
+  }
+
+  @media (max-width: 480px) {
+    text-align: center;
+    margin: 0 0 3rem 1rem;
+  }
+`;
+
+const TrusteesTitle = styled.h2`
   font-family: 'Raleway', sans-serif;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 400;
@@ -360,10 +389,35 @@ const BoardMembersGrid = styled.div`
   }
 `;
 
+const TrusteesGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+  max-width: 1400px;
+  margin: 0 9vw;
+  padding: 0 0rem;
+
+  @media (max-width: 768px) {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.5rem;
+    margin: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 1rem;
+  }
+`;
+
 const BoardMemberCard = styled(motion.div)`
   background: #ffffff;
   border-radius: 20px;
-  padding: 2rem;
+  padding: 1.5rem;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   cursor: pointer;
@@ -373,14 +427,16 @@ const BoardMemberCard = styled(motion.div)`
   gap: 1.5rem;
 
   @media (max-width: 768px) {
-    padding: 1.25rem;
+    padding: 1rem;
     min-width: 80vw;
     scroll-snap-align: center;
+    gap: 1rem;
   }
 
   @media (max-width: 480px) {
-    padding: 1rem;
+    padding: 0.8rem;
     min-width: 85vw;
+    gap: 0.8rem;
   }
 `;
 
@@ -784,17 +840,12 @@ function AboutFond() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <MemberTopSection>
-                <MemberImage src={shkaplerov} alt="Антон Шкаплеров" />
-                <MemberRightSection>
-                  <MemberRole>КОСМОНАВТ</MemberRole>
-                  <MemberName>
-                    ШКАПЛЕРОВ<br />
-                    Антон<br />
-                    Николаевич
-                  </MemberName>
-                </MemberRightSection>
-              </MemberTopSection>
+              <MemberRole>КОСМОНАВТ</MemberRole>
+              <MemberName>
+                ШКАПЛЕРОВ<br />
+                Антон<br />
+                Николаевич
+              </MemberName>
               <MemberDescription>
                 Герой Российской Федерации<br />
                 с четырьмя космическими<br />
@@ -806,20 +857,15 @@ function AboutFond() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <MemberTopSection>
-                <MemberImage src={muhin} alt="Олег Мухин" />
-                <MemberRightSection>
-                  <MemberRole>
-                    ПЕРВЫЙ<br />
-                    ВИЦЕ-ПРЕЗИДЕНТ
-                  </MemberRole>
-                  <MemberName>
-                    МУХИН<br />
-                    Олег<br />
-                    Петрович
-                  </MemberName>
-                </MemberRightSection>
-              </MemberTopSection>
+              <MemberRole>
+                ПЕРВЫЙ<br />
+                ВИЦЕ-ПРЕЗИДЕНТ
+              </MemberRole>
+              <MemberName>
+                МУХИН<br />
+                Олег<br />
+                Петрович
+              </MemberName>
               <MemberDescription>
                 Санкт-Петербургская региональная<br />
                 организация Общероссийской<br />
@@ -832,17 +878,12 @@ function AboutFond() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <MemberTopSection>
-                <MemberImage src={smoktiy} alt="Олег Смоктий" />
-                <MemberRightSection>
-                  <MemberRole>ПРОФЕССОР</MemberRole>
-                  <MemberName>
-                    СМОКТИЙ<br />
-                    Олег<br />
-                    Иванович
-                  </MemberName>
-                </MemberRightSection>
-              </MemberTopSection>
+              <MemberRole>ПРОФЕССОР</MemberRole>
+              <MemberName>
+                СМОКТИЙ<br />
+                Олег<br />
+                Иванович
+              </MemberName>
               <MemberDescription>
                 Доктор физико-математических наук,<br />
                 профессор. Заслуженный деятель<br />
@@ -854,17 +895,12 @@ function AboutFond() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <MemberTopSection>
-                <MemberImage src={smirnov} alt="Анатолий Смирнов" />
-                <MemberRightSection>
-                  <MemberRole>ЮРИСТ</MemberRole>
-                  <MemberName>
-                    СМИРНОВ<br />
-                    Анатолий<br />
-                    Александрович
-                  </MemberName>
-                </MemberRightSection>
-              </MemberTopSection>
+              <MemberRole>ЮРИСТ</MemberRole>
+              <MemberName>
+                СМИРНОВ<br />
+                Анатолий<br />
+                Александрович
+              </MemberName>
               <MemberDescription>
                 Заслуженный юрист<br />
                 Российской Федерации<br />
@@ -876,20 +912,15 @@ function AboutFond() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <MemberTopSection>
-                <MemberImage src={benefactor} alt="Рустав Нугманов" />
-                <MemberRightSection>
-                  <MemberRole>
-                    ДИРЕКТОР<br />
-                    И ПРЕДСЕДАТЕЛЬ
-                  </MemberRole>
-                  <MemberName>
-                    НУГМАНОВ<br />
-                    Рустав<br />
-                    Ренатович
-                  </MemberName>
-                </MemberRightSection>
-              </MemberTopSection>
+              <MemberRole>
+                ДИРЕКТОР<br />
+                И ПРЕДСЕДАТЕЛЬ
+              </MemberRole>
+              <MemberName>
+                НУГМАНОВ<br />
+                Рустав<br />
+                Ренатович
+              </MemberName>
               <MemberDescription>
                 Председатель правления Фонда<br />
                 сохранения исторического<br />
@@ -899,6 +930,68 @@ function AboutFond() {
             </BoardMemberCard>
           </BoardMembersGrid>
         </BoardMembersSection>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.7, ease: "easeOut" }}
+      >
+        <TrusteesSection>
+          <TrusteesTitle>ЧЛЕНЫ ПОПЕЧИТЕЛЬСКОГО СОВЕТА</TrusteesTitle>
+          <TrusteesGrid>
+            <BoardMemberCard
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <MemberRole>КОСМОНАВТ</MemberRole>
+              <MemberName>
+                КРИКАЛЁВ<br />
+                Сергей<br />
+                Константинович
+              </MemberName>
+              <MemberDescription>
+                Герой Советского Союза и Герой Российской Федерации<br />
+                Лётчик-космонавт СССР<br />
+                Рекордсмен по суммарному времени пребывания в космосе
+              </MemberDescription>
+            </BoardMemberCard>
+
+            <BoardMemberCard
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <MemberRole>КОСМОНАВТ</MemberRole>
+              <MemberName>
+                АРЦЕБАРСКИЙ<br />
+                Анатолий<br />
+                Павлович
+              </MemberName>
+              <MemberDescription>
+                Герой Советского Союза<br />
+                Лётчик-космонавт СССР<br />
+                Участник программы "Союз" - "Мир"
+              </MemberDescription>
+            </BoardMemberCard>
+
+            <BoardMemberCard
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <MemberRole>КОСМОНАВТ</MemberRole>
+              <MemberName>
+                МОВЧАН<br />
+                Сергей<br />
+                Николаевич
+              </MemberName>
+              <MemberDescription>
+                Лётчик-космонавт СССР<br />
+                Участник космических программ<br />
+                Специалист по космическим технологиям
+              </MemberDescription>
+            </BoardMemberCard>
+          </TrusteesGrid>
+        </TrusteesSection>
       </motion.div>
 
 
