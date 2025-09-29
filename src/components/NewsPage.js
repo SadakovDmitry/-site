@@ -1,9 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { useResourceHints } from '../hooks/useResourceHints';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { wordpressApi } from '../services/wordpressApi';
-import { useVideoPreloader } from '../hooks/useVideoPreloader';
+import { useVideoPreloader, videoSources, placeholderImages } from '../hooks/useVideoPreloader';
 import OptimizedVideo from './OptimizedVideo';
 import mainVideo from '../ФСРК видео/abstract-news-background-v3-2025-08-29-09-52-49-utc (video-converter.com).mp4';
 import mainImage from '../images/NewsPage/main_image.png';
@@ -351,6 +352,13 @@ const NewsPage = () => {
 
   // Хук для предзагрузки видео
   const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('news');
+  // Подсказки загрузчику: текущее видео preload + критичный плейсхолдер
+  useResourceHints(
+    mainVideo,
+    [videoSources.events, videoSources.contact, videoSources.fond, videoSources.main],
+    [mainImage],
+    [placeholderImages.events, placeholderImages.contact, placeholderImages.fond]
+  );
 
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -503,8 +511,9 @@ const NewsPage = () => {
     fetchNews();
   }, []);
 
+  const blockReady = showVideo || imageLoaded;
   return (
-    <PageContainer>
+    <PageContainer style={{ visibility: blockReady ? 'visible' : 'hidden' }}>
       <HeroBanner>
         <OptimizedVideo
           videoSrc={mainVideo}

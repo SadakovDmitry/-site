@@ -12,7 +12,7 @@ import newsMainImage from '../images/NewsPage/main_image.png';
 import contactMainImage from '../images/ContactPage/video_contact.png';
 import aboutFondImage from '../images/AboutFondPage/pre_load_photo_about.png';
 
-const videoSources = {
+export const videoSources = {
     main: mainVideo,
     events: mainVideo,
     news: newsVideo,
@@ -20,7 +20,7 @@ const videoSources = {
     fond: fondVideo
 };
 
-const placeholderImages = {
+export const placeholderImages = {
     events: eventsMainImage,
     news: newsMainImage,
     contact: contactMainImage,

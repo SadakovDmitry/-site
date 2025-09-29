@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useResourceHints } from '../hooks/useResourceHints';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { wordpressApi } from '../services/wordpressApi';
 import PartnerModal from './PartnerModal';
-import { useVideoPreloader } from '../hooks/useVideoPreloader';
+import { useVideoPreloader, videoSources, placeholderImages } from '../hooks/useVideoPreloader';
 import OptimizedVideo from './OptimizedVideo';
 import mainVideo from '../ФСРК видео/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc_1.mp4';
 import mainImage from '../images/EventsPage/events_main.png';
@@ -732,6 +733,12 @@ const EventsPage = () => {
 
     // Хук для предзагрузки видео
     const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('events');
+    useResourceHints(
+        mainVideo,
+        [videoSources.news, videoSources.contact, videoSources.fond, videoSources.main],
+        [mainImage],
+        [placeholderImages.news, placeholderImages.contact, placeholderImages.fond]
+    );
 
     const [selectedFilters, setSelectedFilters] = useState({
         theme: ['science', 'education', 'technology'],
@@ -1015,8 +1022,9 @@ const EventsPage = () => {
         return themeMatch && foundationMatch && scaleMatch && stageMatch && audienceMatch;
     });
 
+    const blockReady = showVideo || imageLoaded;
     return (
-        <PageContainer>
+        <PageContainer style={{ visibility: blockReady ? 'visible' : 'hidden' }}>
             <HeroSection>
                 <OptimizedVideo
                     videoSrc={mainVideo}

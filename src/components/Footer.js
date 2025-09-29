@@ -5,12 +5,28 @@ import { Link } from 'react-router-dom';
 import TG from '../TG.svg';
 import VK from '../VK.svg';
 import WhatsApp from '../WhatsApp.svg';
-import MainLogo from '../MainLogo.svg';
+import MobileLogo from '../images/main/logo_mobile.svg';
 
 const FooterContainer = styled.footer`
   background: #0b0d13;
   border-top: 1px solid rgba(255,255,255,0.08);
-  padding: 48px 0 18px;
+  padding: 56px 0 24px;
+`;
+
+const FooterTopRow = styled.div`
+  width: min(1600px, 94vw);
+  margin: 0 auto 22px;
+  padding: 0 8px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+  }
 `;
 
 const FooterContent = styled.div`
@@ -31,14 +47,13 @@ const FooterContent = styled.div`
 const FooterSection = styled.div`
   h3 {
     font-family:'Raleway', sans-serif;
-    // font-size: 1.1rem;
-    font-size: clamp(0.6rem, 1.9vw, 10rem);
+    font-size: clamp(1rem, 2.1vw, 1.35rem);
     font-weight: 400;
     color: #ffffff;
     margin-bottom: 10px;
 
     @media (max-width: 600px) {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
     }
   }
   }
@@ -46,22 +61,85 @@ const FooterSection = styled.div`
     color: #c9d6e5;
     text-decoration:none;
     line-height:1.7;
-    font-size: 0.95rem;
+    font-size: 1.15rem;
     font-family: 'Proxima Nova', 'Raleway', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
   }
   a:hover { color: #019CE5; }
 `;
 
-const Brand = styled.div`
-  display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
-  img { height: clamp(28px, 4vw, 40px); width:auto; display:block; }
+const Brand = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1vw, 12px);
+  margin: 0;
+
+  img {
+    height: clamp(56px, 5vw, 56px);
+    width: auto;
+    display: block;
+    @media (max-width: 400px) {
+      height: clamp(44px, 5vw, 44px);
+    }
+  }
+`;
+
+const BrandText = styled.div`
+  color: #ffffff;
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(14px, 1.8vw, 28px);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+  white-space: nowrap;
 
   @media (max-width: 600px) {
-    justify-content: center;
-    margin-bottom: 20px;
+    font-size: clamp(16px, 4.4vw, 24px);
+  }
+`;
 
-    img {
-      height: clamp(40px, 8vw, 60px);
+const FooterNav = styled.nav`
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2.8vw, 36px);
+
+  a {
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: clamp(14px, 1.4vw, 20px);
+    transition: color 0.2s ease;
+  }
+
+  a:hover { color: #019CE5; }
+
+  @media (min-width: 700px) and (max-width: 800px) {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
+    align-items: center;
+    gap: 14px 106px;
+  }
+
+  @media (min-width: 600px) and (max-width: 700px) {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
+    align-items: center;
+    gap: 14px 86px;
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    a {
+      font-size: clamp(16px, 5vw, 24px);
     }
   }
 `;
@@ -116,11 +194,22 @@ const LegalLinks = styled.div`
 const Footer = () => {
   return (
     <FooterContainer>
+      <FooterTopRow>
+        <Brand to="/">
+          <img src={MobileLogo} alt="Логотип" />
+          <BrandText>
+            ФОНД СОДЕЙСТВИЯ<br />РАЗВИТИЮ КОСМОНАВТИКИ
+          </BrandText>
+        </Brand>
+        <FooterNav>
+          <Link to="/fond">/ О ФОНДЕ</Link>
+          <Link to="/events">/ СОБЫТИЯ</Link>
+          <Link to="/news">/ НОВОСТИ</Link>
+          <Link to="/projects">/ ПАРТНЕРЫ</Link>
+        </FooterNav>
+      </FooterTopRow>
       <FooterContent>
         <FooterSection>
-          <Brand>
-            <img src={MainLogo} alt="Логотип" />
-          </Brand>
           <p>Москва, Россия</p>
           <p>info@cosmosfund.ru</p>
           <p>+7 (495) 922 8994</p>
@@ -129,22 +218,6 @@ const Footer = () => {
             <SocialLink href="https://vk.com/cosmosfund" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.08 }}><img src={VK} alt="VK" /></SocialLink>
             <SocialLink href="https://wa.me/74951234567" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.08 }}><img src={WhatsApp} alt="WhatsApp" /></SocialLink>
           </SocialLinks>
-        </FooterSection>
-
-        <FooterSection>
-          <h3><Link to="/fond" style={{ color: 'inherit', textDecoration: 'none' }}>/ О ФОНДЕ</Link></h3>
-        </FooterSection>
-
-        <FooterSection>
-          <h3><Link to="/projects" style={{ color: 'inherit', textDecoration: 'none' }}>/ СОБЫТИЯ</Link></h3>
-        </FooterSection>
-
-        <FooterSection>
-          <h3><Link to="/news" style={{ color: 'inherit', textDecoration: 'none' }}>/ НОВОСТИ</Link></h3>
-        </FooterSection>
-
-        <FooterSection>
-          <h3><Link to="/events" style={{ color: 'inherit', textDecoration: 'none' }}>/ ПАРТНЕРЫ</Link></h3>
         </FooterSection>
       </FooterContent>
 

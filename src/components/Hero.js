@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useResourceHints } from '../hooks/useResourceHints';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import PartnerModal from './PartnerModal';
+import { videoSources, placeholderImages } from '../hooks/useVideoPreloader';
 import EarthVideo from '../Earth Rotates.mp4';
 import EarthVideoMobile from '../images/main/Earth Rotates_alpha_3.mp4';
 import EarthImage from '../pre_load_image.png'; // Изображение для десктопа
@@ -307,12 +309,13 @@ const Hero = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Предзагрузка видео
-  useEffect(() => {
-    const videoSrc = isMobile ? EarthVideoMobile : EarthVideo;
-    const video = new Audio(videoSrc);
-    video.load();
-  }, [isMobile]);
+  // Ресурсные подсказки: текущий ролик preload + текущий плейсхолдер, альтернативный ролик prefetch
+  useResourceHints(
+    isMobile ? EarthVideoMobile : EarthVideo,
+    [videoSources.news, videoSources.events, videoSources.fond, videoSources.contact],
+    [isMobile ? EarthImageMobile : EarthImage],
+    [placeholderImages.news, placeholderImages.events, placeholderImages.fond, placeholderImages.contact]
+  );
 
   const handleVideoLoad = () => {
     setVideoLoaded(true);
@@ -337,8 +340,10 @@ const Hero = () => {
     }
   }, [videoLoaded, videoPlaying]);
 
+  // Блокируем отображение секции, пока не готово хотя бы placeholder изображение или видео
+  const blockReady = videoPlaying || imageLoaded;
   return (
-    <HeroSection ref={ref}>
+    <HeroSection ref={ref} style={{ visibility: blockReady ? 'visible' : 'hidden' }}>
       <BackgroundStars />
 
       <VideoContainer>

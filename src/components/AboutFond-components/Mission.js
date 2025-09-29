@@ -1,5 +1,6 @@
 import mainVideo from '../../ФСРК видео/rocket-launch-2025-08-29-11-13-57-utc.mp4';
 import { useVideoPreloader } from '../../hooks/useVideoPreloader';
+import { useResourceHints } from '../../hooks/useResourceHints';
 import OptimizedVideo from '../OptimizedVideo';
 import aboutFondImage from '../../images/AboutFondPage/pre_load_photo_about.png';
 
@@ -15,9 +16,13 @@ function Block({ h2, p }) {
 function Mission() {
   // Хук для предзагрузки видео
   const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('fond');
+  // Подсказки загрузчику: текущее видео preload + критичный плейсхолдер
+  useResourceHints(mainVideo, [], [aboutFondImage], []);
 
+  // Блокируем показ, пока не готов контент
+  const blockReady = showVideo || imageLoaded;
   return (
-    <div className="Mission">
+    <div className="Mission" style={{ visibility: blockReady ? 'visible' : 'hidden' }}>
       <OptimizedVideo
         videoSrc={mainVideo}
         placeholderImage={null}

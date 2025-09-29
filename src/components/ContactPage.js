@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useResourceHints } from '../hooks/useResourceHints';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { useVideoPreloader } from '../hooks/useVideoPreloader';
+import { useVideoPreloader, videoSources, placeholderImages } from '../hooks/useVideoPreloader';
 import OptimizedVideo from './OptimizedVideo';
 import videoContact from '../ФСРК видео/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc.mp4';
 import mainImage from '../images/ContactPage/video_contact.png';
@@ -619,6 +620,13 @@ const ContactPage = () => {
 
     // Хук для предзагрузки видео
     const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('contact');
+    // Подсказки загрузчику: текущее видео preload, другие prefetch (можно расширить при необходимости)
+    useResourceHints(
+        videoContact,
+        [videoSources.news, videoSources.events, videoSources.fond, videoSources.main],
+        [mainImage],
+        [placeholderImages.news, placeholderImages.events, placeholderImages.fond]
+    );
 
     const [formData, setFormData] = useState({
         name: '',
@@ -681,8 +689,10 @@ const ContactPage = () => {
         };
     }, []);
 
+    // Блокируем показ, пока не готово видео или placeholder
+    const blockReady = showVideo || imageLoaded;
     return (
-        <PageContainer>
+        <PageContainer style={{ visibility: blockReady ? 'visible' : 'hidden' }}>
             <HeroBanner>
                 <OptimizedVideo
                     videoSrc={videoContact}
