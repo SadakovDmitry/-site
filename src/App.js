@@ -73,7 +73,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .cosmic-glow {
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 30px rgba(1, 156, 229, 0.3);
   }
 `;
 

@@ -16,6 +16,8 @@ const PlaceholderImage = styled.img`
   object-fit: contain;
   z-index: 1;
   transition: opacity 0.3s ease;
+  display: block;
+  vertical-align: top;
 `;
 
 const StyledVideo = styled.video`
@@ -25,6 +27,8 @@ const StyledVideo = styled.video`
   object-fit: contain;
   z-index: 2;
   transition: opacity 0.3s ease;
+  display: block;
+  vertical-align: top;
 `;
 
 const LoadingSpinner = styled.div`

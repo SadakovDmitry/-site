@@ -27,12 +27,14 @@ const Container = styled.div`
 
 const SectionTitle = styled(motion.h2)`
   font-family: 'Raleway', sans-serif;
-  font-size: clamp(2rem, 3.8vw, 3.2rem);
+  font-size: 3rem;
   font-weight: 400;
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
   color: #fff;
+  text-align: left;
 
   @media (max-width: 768px) {
+    font-size: 2.5rem;
     text-align: center;
   }
 `;

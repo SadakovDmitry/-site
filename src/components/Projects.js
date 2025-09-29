@@ -125,8 +125,8 @@ const ProjectCard = styled(motion.div)`
 
   &:hover {
     transform: translateY(-10px);
-    box-shadow: 0 25px 50px rgba(0, 255, 255, 0.1);
-    border-color: rgba(0, 255, 255, 0.3);
+    box-shadow: 0 25px 50px rgba(1, 156, 229, 0.1);
+    border-color: rgba(1, 156, 229, 0.3);
   }
 
   .card-header {
@@ -143,7 +143,7 @@ const ProjectCard = styled(motion.div)`
 
     &::before {
       content: '#';
-      color: #00ffff;
+      color: #019CE5;
       margin-right: 0.3rem;
     }
   }
@@ -155,7 +155,7 @@ const ProjectCard = styled(motion.div)`
     transition: color 0.3s ease;
 
     &:hover {
-      color: #00ffff;
+      color: #019CE5;
     }
 
     &::before {
@@ -202,7 +202,7 @@ const ProjectCard = styled(motion.div)`
 
 const AllProjectsButton = styled(Link)`
   background: #1a1a2e;
-  border: 1px solid #00ffff;
+  border: 1px solid #019CE5;
   color: #fff;
   padding: 1rem 2.5rem;
   font-size: 1.1rem;
@@ -218,9 +218,9 @@ const AllProjectsButton = styled(Link)`
   text-align: center;
 
   &:hover {
-    background: #00ffff;
+    background: #019CE5;
     color: #000;
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 30px rgba(1, 156, 229, 0.3);
   }
 `;
 

@@ -46,9 +46,9 @@ const ModalContent = styled(motion.div)`
 
 const CloseButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(0, 0, 0, 0.1);
+  top: 30px;
+  right: 30px;
+  background: transparent;
   border: none;
   color: #212529;
   font-size: 2rem;
@@ -58,12 +58,11 @@ const CloseButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  transition: background-color 0.3s ease;
+  transition: color 0.3s ease;
   z-index: 10;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.2);
+    color: #666;
   }
 `;
 

@@ -11,23 +11,27 @@ const HeadingBar = styled.div`
   width: 100%;
   background: #ffffff;
   color: #0b0d13;
-  padding-top: clamp(28px, 6vw, 56px);
-  padding-bottom: clamp(12px, 3vw, 24px);
-  padding-left: var(--container-x);
-  padding-right: var(--container-x);
+  padding-top: clamp(16px, 3vw, 32px);
+  padding-bottom: clamp(8px, 2vw, 16px);
+  padding-left: var(--page-x);
+  padding-right: var(--page-x);
   border-bottom: 1px solid rgba(0,0,0,0.06);
   margin-top: 0;
 `;
 
 const Heading = styled.h2`
   font-family: 'Raleway', sans-serif;
-  font-size: clamp(2rem, 5.4vw, 4rem);
+  font-size: 3rem;
   font-weight: 400;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  margin: 0;
+  margin-left: 20px;
+  color: #0b0d13;
+  text-align: left;
 
   @media (max-width: 768px) {
+    font-size: 2.5rem;
     text-align: center;
+    margin-left: 0px;
   }
 `;
 
@@ -65,9 +69,11 @@ const OverlayText = styled(motion.div)`
     letter-spacing: 0.03em;
     font-size: clamp(1.1rem, 3vw, 2.2rem);
     margin-bottom: 12px;
+    margin-left: 20px;
 
     @media (max-width: 768px) {
       text-align: center;
+      margin-left: 0px;
     }
   }
   .sub::before{ content: '/ '; opacity: 0.9; }
@@ -79,11 +85,13 @@ const OverlayText = styled(motion.div)`
     line-height: 1.4;
     letter-spacing: 0.01em;
     text-shadow: 0 1px 1px rgba(0,0,0,0.25);
+    margin-left: 20px;
 
     @media (max-width: 768px) {
       text-align: center;
       font-size: clamp(1rem, 3.2vw, 1.35rem);
       line-height: 1.2;
+      margin-left: 0px;
     }
 
     @media (max-width: 480px) {
@@ -238,37 +246,6 @@ const About = () => {
         </OverlayText>
       </FullBleed>
 
-      <FoundersSection>
-        <FoundersContainer>
-          <SubTitle initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}}>УЧРЕДИТЕЛИ</SubTitle>
-          <Grid className={shouldCenter ? 'center-single' : ''}>
-            <FounderTile initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.05 }}>
-              <ImageWrap><img src={founder1} alt="Петр Небесный" /></ImageWrap>
-              <Info>
-                <div className="role">Частный благотворитель</div>
-                <div className="name">Петр Небесный</div>
-                <div className="desc">Активный сторонник космических исследований</div>
-              </Info>
-            </FounderTile>
-            <FounderTile initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.1 }}>
-              <ImageWrap><img src={founder2} alt="AstroTech" /></ImageWrap>
-              <Info>
-                <div className="role">Технологическая компания</div>
-                <div className="name">“AstroTech”</div>
-                <div className="desc">Разработчик передовых космических технологий</div>
-              </Info>
-            </FounderTile>
-            <FounderTile initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.15 }}>
-              <ImageWrap><img src={founder3} alt="Роскосмос" /></ImageWrap>
-              <Info>
-                <div className="role">Космическое агентство</div>
-                <div className="name">“Роскосмос”</div>
-                <div className="desc">Стратегический партнер фонда</div>
-              </Info>
-            </FounderTile>
-          </Grid>
-        </FoundersContainer>
-      </FoundersSection>
     </section>
   );
 };

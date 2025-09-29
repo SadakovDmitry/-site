@@ -84,6 +84,8 @@ const EventsGrid = styled.div`
     grid-template-columns: 1fr;
     gap: 1.5rem;
     justify-items: center;
+    max-width: 800px;
+    margin: 0 auto;
   }
 
   &.center-single {
@@ -115,8 +117,8 @@ const EventCard = styled(motion.div)`
 
   &:hover {
     transform: translateY(-10px);
-    box-shadow: 0 25px 50px rgba(0, 255, 255, 0.1);
-    border-color: rgba(0, 255, 255, 0.3);
+    box-shadow: 0 25px 50px rgba(1, 156, 229, 0.1);
+    border-color: rgba(1, 156, 229, 0.3);
   }
 
   .card-header {
@@ -133,7 +135,7 @@ const EventCard = styled(motion.div)`
 
     &::before {
       content: '#';
-      color: #00ffff;
+      color: #019CE5;
       margin-right: 0.3rem;
     }
   }
@@ -145,7 +147,7 @@ const EventCard = styled(motion.div)`
     transition: color 0.3s ease;
 
     &:hover {
-      color: #00ffff;
+      color: #019CE5;
     }
 
     &::before {
@@ -192,7 +194,7 @@ const EventCard = styled(motion.div)`
 
 const AllEventsButton = styled(Link)`
   background: #1a1a2e;
-  border: 1px solid #00ffff;
+  border: 1px solid #019CE5;
   color: #fff;
   padding: 1rem 2.5rem;
   font-size: 1.1rem;
@@ -208,9 +210,9 @@ const AllEventsButton = styled(Link)`
   text-align: center;
 
   &:hover {
-    background: #00ffff;
+    background: #019CE5;
     color: #000;
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 30px rgba(1, 156, 229, 0.3);
   }
 `;
 
@@ -305,8 +307,8 @@ const Events = () => {
             <div style={{
               width: '40px',
               height: '40px',
-              border: '3px solid rgba(0, 255, 255, 0.3)',
-              borderTop: '3px solid #00ffff',
+              border: '3px solid rgba(1, 156, 229, 0.3)',
+              borderTop: '3px solid #019CE5',
               borderRadius: '50%',
               animation: 'spin 1s linear infinite',
               margin: '0 auto'
@@ -321,31 +323,32 @@ const Events = () => {
         ) : (
           <EventsGrid className={shouldCenter ? 'center-single' : ''}>
             {events.map((event, index) => (
-              <EventCard
-                key={event.id || event.title}
-                initial={{ opacity: 0, y: 50 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.2 + index * 0.1, ease: "easeOut" }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="card-header">
-                  <span className="date">{event.date || 'Дата не указана'}</span>
-                  <Link to={`/events/${event.id || 'event'}`} className="details-link">ПОДРОБНЕЕ</Link>
-                </div>
+              <Link key={event.id || event.title} to={`/events/${event.id || 'event'}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <EventCard
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.8, delay: 0.2 + index * 0.1, ease: "easeOut" }}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <div className="card-header">
+                    <span className="date">{event.date || 'Дата не указана'}</span>
+                    <span className="details-link">ПОДРОБНЕЕ</span>
+                  </div>
 
-                <h3 className="event-title">{event.title}</h3>
-                <p className="event-description">{event.description || event.excerpt}</p>
+                  <h3 className="event-title">{event.title}</h3>
+                  <p className="event-description">{event.description || event.excerpt}</p>
 
-                <div className="event-image">
-                  <img
-                    src={event.image || event.featuredImage || image75}
-                    alt={event.title}
-                    onError={(e) => {
-                      e.target.src = image75;
-                    }}
-                  />
-                </div>
-              </EventCard>
+                  <div className="event-image">
+                    <img
+                      src={event.image || event.featuredImage || image75}
+                      alt={event.title}
+                      onError={(e) => {
+                        e.target.src = image75;
+                      }}
+                    />
+                  </div>
+                </EventCard>
+              </Link>
             ))}
           </EventsGrid>
         )}

@@ -49,7 +49,7 @@ const FooterSection = styled.div`
     font-size: 0.95rem;
     font-family: 'Proxima Nova', 'Raleway', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
   }
-  a:hover { color: #00ffff; }
+  a:hover { color: #019CE5; }
 `;
 
 const Brand = styled.div`

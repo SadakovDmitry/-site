@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import PartnerModal from './PartnerModal';
 import EarthVideo from '../Earth Rotates.mp4';
 import EarthVideoMobile from '../images/main/Earth Rotates_alpha_3.mp4';
 import EarthImage from '../pre_load_image.png'; // Изображение для десктопа
@@ -93,10 +94,10 @@ const TextContent = styled(motion.div)`
 
     @media (max-width: 540px) {
       text-align: center;
-      font-size: clamp(10px, 9vw, 62px);
-      margin-bottom: 10vw;
-      margin-top: 33vw;
-      line-height: 1.2;
+      font-size: clamp(8px, 7vw, 50px);
+      margin-bottom: 8vw;
+      margin-top: 30vw;
+      line-height: 1.1;
     }
   }
 
@@ -123,9 +124,9 @@ const TextContent = styled(motion.div)`
 
     @media (max-width: 540px) {
       text-align: center;
-      font-size: clamp(8px, 4vw, 20px);
-      margin-bottom: 2rem;
-      line-height: 1.5;
+      font-size: clamp(6px, 3.5vw, 18px);
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
       max-width: 100%;
     }
   }
@@ -149,7 +150,7 @@ const TextContent = styled(motion.div)`
 
 const CTAButton = styled(motion.button)`
   background: #1a1a2e;
-  border: 1px solid #00ffff;
+  border: 1px solid #019CE5;
   color: #fff;
   padding: clamp(0.6rem, 1.2vw, 11rem) clamp(1rem, 2vw, 10rem);
   font-size: clamp(0.85rem, 1.2vw, 4rem);
@@ -180,10 +181,17 @@ const CTAButton = styled(motion.button)`
       min-width: 200px;
     }
 
+    @media (max-width: 540px) {
+      padding: clamp(8px, 2.5vw, 12px) clamp(16px, 5vw, 24px);
+      font-size: clamp(12px, 3vw, 16px);
+      margin-bottom: 1.5rem;
+      min-width: 150px;
+    }
+
   &:hover {
-    background: #00ffff;
+    background: #019CE5;
     color: #000;
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 30px rgba(1, 156, 229, 0.3);
 
     @media (max-width: 900px) {
       background: #fff;
@@ -251,6 +259,7 @@ const EarthVideoStyled = styled.video`
   background: transparent;
   opacity: ${props => props.isLoaded ? 1 : 0};
   transition: opacity 0.3s ease;
+  vertical-align: top;
 `;
 
 const EarthImageStyled = styled.img`
@@ -286,6 +295,7 @@ const Hero = () => {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
+  const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -343,7 +353,7 @@ const Hero = () => {
             width: '40px',
             height: '40px',
             border: '3px solid rgba(255, 255, 255, 0.3)',
-            borderTop: '3px solid #00ffff',
+            borderTop: '3px solid #019CE5',
             borderRadius: '50%',
             animation: 'spin 1s linear infinite'
           }} />
@@ -376,35 +386,28 @@ const Hero = () => {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
-            <h1>ЗВЕЗДЫ — НАШ ПУТЬ НАЗНАЧЕНИЯ</h1>
+            <h1>СИСТЕМА КОСМИЧЕСКИХ КООРДИНАТ</h1>
             <p>
-              <strong>Дорога в космос — это дорога зрелой нации.</strong>
-              Мы здесь, чтобы сделать её прямой,
-              открытой и вдохновляющей.
+              <strong>То, что казалось несбыточным на протяжении веков, что вчера было лишь дерзновенной мечтой, сегодня становится реальной задачей, а завтра — свершением.</strong>
+              <br />
+              <em>— Сергей Павлович Королев</em>
             </p>
-            <CTAButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.96 }}>СТАТЬ ЧАСТЬЮ БУДУЩЕГО</CTAButton>
+            <CTAButton
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.96 }}
+              onClick={() => setIsPartnerModalOpen(true)}
+            >
+              ПОДДЕРЖАТЬ ФОНД
+            </CTAButton>
           </TextContent>
 
-          <StatsContainer
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-          >
-            <StatItem>
-              <span className="number">18</span>
-              <span className="label">проектов</span>
-            </StatItem>
-            <StatItem>
-              <span className="number">42</span>
-              <span className="label">инвестора</span>
-            </StatItem>
-            <StatItem>
-              <span className="number">7</span>
-              <span className="label">лет работы</span>
-            </StatItem>
-          </StatsContainer>
         </OverlayInner>
       </OverlayLayer>
+
+      <PartnerModal
+        isOpen={isPartnerModalOpen}
+        onClose={() => setIsPartnerModalOpen(false)}
+      />
     </HeroSection>
   );
 };

@@ -118,8 +118,8 @@ const HeroTitle = styled(motion.h1)`
 
   @media (max-width: 768px) {
     text-align: center;
-    font-size: clamp(2.5rem, 8vw, 4rem);
-    margin-bottom: 2rem;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    margin-bottom: 1rem;
   }
 `;
 

@@ -26,21 +26,52 @@ const HeaderContent = styled.div`
   gap: 0.75rem;
 `;
 
-const Brand = styled.div`
-  display: flex; align-items: center; gap: clamp(8px, 1vw, 12px);
+const Brand = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1vw, 12px);
   flex: 0 0 auto;
+
   img {
-    height: clamp(34px, 5.2vw, 64px);
+    height: clamp(34px, 5.2vw, 84px);
     width: auto;
     display: block;
 
     @media (max-width: 900px) {
-      height: clamp(50px, 8vw, 80px);
+      height: clamp(30px, 6vw, 75px);
     }
 
     @media (max-width: 390px) {
-      height: clamp(40px, 6vw, 60px);
+      height: clamp(24px, 3vw, 40px);
     }
+  }
+
+  @media (max-width: 900px) {
+    gap: clamp(4px, 0.5vw, 8px);
+  }
+`;
+
+const BrandText = styled.div`
+  color: #ffffff;
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(12px, 1.5vw, 60px);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  margin-left: clamp(6px, 0.8vw, 12px);
+
+  @media (max-width: 900px) {
+    font-size: clamp(8px, 1.6vw, 100px);
+    margin-left: clamp(4px, 0.5vw, 8px);
+  }
+
+  @media (max-width: 480px) {
+    font-size: clamp(7px, 0.9vw, 100px);
+  }
+
+  @media (max-width: 390px) {
+    font-size: clamp(6px, 0.8vw, 80px);
   }
 `;
 
@@ -165,7 +196,7 @@ const MobileDropdownLink = styled(Link)`
 
   &:hover {
     background-color: rgba(0,0,0,0.05);
-    color: #1aa0ff;
+    color: #019CE5;
   }
 
   @media (max-width: 480px) {
@@ -296,47 +327,47 @@ const MobilePageTitle = styled.span`
   font-weight: 400;
   font-family: 'Raleway', sans-serif;
   letter-spacing: 0.02em;
-  font-size: clamp(16px, 1.5vw, 20px);
+  font-size: clamp(12px, 1.2vw, 16px);
   white-space: nowrap;
   flex: 1;
   text-align: center;
-  margin-right: clamp(0px, 3vw, 32px);
+  margin-right: clamp(0px, 2vw, 24px);
 
   @media (max-width: 480px) {
-    font-size: clamp(14px, 1.2vw, 16px);
-    margin-right: clamp(0px, 2vw, 20px);
+    font-size: clamp(10px, 1vw, 12px);
+    margin-right: clamp(0px, 1.5vw, 16px);
   }
 
   @media (max-width: 390px) {
-    font-size: clamp(12px, 1vw, 14px);
-    margin-right: clamp(0px, 1.5vw, 16px);
+    font-size: clamp(8px, 0.8vw, 10px);
+    margin-right: clamp(0px, 1vw, 12px);
   }
 `;
 
 const MobilePrimaryButton = styled(motion.button)`
   text-align: center;
-  padding: clamp(12px, 1.2vw, 18px) clamp(20px, 1.8vw, 28px);
+  padding: clamp(8px, 1vw, 14px) clamp(16px, 1.5vw, 24px);
   border-radius: 9999px;
-  min-width: clamp(120px, 12vw, 160px);
+  min-width: clamp(80px, 10vw, 120px);
   background: linear-gradient(83.48deg, #312684 0%, #019CE5 100%);
   color: #fff;
   font-weight: 700;
-  font-size: clamp(14px, 1.3vw, 18px);
+  font-size: clamp(10px, 1vw, 14px);
   box-shadow: 0 6px 14px rgba(0, 136, 255, 0.45);
   white-space: nowrap;
   border: none;
   cursor: pointer;
 
   @media (max-width: 480px) {
-    padding: clamp(8px, 0.9vw, 12px) clamp(14px, 1.3vw, 20px);
-    min-width: clamp(90px, 10vw, 120px);
-    font-size: clamp(12px, 1vw, 14px);
+    padding: clamp(6px, 0.8vw, 10px) clamp(12px, 1.2vw, 16px);
+    min-width: clamp(60px, 8vw, 90px);
+    font-size: clamp(8px, 0.8vw, 10px);
   }
 
   @media (max-width: 390px) {
-    padding: clamp(6px, 0.7vw, 10px) clamp(10px, 1vw, 16px);
-    min-width: clamp(70px, 8vw, 100px);
-    font-size: clamp(10px, 0.8vw, 12px);
+    padding: clamp(4px, 0.6vw, 8px) clamp(8px, 1vw, 12px);
+    min-width: clamp(50px, 6vw, 70px);
+    font-size: clamp(6px, 0.6vw, 8px);
   }
 `;
 
@@ -471,15 +502,25 @@ const Header = () => {
     >
       <HeaderContent>
         <DesktopRow>
-          <Brand>
-            <img src={MainLogo} alt="Логотип" />
+          <Brand to="/">
+            <img src={MobileLogo} alt="Логотип" />
+            <BrandText>
+              ФОНД<br />
+              СОДЕЙСТВИЯ РАЗВИТИЮ<br />
+              КОСМОНАВТИКИ
+            </BrandText>
           </Brand>
           {Items}
         </DesktopRow>
 
         <MobileRow>
-          <Brand>
-            <img src={isMobile ? MobileLogo : MainLogo} alt="Логотип" />
+          <Brand to="/">
+            <img src={MobileLogo} alt="Логотип" />
+            <BrandText>
+              ФОНД<br />
+              СОДЕЙСТВИЯ РАЗВИТИЮ<br />
+              КОСМОНАВТИКИ
+            </BrandText>
           </Brand>
           <MobileCapsule>
             <MobileNavButton onClick={() => setOpen(!open)}>

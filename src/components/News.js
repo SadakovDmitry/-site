@@ -225,7 +225,7 @@ const NewsCard = styled(motion.div)`
 
 const AllNewsButton = styled(Link)`
   background: #1a1a2e;
-  border: 1px solid #00ffff;
+  border: 1px solid #019CE5;
   color: #fff;
   padding: 1rem 2.5rem;
   font-size: 1.1rem;
@@ -241,9 +241,9 @@ const AllNewsButton = styled(Link)`
   text-align: center;
 
   &:hover {
-    background: #00ffff;
+    background: #019CE5;
     color: #000;
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 30px rgba(1, 156, 229, 0.3);
   }
 `;
 
@@ -261,10 +261,12 @@ const News = () => {
     const fetchNews = async () => {
       try {
         setLoading(true);
-        const wordpressNews = await wordpressApi.getNewsWithPagination(1, 2);
+        const wordpressNews = await wordpressApi.getNews();
 
         if (wordpressNews.length > 0) {
-          setNews(wordpressNews);
+          // Берем только первые 2 новости
+          const limitedNews = wordpressNews.slice(0, 2);
+          setNews(limitedNews);
         } else {
           // Fallback к статичным данным если WordPress недоступен
           setNews([

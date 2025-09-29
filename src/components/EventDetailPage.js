@@ -67,6 +67,7 @@ const HeroTitle = styled.h1`
 
   @media (max-width: 768px) {
     text-align: center;
+    font-size: clamp(1rem, 3vw, 1.8rem);
   }
 `;
 
