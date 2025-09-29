@@ -1,5 +1,6 @@
 import Mission from "./AboutFond-components/Mission";
 import Director from "./AboutFond-components/Director";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { useVideoPreloader } from '../hooks/useVideoPreloader';
@@ -333,7 +334,25 @@ const BoardMembersGrid = styled.div`
   padding: 0 0rem;
 
   @media (max-width: 768px) {
-    gap: 2rem;
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.5rem;
+    margin: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { height: 0; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: transparent; border-radius: 8px; }
+
+    &.scrolling {
+      scrollbar-width: thin;
+    }
+    &.scrolling::-webkit-scrollbar { height: 8px; }
+    &.scrolling::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); }
   }
 
   @media (max-width: 480px) {
@@ -354,11 +373,14 @@ const BoardMemberCard = styled(motion.div)`
   gap: 1.5rem;
 
   @media (max-width: 768px) {
-    padding: 1.5rem;
+    padding: 1.25rem;
+    min-width: 80vw;
+    scroll-snap-align: center;
   }
 
   @media (max-width: 480px) {
     padding: 1rem;
+    min-width: 85vw;
   }
 `;
 
@@ -369,7 +391,15 @@ const MemberImage = styled.img`
   border-radius: 15px;
   flex-shrink: 0;
 
+  @media (max-width: 768px) {
+    width: 50%;
+    height: 55vw;
+  }
 
+  @media (max-width: 480px) {
+    width: 50%;
+    height: 60vw;
+  }
 `;
 
 const MemberTopSection = styled.div`
@@ -396,6 +426,10 @@ const MemberRole = styled.h3`
   text-transform: uppercase;
   margin: 0;
   line-height: 1.3;
+
+  @media (max-width: 768px) {
+    font-size: clamp(0.9rem, 3.8vw, 1.2rem);
+  }
 `;
 
 const MemberName = styled.h4`
@@ -407,6 +441,15 @@ const MemberName = styled.h4`
   margin: 0;
   line-height: 1.0;
   align-self: flex-start;
+
+  @media (max-width: 768px) {
+    font-size: clamp(0.2rem, 6.2vw, 2rem);
+    line-height: 1.1;
+  }
+
+  @media (max-width: 600px) {
+    font-size: clamp(0.2rem, 5.0vw, 2rem);
+  }
 `;
 
 const MemberDescription = styled.p`
@@ -417,6 +460,11 @@ const MemberDescription = styled.p`
   text-align: left;
   line-height: 1.2;
   margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: clamp(0.9rem, 4.5vw, 1.3rem);
+    line-height: 1.3;
+  }
 `;
 
 const StrategicDirectionsSection = styled.section`
@@ -658,6 +706,14 @@ const DocButton = styled.button`
 function AboutFond() {
   // Хук для предзагрузки видео
   const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('fond');
+  const [isMembersScrolling, setIsMembersScrolling] = useState(false);
+  const scrollHideTimerRef = useRef(null);
+
+  const handleMembersScroll = () => {
+    setIsMembersScrolling(true);
+    if (scrollHideTimerRef.current) clearTimeout(scrollHideTimerRef.current);
+    scrollHideTimerRef.current = setTimeout(() => setIsMembersScrolling(false), 700);
+  };
 
   return (
     <>
@@ -720,7 +776,10 @@ function AboutFond() {
       >
         <BoardMembersSection>
           <BoardMembersTitle>ЧЛЕНЫ ПРАВЛЕНИЯ</BoardMembersTitle>
-          <BoardMembersGrid>
+          <BoardMembersGrid
+            onScroll={handleMembersScroll}
+            className={isMembersScrolling ? 'scrolling' : ''}
+          >
             <BoardMemberCard
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}

@@ -123,7 +123,7 @@ const Footer = () => {
           </Brand>
           <p>Москва, Россия</p>
           <p>info@cosmosfund.ru</p>
-          <p>+7 (495) 123-45-67</p>
+          <p>+7 (495) 922 8994</p>
           <SocialLinks>
             <SocialLink href="https://t.me/cosmosfund" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.08 }}><img src={TG} alt="Telegram" /></SocialLink>
             <SocialLink href="https://vk.com/cosmosfund" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.08 }}><img src={VK} alt="VK" /></SocialLink>

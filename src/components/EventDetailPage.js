@@ -22,7 +22,7 @@ const PageContainer = styled.div`
 
 const HeroSection = styled.div`
   position: relative;
-  height: 55vw;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,15 +30,11 @@ const HeroSection = styled.div`
 `;
 
 const BannerImage = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
+  height: auto;
+  background: transparent;
+  object-fit: contain;
   z-index: 1;
 `;
 

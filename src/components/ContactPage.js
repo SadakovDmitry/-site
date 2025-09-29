@@ -79,32 +79,19 @@ const PageContainer = styled.div`
 
 const HeroBanner = styled.div`
   position: relative;
-  height: 55vw;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-
-  @media (max-width: 768px) {
-    height: 100vh;
-  }
 `;
 
 const BannerVideo = styled.video`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
+  height: auto;
+  object-fit: contain;
   z-index: 1;
-
-  @media (max-width: 768px) {
-    object-position: center center;
-  }
 `;
 
 const Overlay = styled.div`
@@ -209,7 +196,27 @@ const ContactInfo = styled(motion.div)`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2rem;
+    position: relative;
+    justify-items: start;
+    // --axis: 8%;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 5%   ;
+      bottom: 9.7%;
+      left: 8%;
+      width: 4px;
+      background: linear-gradient(180deg, #312684 0%, #019CE5 60%, #312684 65%, #1A5FB3 100%);
+      transform: translateX(-50%);
+      z-index: 0;
+    }
+
+    /* Четные элементы (любой тэг) выравниваем справа */
+    & > *:nth-child(even) {
+      justify-self: end;
+    }
   }
 
   @media (max-width: 480px) {
@@ -221,17 +228,26 @@ const ContactItem = styled.div`
   display: flex;
   align-items: center;
   gap: 2.5rem;
+  position: relative;
+  z-index: 1;
+  width: 60%;
+
+  @media (max-width: 600px) {
+    width: 80%;
+  }
 
   .icon {
-    width: 130px;
-    height: 130px;
-    background: transparent;
+    width: 120px;
+    height: 120px;
+    background: #ffffff;
     border: none;
-    border-radius: 0;
+    border-radius: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    position: relative;
+    z-index: 2;
 
     img {
       width: 120px;
@@ -263,8 +279,9 @@ const ContactItem = styled.div`
     gap: 2rem;
 
     .icon {
-      width: 110px;
-      height: 110px;
+      width: 100px;
+      height: 100px;
+      background: #ffffff;
 
       img {
         width: 100px;
@@ -274,11 +291,13 @@ const ContactItem = styled.div`
 
     .content {
       h4 {
+
         font-size: 1.6rem;
       }
 
       p {
         font-size: 1.6rem;
+        // width: 100%;
       }
     }
   }
@@ -287,22 +306,57 @@ const ContactItem = styled.div`
     gap: 1.5rem;
 
     .icon {
-      width: 95px;
-      height: 95px;
+      width: 70px;
+      height: 70px;
+      background: #ffffff;
 
       img {
-        width: 85px;
-        height: 85px;
+        width: 70px;
+        height: 70px;
       }
     }
 
     .content {
       h4 {
-        font-size: 1.4rem;
+        font-size: 1.1rem;
       }
 
       p {
-        font-size: 1.4rem;
+        font-size: 1.1rem;
+      }
+    }
+  }
+
+  /* Горизонтальные соединители к центральной линии на мобильных */
+  @media (max-width: 768px) {
+    &:nth-child(odd)::after,
+    &:nth-child(even)::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      height: 4px;
+      background: linear-gradient(90deg, #1A5FB3 0%, #1A5FB3 100%);
+      transform: translateY(-50%);
+      z-index: 0;
+    }
+
+    /* Левые карточки тянутся вправо к центру */
+    &:nth-child(odd)::after {
+      left: 100px; /* 130px иконка + ~40px gap */
+      width: clamp(0px, calc(8% - 170px), 20vw);
+    }
+
+    /* Правые карточки тянутся влево к центру */
+    &:nth-child(even)::after {
+      left: -30.2vw;
+      width: 30.2vw;
+    }
+
+    @media (max-width: 600px) {
+      /* Левая карточка тянутся влево к центру */
+      &:nth-child(even)::after {
+        left: -11.2vw;
+        width: 11.2vw;
       }
     }
   }
@@ -656,7 +710,7 @@ const ContactPage = () => {
                         animate={inView ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.8, ease: "easeOut" }}
                     >
-                        <ContactItem>
+                        <ContactItem as="a" href="https://yandex.ru/maps/?text=123112%2C%20%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%9F%D1%80%D0%B5%D1%81%D0%BD%D0%B5%D0%BD%D1%81%D0%BA%D0%B0%D1%8F%20%D0%BD%D0%B0%D0%B1.%2C%2012" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
                             <div className="icon">
                                 <img src={mapIcon} alt="Адрес" />
                             </div>
@@ -666,7 +720,7 @@ const ContactPage = () => {
                             </div>
                         </ContactItem>
 
-                        <ContactItem>
+                        <ContactItem as="a" href="mailto:info@cosmosfond.ru" style={{ textDecoration: 'none', color: 'inherit' }}>
                             <div className="icon">
                                 <img src={emailIcon} alt="Email" />
                             </div>
@@ -676,7 +730,7 @@ const ContactPage = () => {
                             </div>
                         </ContactItem>
 
-                        <ContactItem>
+                        <ContactItem as="a" href="tel:+74959228994" style={{ textDecoration: 'none', color: 'inherit' }}>
                             <div className="icon">
                                 <img src={phoneIcon} alt="Телефон" />
                             </div>

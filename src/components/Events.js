@@ -215,156 +215,156 @@ const AllEventsButton = styled(Link)`
 `;
 
 const Events = () => {
-    const [ref, inView] = useInView({
-        triggerOnce: true,
-        threshold: 0.1
-    });
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
 
-    const [shouldCenter, setShouldCenter] = useState(false);
-    const [events, setEvents] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const [shouldCenter, setShouldCenter] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    // Fallback события
-    const fallbackEvents = [
-        {
-            date: '23.07.2025',
-            title: 'ОТКРЫТИЕ ПЛАНЕТАРИЯ',
-            description: 'Создание современного планетария для популяризации астрономии и космической науки среди молодежи.',
-            image: image77
-        },
-        {
-            date: '15.08.2025',
-            title: 'ЗАПУСК НОВОГО СПУТНИКА',
-            description: 'Разработка и запуск образовательного спутника для проведения научных экспериментов в космосе.',
-            image: image76
-        },
-        {
-            date: '10.09.2025',
-            title: 'ЛЕКЦИЯ КОСМОНАВТА',
-            description: 'Организация встречи с действующим космонавтом для студентов и школьников.',
-            image: image75
+  // Fallback события
+  const fallbackEvents = [
+    {
+      date: '23.07.2025',
+      title: 'ОТКРЫТИЕ ПЛАНЕТАРИЯ',
+      description: 'Создание современного планетария для популяризации астрономии и космической науки среди молодежи.',
+      image: image77
+    },
+    {
+      date: '15.08.2025',
+      title: 'ЗАПУСК НОВОГО СПУТНИКА',
+      description: 'Разработка и запуск образовательного спутника для проведения научных экспериментов в космосе.',
+      image: image76
+    },
+    {
+      date: '10.09.2025',
+      title: 'ЛЕКЦИЯ КОСМОНАВТА',
+      description: 'Организация встречи с действующим космонавтом для студентов и школьников.',
+      image: image75
+    }
+  ];
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        setLoading(true);
+        const fetchedEvents = await wordpressApi.getEvents();
+
+        if (fetchedEvents && fetchedEvents.length > 0) {
+          // Берем только первые 3 события
+          const limitedEvents = fetchedEvents.slice(0, 3);
+          setEvents(limitedEvents);
+        } else {
+          // Fallback к статическим данным
+          setEvents(fallbackEvents);
         }
-    ];
+      } catch (err) {
+        console.error('Error fetching events:', err);
+        // Fallback к статическим данным
+        setEvents(fallbackEvents);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    useEffect(() => {
-        const fetchEvents = async () => {
-            try {
-                setLoading(true);
-                const fetchedEvents = await wordpressApi.getEvents();
+    fetchEvents();
+  }, []);
 
-                if (fetchedEvents && fetchedEvents.length > 0) {
-                    // Берем только первые 3 события
-                    const limitedEvents = fetchedEvents.slice(0, 3);
-                    setEvents(limitedEvents);
-                } else {
-                    // Fallback к статическим данным
-                    setEvents(fallbackEvents);
-                }
-            } catch (err) {
-                console.error('Error fetching events:', err);
-                // Fallback к статическим данным
-                setEvents(fallbackEvents);
-            } finally {
-                setLoading(false);
-            }
-        };
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width <= 1200 && width > 768) {
+        // На экранах 768px-1200px у нас 2 колонки
+        // Если у нас 3 события, то 3-е будет в новой строке
+        setShouldCenter(events.length % 2 === 1);
+      } else {
+        setShouldCenter(false);
+      }
+    };
 
-        fetchEvents();
-    }, []);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [events.length]);
 
-    useEffect(() => {
-        const handleResize = () => {
-            const width = window.innerWidth;
-            if (width <= 1200 && width > 768) {
-                // На экранах 768px-1200px у нас 2 колонки
-                // Если у нас 3 события, то 3-е будет в новой строке
-                setShouldCenter(events.length % 2 === 1);
-            } else {
-                setShouldCenter(false);
-            }
-        };
+  return (
+    <EventsSection id="events" ref={ref}>
+      <Container>
+        <SectionTitle
+          initial={{ opacity: 0, y: 50 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1, ease: "easeOut" }}
+        >
+          СОБЫТИЯ
+        </SectionTitle>
 
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, [events.length]);
-
-    return (
-        <EventsSection id="events" ref={ref}>
-            <Container>
-                <SectionTitle
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                >
-                    СОБЫТИЯ
-                </SectionTitle>
-
-                {loading ? (
-                    <div style={{ textAlign: 'center', padding: '2rem' }}>
-                        <div style={{
-                            width: '40px',
-                            height: '40px',
-                            border: '3px solid rgba(0, 255, 255, 0.3)',
-                            borderTop: '3px solid #00ffff',
-                            borderRadius: '50%',
-                            animation: 'spin 1s linear infinite',
-                            margin: '0 auto'
-                        }} />
-                        <style>{`
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            <div style={{
+              width: '40px',
+              height: '40px',
+              border: '3px solid rgba(0, 255, 255, 0.3)',
+              borderTop: '3px solid #00ffff',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite',
+              margin: '0 auto'
+            }} />
+            <style>{`
               @keyframes spin {
                 0% { transform: rotate(0deg); }
                 100% { transform: rotate(360deg); }
               }
             `}</style>
-                    </div>
-                ) : (
-                    <EventsGrid className={shouldCenter ? 'center-single' : ''}>
-                        {events.map((event, index) => (
-                            <EventCard
-                                key={event.id || event.title}
-                                initial={{ opacity: 0, y: 50 }}
-                                animate={inView ? { opacity: 1, y: 0 } : {}}
-                                transition={{ duration: 0.8, delay: 0.2 + index * 0.1, ease: "easeOut" }}
-                                whileHover={{ scale: 1.02 }}
-                            >
-                                <div className="card-header">
-                                    <span className="date">{event.date || 'Дата не указана'}</span>
-                                    <Link to={`/events/${event.id || 'event'}`} className="details-link">ПОДРОБНЕЕ</Link>
-                                </div>
-
-                                <h3 className="event-title">{event.title}</h3>
-                                <p className="event-description">{event.description || event.excerpt}</p>
-
-                                <div className="event-image">
-                                    <img
-                                        src={event.image || event.featuredImage || image75}
-                                        alt={event.title}
-                                        onError={(e) => {
-                                            e.target.src = image75;
-                                        }}
-                                    />
-                                </div>
-                            </EventCard>
-                        ))}
-                    </EventsGrid>
-                )}
-
-                <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-                    <AllEventsButton
-                        to="/events"
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={inView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        ВСЕ СОБЫТИЯ
-                    </AllEventsButton>
+          </div>
+        ) : (
+          <EventsGrid className={shouldCenter ? 'center-single' : ''}>
+            {events.map((event, index) => (
+              <EventCard
+                key={event.id || event.title}
+                initial={{ opacity: 0, y: 50 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.2 + index * 0.1, ease: "easeOut" }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <div className="card-header">
+                  <span className="date">{event.date || 'Дата не указана'}</span>
+                  <Link to={`/events/${event.id || 'event'}`} className="details-link">ПОДРОБНЕЕ</Link>
                 </div>
-            </Container>
-        </EventsSection>
-    );
+
+                <h3 className="event-title">{event.title}</h3>
+                <p className="event-description">{event.description || event.excerpt}</p>
+
+                <div className="event-image">
+                  <img
+                    src={event.image || event.featuredImage || image75}
+                    alt={event.title}
+                    onError={(e) => {
+                      e.target.src = image75;
+                    }}
+                  />
+                </div>
+              </EventCard>
+            ))}
+          </EventsGrid>
+        )}
+
+        <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+          <AllEventsButton
+            to="/events"
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            ВСЕ СОБЫТИЯ
+          </AllEventsButton>
+        </div>
+      </Container>
+    </EventsSection>
+  );
 };
 
 export default Events;

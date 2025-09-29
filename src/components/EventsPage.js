@@ -77,32 +77,19 @@ const PageContainer = styled.div`
 // Главная секция с фото
 const HeroSection = styled.div`
   position: relative;
-  height: 55vw;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-
-  @media (max-width: 768px) {
-    height: 100vh;
-  }
 `;
 
 const BannerVideo = styled.video`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
+  height: auto;
+  object-fit: contain;
   z-index: 1;
-
-  @media (max-width: 768px) {
-    object-position: center center;
-  }
 `;
 
 const Overlay = styled.div`

@@ -82,6 +82,13 @@ const OverlayText = styled(motion.div)`
 
     @media (max-width: 768px) {
       text-align: center;
+      font-size: clamp(1rem, 3.2vw, 1.35rem);
+      line-height: 1.2;
+    }
+
+    @media (max-width: 480px) {
+      font-size: clamp(0.4rem, 3.4vw, 1.4rem);
+      line-height: 1.1;
     }
   }
 `;

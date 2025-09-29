@@ -259,7 +259,7 @@ const EarthImageStyled = styled.img`
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   opacity: ${props => props.isLoaded ? 0 : 1};
   transition: opacity 0.3s ease;
   z-index: 1;

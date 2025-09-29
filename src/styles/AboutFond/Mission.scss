@@ -52,6 +52,7 @@
     flex-direction: column;
     position: absolute;
     left: 44.5%;
+    color: #ffffff;
 
     padding-top: 10%;
 
@@ -74,6 +75,7 @@
       font-weight: 400;
       font-size: clamp(1px, 3.5vw, 49px);
       padding-bottom: 5.2vw;
+      color: #ffffff;
 
       @media (max-aspect-ratio: 1/1) {
         font-size: clamp(40px, 5.5vw, 80px);
@@ -89,6 +91,7 @@
 
       width: clamp(50px, 40vw, 43.8vw);
       padding-bottom: 0.7vw;
+      color: #ffffff;
 
       @media (max-aspect-ratio: 1/1) {
         width: 100%;
@@ -104,6 +107,7 @@
       // font-size: clamp(12px, 1.05vw, 16px);
 
       width: clamp(50px, 35vw, 37.8vw);
+      color: #ffffff;
 
       @media (max-aspect-ratio: 1/1) {
         width: 100%;
