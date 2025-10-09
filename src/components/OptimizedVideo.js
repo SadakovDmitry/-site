@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -66,8 +66,29 @@ const OptimizedVideo = ({
     videoLoaded,
     imageLoaded,
     showVideo,
-    onVideoLoad
+    onVideoLoad,
+    webmSrc,
+    hevcSrc
 }) => {
+    const videoRef = useRef(null);
+
+    // Пытаемся запустить воспроизведение сразу, как только можно
+    useEffect(() => {
+        const el = videoRef.current;
+        if (!el) return;
+        // Гарантируем, что muted установлен ДО play()
+        el.muted = true;
+        el.setAttribute('muted', '');
+        if (showVideo) {
+            const tryPlay = () => {
+                const p = el.play();
+                if (p && typeof p.then === 'function') {
+                    p.catch(() => { });
+                }
+            };
+            tryPlay();
+        }
+    }, [showVideo]);
     return (
         <VideoContainer>
             {/* Placeholder изображение */}
@@ -97,14 +118,29 @@ const OptimizedVideo = ({
                         transition={{ duration: 0.3 }}
                     >
                         <StyledVideo
+                            ref={videoRef}
                             autoPlay
                             loop
                             muted
+                            defaultMuted
                             playsInline
-                            preload="auto"
-                            onLoadedData={onVideoLoad}
+                            preload="metadata"
+                            poster={placeholderImage}
+                            onCanPlay={(e) => {
+                                // На iOS требуется повторная попытка play() после canplay
+                                const el = e.currentTarget;
+                                el.muted = true;
+                                el.setAttribute('muted', '');
+                                const p = el.play();
+                                if (p && typeof p.then === 'function') {
+                                    p.catch(() => { });
+                                }
+                                onVideoLoad && onVideoLoad();
+                            }}
                         >
-                            <source src={videoSrc} type="video/mp4" />
+                            {webmSrc && <source src={webmSrc} type="video/webm" />}
+                            {hevcSrc && <source src={hevcSrc} type='video/mp4; codecs="hvc1"' />}
+                            {videoSrc && <source src={videoSrc} type="video/mp4" />}
                         </StyledVideo>
                     </motion.div>
                 )}

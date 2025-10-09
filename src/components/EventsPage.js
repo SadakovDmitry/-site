@@ -8,6 +8,13 @@ import PartnerModal from './PartnerModal';
 import { useVideoPreloader, videoSources, placeholderImages } from '../hooks/useVideoPreloader';
 import OptimizedVideo from './OptimizedVideo';
 import mainVideo from '../ФСРК видео/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc_1.mp4';
+// Конвертированные варианты
+import eventsMp41080 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc_1-1080p.mp4';
+import eventsWebm1080 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc_1-1080p.webm';
+import eventsHevc1080 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc_1-1080p-hevc.mp4';
+import eventsMp4720 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc_1-720p.mp4';
+import eventsWebm720 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc_1-720p.webm';
+import eventsHevc720 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc_1-720p-hevc.mp4';
 import mainImage from '../images/EventsPage/events_main.png';
 import lecturerImage from '../images/EventsPage/lecturer_for_wide_room.png';
 import scienceWorkshopsImage from '../images/EventsPage/science_workshops.png';
@@ -745,8 +752,12 @@ const EventsPage = () => {
 
     // Хук для предзагрузки видео
     const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('events');
+    const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
+    const currentMp4 = isMobile ? eventsMp4720 : eventsMp41080;
+    const currentWebm = isMobile ? eventsWebm720 : eventsWebm1080;
+    const currentHevc = isMobile ? eventsHevc720 : eventsHevc1080;
     useResourceHints(
-        mainVideo,
+        currentMp4,
         [videoSources.news, videoSources.contact, videoSources.fond, videoSources.main],
         [mainImage],
         [placeholderImages.news, placeholderImages.contact, placeholderImages.fond]
@@ -1039,7 +1050,9 @@ const EventsPage = () => {
         <PageContainer style={{ visibility: blockReady ? 'visible' : 'hidden' }}>
             <HeroSection>
                 <OptimizedVideo
-                    videoSrc={mainVideo}
+                    videoSrc={currentMp4}
+                    webmSrc={currentWebm}
+                    hevcSrc={currentHevc}
                     placeholderImage={mainImage}
                     videoLoaded={videoLoaded}
                     imageLoaded={imageLoaded}

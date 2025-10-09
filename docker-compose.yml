@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  frsrk-website:
+    build: .
+    container_name: frsrk-website
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    volumes:
+      # Для SSL сертификатов (если будете использовать HTTPS)
+      - ./ssl:/etc/nginx/ssl:ro
+    networks:
+      - frsrk-network
+
+networks:
+  frsrk-network:
+    driver: bridge

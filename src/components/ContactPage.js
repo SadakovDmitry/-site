@@ -6,6 +6,13 @@ import { useInView } from 'react-intersection-observer';
 import { useVideoPreloader, videoSources, placeholderImages } from '../hooks/useVideoPreloader';
 import OptimizedVideo from './OptimizedVideo';
 import videoContact from '../ФСРК видео/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc.mp4';
+// Конвертированные варианты (десктоп 1080p / мобильные 720p)
+import contactMp41080 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc-1080p.mp4';
+import contactWebm1080 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc-1080p.webm';
+import contactHevc1080 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc-1080p-hevc.mp4';
+import contactMp4720 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc-720p.mp4';
+import contactWebm720 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc-720p.webm';
+import contactHevc720 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc-720p-hevc.mp4';
 import mainImage from '../images/ContactPage/video_contact.png';
 import phoneIcon from '../images/ContactPage/phone.svg';
 import emailIcon from '../images/ContactPage/e-mail.svg';
@@ -633,9 +640,13 @@ const ContactPage = () => {
 
   // Хук для предзагрузки видео
   const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('contact');
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
+  const currentMp4 = isMobile ? contactMp4720 : contactMp41080;
+  const currentWebm = isMobile ? contactWebm720 : contactWebm1080;
+  const currentHevc = isMobile ? contactHevc720 : contactHevc1080;
   // Подсказки загрузчику: текущее видео preload, другие prefetch (можно расширить при необходимости)
   useResourceHints(
-    videoContact,
+    currentMp4,
     [videoSources.news, videoSources.events, videoSources.fond, videoSources.main],
     [mainImage],
     [placeholderImages.news, placeholderImages.events, placeholderImages.fond]
@@ -708,7 +719,9 @@ const ContactPage = () => {
     <PageContainer style={{ visibility: blockReady ? 'visible' : 'hidden' }}>
       <HeroBanner>
         <OptimizedVideo
-          videoSrc={videoContact}
+          videoSrc={currentMp4}
+          webmSrc={currentWebm}
+          hevcSrc={currentHevc}
           placeholderImage={mainImage}
           videoLoaded={videoLoaded}
           imageLoaded={imageLoaded}

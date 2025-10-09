@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 
 // Импорт всех видео
-import mainVideo from '../ФСРК видео/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc_1.mp4';
-import newsVideo from '../ФСРК видео/abstract-news-background-v3-2025-08-29-09-52-49-utc (video-converter.com).mp4';
-import contactVideo from '../ФСРК видео/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc.mp4';
-import fondVideo from '../ФСРК видео/rocket-launch-2025-08-29-11-13-57-utc.mp4';
+import mainVideo from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc_1-1080p.mp4';
+import newsVideo from '../ФСРК видео/converted/abstract-news-background-v3-2025-08-29-09-52-49-utc (video-converter.com)-1080p.mp4';
+import contactVideo from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc-1080p.mp4';
+import fondVideo from '../ФСРК видео/converted/rocket-launch-2025-08-29-11-13-57-utc-1080p.mp4';
 
 // Импорт placeholder изображений
 import eventsMainImage from '../images/EventsPage/events_main.png';

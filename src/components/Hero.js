@@ -1,12 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useResourceHints } from '../hooks/useResourceHints';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import PartnerModal from './PartnerModal';
 import { videoSources, placeholderImages } from '../hooks/useVideoPreloader';
-import EarthVideo from '../Earth Rotates.mp4';
-import EarthVideoMobile from '../images/main/Earth Rotates_alpha_3.mp4';
+import EarthVideo from '../ФСРК видео/Earth Rotates.mp4';
+import EarthVideoMobile from '../ФСРК видео/Earth Rotates_alpha_3.mp4';
+// Конвертированные варианты (десктоп 1080p/моб. 720p)
+import earthMp41080 from '../ФСРК видео/converted/Earth Rotates-1080p.mp4';
+import earthWebm1080 from '../ФСРК видео/converted/Earth Rotates-1080p.webm';
+import earthHevc1080 from '../ФСРК видео/converted/Earth Rotates-1080p-hevc.mp4';
+import earthMp4720 from '../ФСРК видео/converted/Earth Rotates-720p.mp4';
+import earthWebm720 from '../ФСРК видео/converted/Earth Rotates-720p.webm';
+import earthHevc720 from '../ФСРК видео/converted/Earth Rotates-720p-hevc.mp4';
+import earthMobileMp4720 from '../ФСРК видео/converted/Earth Rotates_alpha_3-720p.mp4';
+import earthMobileWebm720 from '../ФСРК видео/converted/Earth Rotates_alpha_3-720p.webm';
+import earthMobileHevc720 from '../ФСРК видео/converted/Earth Rotates_alpha_3-720p-hevc.mp4';
 import EarthImage from '../pre_load_image.png'; // Изображение для десктопа
 import EarthImageMobile from '../images/main/pre_load_mobile.png'; // Изображение для мобильной версии
 
@@ -294,6 +304,7 @@ const Hero = () => {
   });
 
   const [isMobile, setIsMobile] = useState(false);
+  const videoRef = useRef(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
@@ -310,8 +321,12 @@ const Hero = () => {
   }, []);
 
   // Ресурсные подсказки: текущий ролик preload + текущий плейсхолдер, альтернативный ролик prefetch
+  const currentMp4 = isMobile ? (earthMobileMp4720 || EarthVideoMobile) : (earthMp41080 || EarthVideo);
+  const currentWebm = isMobile ? earthMobileWebm720 : earthWebm1080;
+  const currentHevc = isMobile ? earthMobileHevc720 : earthHevc1080;
+
   useResourceHints(
-    isMobile ? EarthVideoMobile : EarthVideo,
+    currentMp4,
     [videoSources.news, videoSources.events, videoSources.fond, videoSources.contact],
     [isMobile ? EarthImageMobile : EarthImage],
     [placeholderImages.news, placeholderImages.events, placeholderImages.fond, placeholderImages.contact]
@@ -319,6 +334,12 @@ const Hero = () => {
 
   const handleVideoLoad = () => {
     setVideoLoaded(true);
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      videoRef.current.setAttribute('muted', '');
+      const p = videoRef.current.play();
+      if (p && typeof p.then === 'function') p.catch(() => { });
+    }
   };
 
   const handleImageLoad = () => {
@@ -370,17 +391,22 @@ const Hero = () => {
           `}</style>
         </LoadingIndicator>
         <EarthVideoStyled
+          ref={videoRef}
           key={isMobile ? 'mobile' : 'desktop'}
           autoPlay
           loop
           muted
+          defaultMuted
           playsInline
-          preload="auto"
+          preload="metadata"
           isLoaded={videoPlaying}
-          onLoadedData={handleVideoLoad}
+          onCanPlay={handleVideoLoad}
           onPlay={handleVideoPlay}
+          poster={isMobile ? EarthImageMobile : EarthImage}
         >
-          <source src={isMobile ? EarthVideoMobile : EarthVideo} type="video/mp4" />
+          {currentWebm && <source src={currentWebm} type="video/webm" />}
+          {currentHevc && <source src={currentHevc} type='video/mp4; codecs="hvc1"' />}
+          <source src={currentMp4} type="video/mp4" />
         </EarthVideoStyled>
       </VideoContainer>
 

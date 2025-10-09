@@ -7,6 +7,13 @@ import { wordpressApi } from '../services/wordpressApi';
 import { useVideoPreloader, videoSources, placeholderImages } from '../hooks/useVideoPreloader';
 import OptimizedVideo from './OptimizedVideo';
 import mainVideo from '../ФСРК видео/abstract-news-background-v3-2025-08-29-09-52-49-utc (video-converter.com).mp4';
+// Конвертированные варианты
+import newsMp41080 from '../ФСРК видео/converted/abstract-news-background-v3-2025-08-29-09-52-49-utc (video-converter.com)-1080p.mp4';
+import newsWebm1080 from '../ФСРК видео/converted/abstract-news-background-v3-2025-08-29-09-52-49-utc (video-converter.com)-1080p.webm';
+import newsHevc1080 from '../ФСРК видео/converted/abstract-news-background-v3-2025-08-29-09-52-49-utc (video-converter.com)-1080p-hevc.mp4';
+import newsMp4720 from '../ФСРК видео/converted/abstract-news-background-v3-2025-08-29-09-52-49-utc (video-converter.com)-720p.mp4';
+import newsWebm720 from '../ФСРК видео/converted/abstract-news-background-v3-2025-08-29-09-52-49-utc (video-converter.com)-720p.webm';
+import newsHevc720 from '../ФСРК видео/converted/abstract-news-background-v3-2025-08-29-09-52-49-utc (video-converter.com)-720p-hevc.mp4';
 import mainImage from '../images/NewsPage/main_image.png';
 import astronautImage from '../images/NewsPage/austronaut.png';
 
@@ -365,9 +372,13 @@ const NewsPage = () => {
 
   // Хук для предзагрузки видео
   const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('news');
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
+  const currentMp4 = isMobile ? newsMp4720 : newsMp41080;
+  const currentWebm = isMobile ? newsWebm720 : newsWebm1080;
+  const currentHevc = isMobile ? newsHevc720 : newsHevc1080;
   // Подсказки загрузчику: текущее видео preload + критичный плейсхолдер
   useResourceHints(
-    mainVideo,
+    currentMp4,
     [videoSources.events, videoSources.contact, videoSources.fond, videoSources.main],
     [mainImage],
     [placeholderImages.events, placeholderImages.contact, placeholderImages.fond]
@@ -529,7 +540,9 @@ const NewsPage = () => {
     <PageContainer style={{ visibility: blockReady ? 'visible' : 'hidden' }}>
       <HeroBanner>
         <OptimizedVideo
-          videoSrc={mainVideo}
+          videoSrc={currentMp4}
+          webmSrc={currentWebm}
+          hevcSrc={currentHevc}
           placeholderImage={mainImage}
           videoLoaded={videoLoaded}
           imageLoaded={imageLoaded}
