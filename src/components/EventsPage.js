@@ -125,6 +125,11 @@ const Overlay = styled.div`
   align-items: center;
   justify-content: flex-end;
   padding-bottom: 3vw;
+  @media (max-width: 768px) {
+    justify-content: flex-end;
+    padding-top: 12vw;
+    padding-bottom: 10vh;
+  }
 `;
 
 const HeroTitle = styled.h1`
@@ -145,6 +150,7 @@ const HeroTitle = styled.h1`
     text-align: center;
     font-size: clamp(2.5rem, 8vw, 4rem);
     margin-bottom: 2rem;
+    margin-top: 6vw;
   }
 `;
 

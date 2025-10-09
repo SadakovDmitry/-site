@@ -79,6 +79,9 @@ const OptimizedVideo = ({
         // Гарантируем, что muted установлен ДО play()
         el.muted = true;
         el.setAttribute('muted', '');
+        el.setAttribute('playsinline', '');
+        el.setAttribute('webkit-playsinline', '');
+        el.setAttribute('disableRemotePlayback', '');
         if (showVideo) {
             const tryPlay = () => {
                 const p = el.play();
@@ -88,6 +91,25 @@ const OptimizedVideo = ({
             };
             tryPlay();
         }
+        const onVisibility = () => {
+            if (document.visibilityState === 'visible' && el.paused) {
+                const p = el.play();
+                if (p && typeof p.then === 'function') p.catch(() => { });
+            }
+        };
+        const onFirstTouch = () => {
+            if (el.paused) {
+                const p = el.play();
+                if (p && typeof p.then === 'function') p.catch(() => { });
+            }
+            window.removeEventListener('touchstart', onFirstTouch, { passive: true });
+        };
+        document.addEventListener('visibilitychange', onVisibility);
+        window.addEventListener('touchstart', onFirstTouch, { passive: true });
+        return () => {
+            document.removeEventListener('visibilitychange', onVisibility);
+            window.removeEventListener('touchstart', onFirstTouch);
+        };
     }, [showVideo]);
     return (
         <VideoContainer>

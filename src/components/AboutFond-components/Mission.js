@@ -1,4 +1,4 @@
-import mainVideo from '../../ФСРК видео/rocket-launch-2025-08-29-11-13-57-utc.mp4';
+import mainVideo from '../../ФСРК видео/converted/rocket-launch-2025-08-29-11-13-57-utc-1080p.mp4';
 import { useVideoPreloader } from '../../hooks/useVideoPreloader';
 import { useResourceHints } from '../../hooks/useResourceHints';
 import OptimizedVideo from '../OptimizedVideo';
@@ -44,8 +44,8 @@ function Mission() {
         }}
       />
 
-      <div className="text">
-        <h1>Миссия и цели</h1>
+      <div className="text" style={{ color: '#ffffff' }}>
+        <h1 style={{ color: '#ffffff' }}>Миссия и цели</h1>
         <Block
           h2={"Поддержка научных исследований"}
           p={

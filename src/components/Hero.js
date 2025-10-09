@@ -24,6 +24,7 @@ const HeroSection = styled.section`
   position: relative;
   background: transparent;
   @media (max-width: 900px){
+    min-height: 100vh;
   }
 `;
 
@@ -64,7 +65,7 @@ const OverlayInner = styled.div`
     top: clamp(100px, 22vw, 800px);
   }
   @media (max-width: 500px) {
-    top: clamp(100px, 24vw, 800px);
+    top: 14vh;
   }
 
 //   @media (max-width: 900px){ max-width: 92vw; right: var(--container-x); top: clamp(12px, 8vw, 100px); }
@@ -111,6 +112,11 @@ const TextContent = styled(motion.div)`
       margin-top: 30vw;
       line-height: 1.1;
     }
+
+    @media (max-width: 400px) {
+      margin-bottom: 0vw;
+      margin-top: 30vw;
+    }
   }
 
   p {
@@ -156,6 +162,16 @@ const TextContent = styled(motion.div)`
     @media (max-width: 540px) {
       margin-bottom: 0.5rem;
       padding-top: 70vw;
+    }
+
+    @media (max-width: 450px) {
+      margin-bottom: 0.5rem;
+      padding-top: 70vw;
+    }
+
+    @media (max-width: 400px) {
+      margin-bottom: 0.5rem;
+      padding-top: 90vw;
     }
   }
 `;
@@ -261,6 +277,9 @@ const VideoContainer = styled.div`
   width: 100%;
   height: auto;
   background: transparent;
+  @media (max-width: 500px){
+    height: 100vh;
+  }
 `;
 
 const EarthVideoStyled = styled.video`
@@ -272,6 +291,10 @@ const EarthVideoStyled = styled.video`
   opacity: ${props => props.isLoaded ? 1 : 0};
   transition: opacity 0.3s ease;
   vertical-align: top;
+  @media (max-width: 500px){
+    height: 100vh;
+    object-fit: cover;
+  }
 `;
 
 const EarthImageStyled = styled.img`
@@ -284,6 +307,10 @@ const EarthImageStyled = styled.img`
   opacity: ${props => props.isLoaded ? 0 : 1};
   transition: opacity 0.3s ease;
   z-index: 1;
+  @media (max-width: 500px){
+    height: 100vh;
+    object-fit: cover;
+  }
 `;
 
 const LoadingIndicator = styled.div`
@@ -337,6 +364,9 @@ const Hero = () => {
     if (videoRef.current) {
       videoRef.current.muted = true;
       videoRef.current.setAttribute('muted', '');
+      videoRef.current.setAttribute('playsinline', '');
+      videoRef.current.setAttribute('webkit-playsinline', '');
+      videoRef.current.setAttribute('disableRemotePlayback', '');
       const p = videoRef.current.play();
       if (p && typeof p.then === 'function') p.catch(() => { });
     }
