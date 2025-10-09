@@ -75,22 +75,34 @@ const PageContainer = styled.div`
   }
 `;
 
-// Главная секция с фото
 const HeroSection = styled.div`
   position: relative;
-  height: auto;
+  height: 55vw;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    height: 100vh;
+  }
 `;
 
 const BannerVideo = styled.video`
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    object-position: center center;
+  }
 `;
 
 const Overlay = styled.div`
@@ -124,8 +136,8 @@ const HeroTitle = styled.h1`
 
   @media (max-width: 768px) {
     text-align: center;
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
-    margin-bottom: 1rem;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    margin-bottom: 2rem;
   }
 `;
 

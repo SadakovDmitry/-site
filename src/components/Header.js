@@ -60,6 +60,7 @@ const BrandText = styled.div`
   letter-spacing: 0.02em;
   white-space: nowrap;
   margin-left: clamp(6px, 0.8vw, 12px);
+  line-height: 1.3;
 
   @media (max-width: 900px) {
     font-size: clamp(8px, 1.6vw, 100px);
@@ -111,7 +112,10 @@ const PrimaryButton = styled(motion.a)`
   text-align: center;
   padding: clamp(8px, .9vw, 12px) clamp(16px, 1.4vw, 22px); border-radius: 9999px; min-width: clamp(120px, 12vw, 180px);
   background: linear-gradient(83.48deg, #312684 0%, #019CE5 100%);
-  color: #fff; font-weight: 700; text-decoration: none; font-size: clamp(12px, 1.05vw, 16px);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: clamp(12px, 1.1vw, 16px);
   box-shadow: 0 6px 14px rgba(0, 136, 255, 0.45);
   white-space: nowrap;
 `;
@@ -141,7 +145,7 @@ const CurrentPageTitle = styled.div`
   display: none;
   color: #fff;
   font-family: 'Raleway', sans-serif;
-  font-size: clamp(1rem, 3vw, 1.2rem);
+  font-size: clamp(1rem, 2vw, 3.2rem);
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -154,14 +158,14 @@ const CurrentPageTitle = styled.div`
 const MobileDropdownMenu = styled(motion.div)`
   position: absolute;
   top: 100%;
-  // left: 9vw;
-  left: 3rem;
+  left: 9vw;
+  // left: 4rem;
   // transform: translateX(-20%);
   background: linear-gradient(180deg, #f2f2f2, #dcdcdc);
   border: 1px solid rgba(0,0,0,0.15);
   border-radius: 30px;
   padding: clamp(8px, 1vw, 12px);
-  min-width: clamp(140px, 20vw, 180px);
+  min-width: clamp(140px, 16vw, 180px);
   z-index: 2000;
   box-shadow: 0 6px 18px rgba(0,0,0,.25) inset, 0 8px 24px rgba(0,0,0,.2);
   margin-top: 4px;
@@ -169,30 +173,31 @@ const MobileDropdownMenu = styled(motion.div)`
   @media (max-width: 480px){
     left: 2rem;
     padding: clamp(6px, 0.8vw, 10px);
-    min-width: clamp(120px, 18vw, 150px);
+    min-width: clamp(110px, 16vw, 150px);
     border-radius: 20px;
   }
 
   @media (max-width: 390px){
     left: 1.5rem;
     padding: clamp(4px, 0.6vw, 8px);
-    min-width: clamp(100px, 16vw, 130px);
+    min-width: clamp(90px, 14vw, 130px);
     border-radius: 15px;
   }
 `;
 
 const MobileDropdownLink = styled(Link)`
   display: block;
-  padding: clamp(1px, 0.4vw, 12px) clamp(1px, 0.5vw, 16px);
+  padding: clamp(1px, 0.2vw, 12px) clamp(1px, 0.2vw, 16px);
   color: #000000;
   text-decoration: none;
   font-family: 'Raleway', sans-serif;
   font-weight: 400;
   letter-spacing: 0.02em;
-  font-size: clamp(16px, 1.5vw, 20px);
+  font-size: clamp(14px, 1.5vw, 20px);
   border-radius: 6px;
   transition: background-color 0.3s ease;
-  text-align: center;
+  text-align: left;
+  padding-left: 2vw;
 
   &:hover {
     background-color: rgba(0,0,0,0.05);
@@ -200,15 +205,17 @@ const MobileDropdownLink = styled(Link)`
   }
 
   @media (max-width: 480px) {
-    padding: clamp(1px, 0.3vw, 8px) clamp(1px, 0.4vw, 12px);
-    font-size: clamp(14px, 1.2vw, 16px);
+    padding: clamp(1px, 0.2vw, 8px) clamp(1px, 0.3vw, 12px);
+    font-size: clamp(12px, 1.2vw, 16px);
     border-radius: 4px;
+    padding-left: 10px;
   }
 
   @media (max-width: 390px) {
-    padding: clamp(1px, 0.2vw, 6px) clamp(1px, 0.3vw, 10px);
-    font-size: clamp(12px, 1vw, 14px);
+    padding: clamp(1px, 0.1vw, 6px) clamp(1px, 0.2vw, 10px);
+    font-size: clamp(9px, 1vw, 14px);
     border-radius: 3px;
+    padding-left: 10px;
   }
 `;
 
@@ -327,19 +334,19 @@ const MobilePageTitle = styled.span`
   font-weight: 400;
   font-family: 'Raleway', sans-serif;
   letter-spacing: 0.02em;
-  font-size: clamp(12px, 1.2vw, 16px);
+  font-size: clamp(12px, 2.2vw, 23px);
   white-space: nowrap;
   flex: 1;
   text-align: center;
   margin-right: clamp(0px, 2vw, 24px);
 
   @media (max-width: 480px) {
-    font-size: clamp(10px, 1vw, 12px);
+    font-size: clamp(10px, 1vw, 14px);
     margin-right: clamp(0px, 1.5vw, 16px);
   }
 
   @media (max-width: 390px) {
-    font-size: clamp(8px, 0.8vw, 10px);
+    font-size: clamp(8px, 0.8vw, 12px);
     margin-right: clamp(0px, 1vw, 12px);
   }
 `;
@@ -352,7 +359,7 @@ const MobilePrimaryButton = styled(motion.button)`
   background: linear-gradient(83.48deg, #312684 0%, #019CE5 100%);
   color: #fff;
   font-weight: 700;
-  font-size: clamp(10px, 1vw, 14px);
+  font-size: clamp(10px, 2vw, 20px);
   box-shadow: 0 6px 14px rgba(0, 136, 255, 0.45);
   white-space: nowrap;
   border: none;
@@ -361,7 +368,7 @@ const MobilePrimaryButton = styled(motion.button)`
   @media (max-width: 480px) {
     padding: clamp(6px, 0.8vw, 10px) clamp(12px, 1.2vw, 16px);
     min-width: clamp(60px, 8vw, 90px);
-    font-size: clamp(8px, 0.8vw, 10px);
+    font-size: clamp(8px, 2vw, 14px);
   }
 
   @media (max-width: 390px) {
@@ -424,8 +431,8 @@ const Header = () => {
         return '/ НОВОСТИ';
       case '/contact':
         return '/ КОНТАКТЫ';
-      case '/projects':
-        return '/ ПРОЕКТЫ';
+      // case '/projects':
+      //   return '/ ПРОЕКТЫ';
       default:
         return '/ ГЛАВНАЯ';
     }
@@ -438,7 +445,7 @@ const Header = () => {
       { to: '/events', title: '/ СОБЫТИЯ' },
       { to: '/news', title: '/ НОВОСТИ' },
       { to: '/contact', title: '/ КОНТАКТЫ' },
-      { to: '/projects', title: '/ ПРОЕКТЫ' }
+      // { to: '/projects', title: '/ ПРОЕКТЫ' }
     ];
 
     // Исключаем текущую страницу

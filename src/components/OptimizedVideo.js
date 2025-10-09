@@ -5,30 +5,40 @@ import { motion, AnimatePresence } from 'framer-motion';
 const VideoContainer = styled.div`
   position: relative;
   width: 100%;
-  height: auto;
+  height: 100%;
   overflow: hidden;
 `;
 
 const PlaceholderImage = styled.img`
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
   z-index: 1;
   transition: opacity 0.3s ease;
-  display: block;
-  vertical-align: top;
+
+  @media (max-width: 768px) {
+    object-position: center center;
+  }
 `;
 
 const StyledVideo = styled.video`
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
   z-index: 2;
   transition: opacity 0.3s ease;
-  display: block;
-  vertical-align: top;
+
+  @media (max-width: 768px) {
+    object-position: center center;
+  }
 `;
 
 const LoadingSpinner = styled.div`

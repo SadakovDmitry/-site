@@ -80,19 +80,32 @@ const PageContainer = styled.div`
 
 const HeroBanner = styled.div`
   position: relative;
-  height: auto;
+  height: 55vw;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    height: 100vh;
+  }
 `;
 
 const BannerVideo = styled.video`
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    object-position: center center;
+  }
 `;
 
 const Overlay = styled.div`
@@ -126,8 +139,8 @@ const HeroTitle = styled(motion.h1)`
 
   @media (max-width: 768px) {
     text-align: center;
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
-    margin-bottom: 1rem;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    margin-bottom: 2rem;
   }
 `;
 
@@ -474,14 +487,14 @@ const FormGroup = styled.div`
 const SubmitButton = styled(motion.button)`
   font-family: 'Proxima Nova', sans-serif;
   background: ${props => {
-        if (props.status === 'success') {
-            return 'linear-gradient(135deg, #007bff 0%, #0056b3 100%)';
-        } else if (props.status === 'error') {
-            return '#f8f9fa';
-        } else {
-            return '#212529';
-        }
-    }};
+    if (props.status === 'success') {
+      return 'linear-gradient(135deg, #007bff 0%, #0056b3 100%)';
+    } else if (props.status === 'error') {
+      return '#f8f9fa';
+    } else {
+      return '#212529';
+    }
+  }};
   color: ${props => props.status === 'error' ? '#6c757d' : 'white'};
   border: none;
   padding: 1.2rem 4rem;
@@ -494,36 +507,36 @@ const SubmitButton = styled(motion.button)`
   text-transform: uppercase;
   margin-top: 1rem;
   box-shadow: ${props => {
-        if (props.status === 'success') {
-            return '0 4px 15px rgba(0, 123, 255, 0.3)';
-        } else if (props.status === 'error') {
-            return '0 4px 15px rgba(108, 117, 125, 0.2)';
-        } else {
-            return '0 4px 15px rgba(33, 37, 41, 0.3)';
-        }
-    }};
+    if (props.status === 'success') {
+      return '0 4px 15px rgba(0, 123, 255, 0.3)';
+    } else if (props.status === 'error') {
+      return '0 4px 15px rgba(108, 117, 125, 0.2)';
+    } else {
+      return '0 4px 15px rgba(33, 37, 41, 0.3)';
+    }
+  }};
   position: relative;
   overflow: hidden;
 
   &:hover {
     background: ${props => {
-        if (props.status === 'success') {
-            return 'linear-gradient(135deg, #0056b3 0%, #004085 100%)';
-        } else if (props.status === 'error') {
-            return '#e9ecef';
-        } else {
-            return '#343a40';
-        }
-    }};
+    if (props.status === 'success') {
+      return 'linear-gradient(135deg, #0056b3 0%, #004085 100%)';
+    } else if (props.status === 'error') {
+      return '#e9ecef';
+    } else {
+      return '#343a40';
+    }
+  }};
     box-shadow: ${props => {
-        if (props.status === 'success') {
-            return '0 6px 20px rgba(0, 123, 255, 0.4)';
-        } else if (props.status === 'error') {
-            return '0 6px 20px rgba(108, 117, 125, 0.3)';
-        } else {
-            return '0 6px 20px rgba(33, 37, 41, 0.4)';
-        }
-    }};
+    if (props.status === 'success') {
+      return '0 6px 20px rgba(0, 123, 255, 0.4)';
+    } else if (props.status === 'error') {
+      return '0 6px 20px rgba(108, 117, 125, 0.3)';
+    } else {
+      return '0 6px 20px rgba(33, 37, 41, 0.4)';
+    }
+  }};
     transform: translateY(-2px);
   }
 
@@ -615,300 +628,300 @@ const SocialIcon = styled(motion.div)`
 `;
 
 const ContactPage = () => {
-    const [inView] = useInView({ triggerOnce: true, threshold: 0.1 });
-    const mapRef = useRef(null);
+  const [inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  const mapRef = useRef(null);
 
-    // Хук для предзагрузки видео
-    const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('contact');
-    // Подсказки загрузчику: текущее видео preload, другие prefetch (можно расширить при необходимости)
-    useResourceHints(
-        videoContact,
-        [videoSources.news, videoSources.events, videoSources.fond, videoSources.main],
-        [mainImage],
-        [placeholderImages.news, placeholderImages.events, placeholderImages.fond]
-    );
+  // Хук для предзагрузки видео
+  const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('contact');
+  // Подсказки загрузчику: текущее видео preload, другие prefetch (можно расширить при необходимости)
+  useResourceHints(
+    videoContact,
+    [videoSources.news, videoSources.events, videoSources.fond, videoSources.main],
+    [mainImage],
+    [placeholderImages.news, placeholderImages.events, placeholderImages.fond]
+  );
 
-    const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
+    name: '',
+    organization: '',
+    contact: '',
+    message: ''
+  });
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Имитация отправки формы
+    const isSuccess = Math.random() > 0.3; // 70% успех
+    setSubmitStatus(isSuccess ? 'success' : 'error');
+
+    // Сброс статуса через 5 секунд
+    setTimeout(() => setSubmitStatus(null), 5000);
+
+    // Очистка формы при успехе
+    if (isSuccess) {
+      setFormData({
         name: '',
         organization: '',
         contact: '',
         message: ''
-    });
-    const [submitStatus, setSubmitStatus] = useState(null);
+      });
+    }
+  };
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+  // Встраивание карты Яндекс Конструктор
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    const existing = document.querySelector('script[data-ymap-constructor]');
+    if (existing) existing.remove();
+
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.charset = 'utf-8';
+    script.async = true;
+    script.setAttribute('data-ymap-constructor', 'true');
+    script.src = 'https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A1b0ac23a955aa9fa79ea14edb000b1ddcb5e16b1a7a8fc2ac8c031c5e701af0f&width=100%25&height=486&lang=ru_RU&scroll=true';
+
+    mapRef.current.innerHTML = '';
+    mapRef.current.appendChild(script);
+
+    return () => {
+      if (script && script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
     };
+  }, []);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  // Блокируем показ, пока не готово видео или placeholder
+  const blockReady = showVideo || imageLoaded;
+  return (
+    <PageContainer style={{ visibility: blockReady ? 'visible' : 'hidden' }}>
+      <HeroBanner>
+        <OptimizedVideo
+          videoSrc={videoContact}
+          placeholderImage={mainImage}
+          videoLoaded={videoLoaded}
+          imageLoaded={imageLoaded}
+          showVideo={showVideo}
+          onVideoLoad={() => { }}
+        />
+        <Overlay>
+          <HeroTitle
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            КОНТАКТЫ
+          </HeroTitle>
+        </Overlay>
+      </HeroBanner>
 
-        // Имитация отправки формы
-        const isSuccess = Math.random() > 0.3; // 70% успех
-        setSubmitStatus(isSuccess ? 'success' : 'error');
+      <ContentSection>
+        <Container>
+          <ContactInfo
+            initial={{ opacity: 0, y: 50 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <ContactItem as="a" href="https://yandex.ru/maps/?text=123112%2C%20%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%9F%D1%80%D0%B5%D1%81%D0%BD%D0%B5%D0%BD%D1%81%D0%BA%D0%B0%D1%8F%20%D0%BD%D0%B0%D0%B1.%2C%2012" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div className="icon">
+                <img src={mapIcon} alt="Адрес" />
+              </div>
+              <div className="content">
+                <h4>АДРЕС</h4>
+                <p>123112, г. Москва, Пресненская наб., 12</p>
+              </div>
+            </ContactItem>
 
-        // Сброс статуса через 5 секунд
-        setTimeout(() => setSubmitStatus(null), 5000);
+            <ContactItem as="a" href="mailto:info@cosmosfond.ru" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div className="icon">
+                <img src={emailIcon} alt="Email" />
+              </div>
+              <div className="content">
+                <h4>E-MAIL</h4>
+                <p>info@cosmosfond.ru</p>
+              </div>
+            </ContactItem>
 
-        // Очистка формы при успехе
-        if (isSuccess) {
-            setFormData({
-                name: '',
-                organization: '',
-                contact: '',
-                message: ''
-            });
-        }
-    };
+            <ContactItem as="a" href="tel:+74959228994" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div className="icon">
+                <img src={phoneIcon} alt="Телефон" />
+              </div>
+              <div className="content">
+                <h4>ТЕЛЕФОН</h4>
+                <p>+7 (495) 922 8994</p>
+              </div>
+            </ContactItem>
 
-    // Встраивание карты Яндекс Конструктор
-    useEffect(() => {
-        if (!mapRef.current) return;
+            <ContactItem>
+              <div className="icon">
+                <img src={clockIcon} alt="Часы работы" />
+              </div>
+              <div className="content">
+                <h4>ЧАСЫ РАБОТЫ</h4>
+                <p>10:00 – 19:00</p>
+              </div>
+            </ContactItem>
+          </ContactInfo>
 
-        const existing = document.querySelector('script[data-ymap-constructor]');
-        if (existing) existing.remove();
+          <MapSection
+            initial={{ opacity: 0, y: 50 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+          >
+            <MapContainer>
+              <MapMount ref={mapRef} />
+            </MapContainer>
+          </MapSection>
 
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.charset = 'utf-8';
-        script.async = true;
-        script.setAttribute('data-ymap-constructor', 'true');
-        script.src = 'https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A1b0ac23a955aa9fa79ea14edb000b1ddcb5e16b1a7a8fc2ac8c031c5e701af0f&width=100%25&height=486&lang=ru_RU&scroll=true';
-
-        mapRef.current.innerHTML = '';
-        mapRef.current.appendChild(script);
-
-        return () => {
-            if (script && script.parentNode) {
-                script.parentNode.removeChild(script);
-            }
-        };
-    }, []);
-
-    // Блокируем показ, пока не готово видео или placeholder
-    const blockReady = showVideo || imageLoaded;
-    return (
-        <PageContainer style={{ visibility: blockReady ? 'visible' : 'hidden' }}>
-            <HeroBanner>
-                <OptimizedVideo
-                    videoSrc={videoContact}
-                    placeholderImage={mainImage}
-                    videoLoaded={videoLoaded}
-                    imageLoaded={imageLoaded}
-                    showVideo={showVideo}
-                    onVideoLoad={() => { }}
+          <FormSection
+            initial={{ opacity: 0, y: 50 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          >
+            <FormTitle>ОБРАТНАЯ СВЯЗЬ</FormTitle>
+            <Form onSubmit={handleSubmit}>
+              <FormGroup>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Имя"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
                 />
-                <Overlay>
-                    <HeroTitle
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                    >
-                        КОНТАКТЫ
-                    </HeroTitle>
-                </Overlay>
-            </HeroBanner>
+              </FormGroup>
 
-            <ContentSection>
-                <Container>
-                    <ContactInfo
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={inView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                    >
-                        <ContactItem as="a" href="https://yandex.ru/maps/?text=123112%2C%20%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%9F%D1%80%D0%B5%D1%81%D0%BD%D0%B5%D0%BD%D1%81%D0%BA%D0%B0%D1%8F%20%D0%BD%D0%B0%D0%B1.%2C%2012" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <div className="icon">
-                                <img src={mapIcon} alt="Адрес" />
-                            </div>
-                            <div className="content">
-                                <h4>АДРЕС</h4>
-                                <p>123112, г. Москва, Пресненская наб., 12</p>
-                            </div>
-                        </ContactItem>
+              <FormGroup>
+                <input
+                  type="text"
+                  id="organization"
+                  name="organization"
+                  placeholder="Организация"
+                  value={formData.organization}
+                  onChange={handleInputChange}
+                />
+              </FormGroup>
 
-                        <ContactItem as="a" href="mailto:info@cosmosfond.ru" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <div className="icon">
-                                <img src={emailIcon} alt="Email" />
-                            </div>
-                            <div className="content">
-                                <h4>E-MAIL</h4>
-                                <p>info@cosmosfond.ru</p>
-                            </div>
-                        </ContactItem>
+              <FormGroup>
+                <input
+                  type="text"
+                  id="contact"
+                  name="contact"
+                  placeholder="Контактные данные"
+                  value={formData.contact}
+                  onChange={handleInputChange}
+                  required
+                />
+              </FormGroup>
 
-                        <ContactItem as="a" href="tel:+74959228994" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <div className="icon">
-                                <img src={phoneIcon} alt="Телефон" />
-                            </div>
-                            <div className="content">
-                                <h4>ТЕЛЕФОН</h4>
-                                <p>+7 (495) 922 8994</p>
-                            </div>
-                        </ContactItem>
+              <FormGroup>
+                <textarea
+                  id="message"
+                  name="message"
+                  placeholder="Сообщение"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  required
+                />
+              </FormGroup>
 
-                        <ContactItem>
-                            <div className="icon">
-                                <img src={clockIcon} alt="Часы работы" />
-                            </div>
-                            <div className="content">
-                                <h4>ЧАСЫ РАБОТЫ</h4>
-                                <p>10:00 – 19:00</p>
-                            </div>
-                        </ContactItem>
-                    </ContactInfo>
+              <SubmitButton
+                type="submit"
+                status={submitStatus}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {submitStatus === 'success' ? 'ПОЛУЧЕНО' :
+                  submitStatus === 'error' ? 'ОШИБКА' : 'ОТПРАВИТЬ'}
+              </SubmitButton>
 
-                    <MapSection
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={inView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-                    >
-                        <MapContainer>
-                            <MapMount ref={mapRef} />
-                        </MapContainer>
-                    </MapSection>
+              {submitStatus === 'success' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  style={{
+                    textAlign: 'center',
+                    color: '#28a745',
+                    marginTop: '1rem',
+                    padding: '1rem',
+                    background: '#d4edda',
+                    borderRadius: '8px',
+                    border: '1px solid #c3e6cb'
+                  }}
+                >
+                  Благодарим вас за обращение! Наши специалисты свяжутся с вами в самое ближайшее время!
+                </motion.div>
+              )}
 
-                    <FormSection
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={inView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                    >
-                        <FormTitle>ОБРАТНАЯ СВЯЗЬ</FormTitle>
-                        <Form onSubmit={handleSubmit}>
-                            <FormGroup>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    placeholder="Имя"
-                                    value={formData.name}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </FormGroup>
+              {submitStatus === 'error' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  style={{
+                    textAlign: 'center',
+                    color: '#dc3545',
+                    marginTop: '1rem',
+                    padding: '1rem',
+                    background: '#f8d7da',
+                    borderRadius: '8px',
+                    border: '1px solid #f5c6cb'
+                  }}
+                >
+                  Приносим свои извинения, что-то пошло не так. Пожалуйста, повторите отправку запроса, либо свяжитесь с нами через один из каналов связи выше:
+                </motion.div>
+              )}
+            </Form>
+          </FormSection>
 
-                            <FormGroup>
-                                <input
-                                    type="text"
-                                    id="organization"
-                                    name="organization"
-                                    placeholder="Организация"
-                                    value={formData.organization}
-                                    onChange={handleInputChange}
-                                />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <input
-                                    type="text"
-                                    id="contact"
-                                    name="contact"
-                                    placeholder="Контактные данные"
-                                    value={formData.contact}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <textarea
-                                    id="message"
-                                    name="message"
-                                    placeholder="Сообщение"
-                                    value={formData.message}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </FormGroup>
-
-                            <SubmitButton
-                                type="submit"
-                                status={submitStatus}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                {submitStatus === 'success' ? 'ПОЛУЧЕНО' :
-                                    submitStatus === 'error' ? 'ОШИБКА' : 'ОТПРАВИТЬ'}
-                            </SubmitButton>
-
-                            {submitStatus === 'success' && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    style={{
-                                        textAlign: 'center',
-                                        color: '#28a745',
-                                        marginTop: '1rem',
-                                        padding: '1rem',
-                                        background: '#d4edda',
-                                        borderRadius: '8px',
-                                        border: '1px solid #c3e6cb'
-                                    }}
-                                >
-                                    Благодарим вас за обращение! Наши специалисты свяжутся с вами в самое ближайшее время!
-                                </motion.div>
-                            )}
-
-                            {submitStatus === 'error' && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    style={{
-                                        textAlign: 'center',
-                                        color: '#dc3545',
-                                        marginTop: '1rem',
-                                        padding: '1rem',
-                                        background: '#f8d7da',
-                                        borderRadius: '8px',
-                                        border: '1px solid #f5c6cb'
-                                    }}
-                                >
-                                    Приносим свои извинения, что-то пошло не так. Пожалуйста, повторите отправку запроса, либо свяжитесь с нами через один из каналов связи выше:
-                                </motion.div>
-                            )}
-                        </Form>
-                    </FormSection>
-
-                    <SocialSection
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={inView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-                    >
-                        <SocialTitle>СОЦИАЛЬНЫЕ СЕТИ</SocialTitle>
-                        <SocialIcons>
-                            <SocialIcon
-                                bgImage={underLogoIcon}
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
-                                onClick={() => window.open('https://vk.com/cosmosfund', '_blank')}
-                            >
-                                <img src={vkIcon} alt="VK" />
-                            </SocialIcon>
-                            <SocialIcon
-                                bgImage={underWhatsappIcon}
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
-                                onClick={() => window.open('https://wa.me/74959228994', '_blank')}
-                            >
-                                <img src={whatsappIcon} alt="WhatsApp" />
-                            </SocialIcon>
-                            <SocialIcon
-                                bgImage={underLogoIcon}
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
-                                onClick={() => window.open('https://t.me/cosmosfund', '_blank')}
-                            >
-                                <img src={telegramIcon} alt="Telegram" />
-                            </SocialIcon>
-                        </SocialIcons>
-                    </SocialSection>
-                </Container>
-            </ContentSection>
-        </PageContainer>
-    );
+          <SocialSection
+            initial={{ opacity: 0, y: 50 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+          >
+            <SocialTitle>СОЦИАЛЬНЫЕ СЕТИ</SocialTitle>
+            <SocialIcons>
+              <SocialIcon
+                bgImage={underLogoIcon}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => window.open('https://vk.com/cosmosfund', '_blank')}
+              >
+                <img src={vkIcon} alt="VK" />
+              </SocialIcon>
+              <SocialIcon
+                bgImage={underWhatsappIcon}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => window.open('https://wa.me/74959228994', '_blank')}
+              >
+                <img src={whatsappIcon} alt="WhatsApp" />
+              </SocialIcon>
+              <SocialIcon
+                bgImage={underLogoIcon}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => window.open('https://t.me/cosmosfund', '_blank')}
+              >
+                <img src={telegramIcon} alt="Telegram" />
+              </SocialIcon>
+            </SocialIcons>
+          </SocialSection>
+        </Container>
+      </ContentSection>
+    </PageContainer>
+  );
 };
 
 export default ContactPage;

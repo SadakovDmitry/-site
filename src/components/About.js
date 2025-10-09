@@ -76,7 +76,7 @@ const OverlayText = styled(motion.div)`
       margin-left: 0px;
     }
   }
-  .sub::before{ content: '/ '; opacity: 0.9; }
+  .sub::before{ content: ''; opacity: 0.9; }
 
   .text {
     width: 75%;
@@ -96,7 +96,8 @@ const OverlayText = styled(motion.div)`
 
     @media (max-width: 480px) {
       font-size: clamp(0.4rem, 3.4vw, 1.4rem);
-      line-height: 1.1;
+      line-height: 1.05;
+      text-align: center;
     }
   }
 `;

@@ -205,7 +205,7 @@ const Footer = () => {
           <Link to="/fond">/ О ФОНДЕ</Link>
           <Link to="/events">/ СОБЫТИЯ</Link>
           <Link to="/news">/ НОВОСТИ</Link>
-          <Link to="/projects">/ ПАРТНЕРЫ</Link>
+          <Link to="/contact">/ КОНТАКТЫ</Link>
         </FooterNav>
       </FooterTopRow>
       <FooterContent>
