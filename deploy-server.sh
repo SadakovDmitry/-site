@@ -90,3 +90,5 @@ systemctl reload nginx
 
 echo "=== ФРСК сайт развёрнут на http://$DOMAIN ==="
 echo "=== Статические файлы находятся в $APP_DIR/build ==="
+
+

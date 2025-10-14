@@ -285,3 +285,5 @@ echo "0 2 * * * /opt/backup-frsrk.sh" | sudo crontab -
 ---
 
 **Удачного развертывания! 🚀**
+
+

@@ -128,7 +128,7 @@ const Overlay = styled.div`
   @media (max-width: 768px) {
     justify-content: flex-end;
     padding-top: 12vw;
-    padding-bottom: 10vh;
+    padding-bottom: 15vh;
   }
 `;
 

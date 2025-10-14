@@ -77,3 +77,5 @@ scp -r /path/to/project/* user@server:/opt/frsrk-website/
 
 ---
 **Готово! Ваш сайт работает! 🎉**
+
+

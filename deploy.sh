@@ -56,3 +56,5 @@ fi
 echo "🎉 Развертывание завершено!"
 echo "📝 Для просмотра логов используйте: docker-compose logs -f"
 echo "🛑 Для остановки используйте: docker-compose down"
+
+

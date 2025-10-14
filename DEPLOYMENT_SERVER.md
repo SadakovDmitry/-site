@@ -317,3 +317,5 @@ git pull && npm install && npm run build && sudo systemctl reload nginx
 sudo tail -f /var/log/nginx/error.log
 pm2 logs frsrk-website  # Для PM2
 ```
+
+

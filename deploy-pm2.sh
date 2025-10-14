@@ -89,3 +89,5 @@ systemctl reload nginx
 
 echo "=== ФРСК сайт развёрнут на http://$DOMAIN ==="
 echo "=== Приложение запущено через PM2 на порту $PORT ==="
+
+

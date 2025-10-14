@@ -72,3 +72,5 @@ case $COMMAND in
         echo "  ./manage.sh update"
         ;;
 esac
+
+
