@@ -203,7 +203,7 @@ const Footer = () => {
         </Brand>
         <FooterNav>
           <Link to="/fond">/ О ФОНДЕ</Link>
-          <Link to="/events">/ СОБЫТИЯ</Link>
+          {/* <Link to="/events">/ СОБЫТИЯ</Link> */}
           <Link to="/news">/ НОВОСТИ</Link>
           <Link to="/contact">/ КОНТАКТЫ</Link>
         </FooterNav>

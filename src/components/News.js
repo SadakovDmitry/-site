@@ -336,30 +336,31 @@ const News = () => {
             </div>
           ) : (
             news.map((item, index) => (
-              <NewsCard
-                key={item.id || index}
-                initial={{ opacity: 0, y: 40 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7, delay: 0.2 + index * 0.1, ease: "easeOut" }}
-              >
-                <div className="news-header">
-                  <img
-                    className="news-image"
-                    src={item.featuredImage || item.image}
-                    alt={item.title}
-                    onError={(e) => {
-                      e.target.src = item.image || image76;
-                    }}
-                  />
-                  <div className="news-content">
-                    <h3 className="news-title">{item.title}</h3>
-                    <div className="date">{item.date}</div>
+              <Link key={item.id || index} to={`/news/${item.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <NewsCard
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.7, delay: 0.2 + index * 0.1, ease: "easeOut" }}
+                >
+                  <div className="news-header">
+                    <img
+                      className="news-image"
+                      src={item.featuredImage || item.image}
+                      alt={item.title}
+                      onError={(e) => {
+                        e.target.src = item.image || image76;
+                      }}
+                    />
+                    <div className="news-content">
+                      <h3 className="news-title">{item.title}</h3>
+                      <div className="date">{item.date}</div>
+                    </div>
                   </div>
-                </div>
-                <p className="news-description">
-                  {item.excerpt || item.description}
-                </p>
-              </NewsCard>
+                  <p className="news-description">
+                    {item.excerpt || item.description}
+                  </p>
+                </NewsCard>
+              </Link>
             ))
           )}
         </NewsGrid>

@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useResourceHints } from '../hooks/useResourceHints';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { wordpressApi } from '../services/wordpressApi';
 import { useVideoPreloader, videoSources, placeholderImages } from '../hooks/useVideoPreloader';
 import OptimizedVideo from './OptimizedVideo';
-import mainVideo from '../ФСРК видео/abstract-news-background-v3-2025-08-29-09-52-49-utc (video-converter.com).mp4';
 // Конвертированные варианты
 import newsMp41080 from '../ФСРК видео/converted/abstract-news-background-v3-2025-08-29-09-52-49-utc (video-converter.com)-1080p.mp4';
 import newsWebm1080 from '../ФСРК видео/converted/abstract-news-background-v3-2025-08-29-09-52-49-utc (video-converter.com)-1080p.webm';
@@ -91,22 +91,7 @@ const HeroBanner = styled.div`
   }
 `;
 
-const BannerVideo = styled.video`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
-  z-index: 1;
-
-  @media (max-width: 768px) {
-    object-position: center center;
-  }
-`;
+// const BannerVideo = styled.video``;
 
 const Overlay = styled.div`
   position: absolute;
@@ -235,6 +220,7 @@ const NewsCard = styled.div`
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  cursor: pointer;
 
   @media (max-width: 768px) {
     width: 320px;
@@ -374,6 +360,7 @@ const RightFade = styled.div`
 
 const NewsPage = () => {
   const [inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  const navigate = useNavigate();
   const carouselRef = useRef(null);
 
   // Хук для предзагрузки видео
@@ -585,7 +572,7 @@ const NewsPage = () => {
                 </div>
               ) : (
                 news.map((item, index) => (
-                  <NewsCard key={item.id || index}>
+                  <NewsCard key={item.id || index} onClick={() => navigate(`/news/${item.id}`)}>
                     <NewsImage
                       src={item.image}
                       alt="News"

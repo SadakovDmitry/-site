@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useResourceHints } from '../hooks/useResourceHints';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { wordpressApi } from '../services/wordpressApi';
 import PartnerModal from './PartnerModal';
 import { useVideoPreloader, videoSources, placeholderImages } from '../hooks/useVideoPreloader';
 import OptimizedVideo from './OptimizedVideo';
-import mainVideo from '../ФСРК видео/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc_1.mp4';
 // Конвертированные варианты
 import eventsMp41080 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc_1-1080p.mp4';
 import eventsWebm1080 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc_1-1080p.webm';
@@ -95,22 +94,7 @@ const HeroSection = styled.div`
   }
 `;
 
-const BannerVideo = styled.video`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
-  z-index: 1;
-
-  @media (max-width: 768px) {
-    object-position: center center;
-  }
-`;
+// const BannerVideo = styled.video``;
 
 const Overlay = styled.div`
   position: absolute;
@@ -731,7 +715,7 @@ const EventDescriptionHover = styled.div`
   z-index: 4;
 `;
 
-const DetailsButton = styled.button`
+/* const DetailsButton = styled.button`
   background: rgba(0, 0, 0, 0.3);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.6);
@@ -751,10 +735,10 @@ const DetailsButton = styled.button`
     background: rgba(0, 0, 0, 0.5);
     border-color: rgba(255, 255, 255, 0.8);
   }
-`;
+`; */
 
 const EventsPage = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     // Хук для предзагрузки видео
     const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('events');
@@ -841,10 +825,9 @@ const EventsPage = () => {
     // Проверяем, есть ли несохраненные изменения в фильтрах
     const hasUnsavedChanges = JSON.stringify(selectedFilters) !== JSON.stringify(activeFilters);
 
-    // Функция для перехода на страницу события
-    const handleEventClick = (eventId) => {
-        navigate(`/events/${eventId}`);
-    };
+    // const handleEventClick = (eventId) => {
+    //     navigate(`/events/${eventId}`);
+    // };
 
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -1446,9 +1429,9 @@ const EventsPage = () => {
                                             <EventDescriptionHover>
                                                 {event.description}
                                             </EventDescriptionHover>
-                                            <DetailsButton onClick={() => handleEventClick(event.id)}>
+                                            {/* <DetailsButton onClick={() => handleEventClick(event.id)}>
                                                 <span>&gt; ПОДРОБНЕЕ</span>
-                                            </DetailsButton>
+                                            </DetailsButton> */}
                                         </EventContent>
                                     </EventCard>
                                 ))

@@ -1,0 +1,674 @@
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { wordpressApi } from '../services/wordpressApi';
+import PartnerModal from './PartnerModal';
+
+// Используем те же визуальные элементы, что и на странице события
+import mainImage from '../images/EventPage/main_image.png';
+import image1 from '../images/EventPage/image_1.png';
+import rocketIcon from '../images/EventPage/rocket.svg';
+import computerIcon from '../images/EventPage/computer.svg';
+import houseIcon from '../images/EventPage/house.svg';
+
+const PageContainer = styled.div`
+  min-height: 100vh;
+  background: #ffffff;
+`;
+
+const HeroSection = styled.div`
+  position: relative;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+`;
+
+const BannerImage = styled.img`
+  position: relative;
+  width: 100%;
+  height: auto;
+  background: transparent;
+  object-fit: contain;
+  z-index: 1;
+`;
+
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 3vw;
+  z-index: 2;
+`;
+
+const HeroTitle = styled.h1`
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 4rem);
+  font-weight: 400;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  border-bottom: none;
+  text-align: center;
+  outline: none;
+  z-index: 3;
+  margin: 0;
+`;
+
+const ContentSection = styled.div`
+  background: radial-gradient(ellipse at calc(100% + 40vw) top, rgba(49, 38, 132, 0.5) 0%, #ffffff 50%, transparent 100%),
+              radial-gradient(ellipse at calc(0% - 20vw) calc(50% - 10vh), rgba(1, 156, 229, 0.9) 0%, #ffffff 50%, transparent 100%);
+  padding: 5rem 0;
+  min-height: 100vh;
+  position: relative;
+`;
+
+const Container = styled.div`
+  max-width: 2000px;
+  margin: 0 auto;
+  padding: 0 4rem;
+  position: relative;
+  z-index: 1;
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
+`;
+
+const GallerySection = styled.section`
+  margin-bottom: 4rem;
+`;
+
+const SectionTitle = styled.h2`
+  font-family: 'Raleway', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: #212529;
+  margin-bottom: 2rem;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
+`;
+
+const GalleryContainer = styled.div`
+  width: 90vw;
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+  overflow: visible;
+  background: transparent;
+
+  @media (max-width: 768px) {
+    width: 86vw;
+    margin-left: 2.5vw;
+    margin-right: auto;
+  }
+`;
+
+const GalleryCarousel = styled.div`
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const GalleryCard = styled.div`
+  min-width: 420px;
+  min-height: 300px;
+  background: transparent;
+  backdrop-filter: none;
+  border: none;
+  border-radius: 0;
+  padding: 20px;
+  transition: none;
+  position: relative;
+  overflow: visible;
+  cursor: pointer;
+
+  &:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: transparent;
+  }
+
+  @media (max-width: 768px) {
+    min-width: 320px;
+    min-height: 250px;
+    padding: 15px;
+  }
+
+  @media (max-width: 480px) {
+    min-width: 280px;
+    min-height: 220px;
+    padding: 10px;
+  }
+`;
+
+const GalleryImage = styled.img`
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+  z-index: 10;
+
+  ${GalleryCard}:hover & {
+    transform: scale(1.1);
+    z-index: 20;
+  }
+
+  @media (max-width: 768px) {
+    height: 200px;
+  }
+
+  @media (max-width: 480px) {
+    height: 180px;
+  }
+`;
+
+const Modal = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  cursor: pointer;
+`;
+
+const ModalImage = styled.img`
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: 10px;
+`;
+
+const ProjectDescription = styled.section`
+  margin-bottom: 4rem;
+  text-align: center;
+  position: relative;
+  padding: 2rem;
+  width: 90%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 15px;
+    pointer-events: none;
+    z-index: 1;
+  }
+`;
+
+const DescriptionText = styled.p`
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: clamp(1.0rem, 1.5vw, 100rem);
+  line-height: 1.2;
+  color: #333;
+  text-align: center;
+  margin: 0;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0.1rem 1rem;
+  position: relative;
+  z-index: 2;
+`;
+
+const StagesSection = styled.section`
+  margin-bottom: 4rem;
+  text-align: center;
+`;
+
+const StagesContainer = styled.div`
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 0;
+
+  @media (max-width: 768px) {
+    padding: 1rem 0;
+    min-height: 400px;
+  }
+`;
+
+const TimelineLine = styled.div`
+  position: relative;
+  height: 4px;
+  background: linear-gradient(90deg, #019CE5 0%, #312684 100%);
+  border-radius: 2px;
+  margin: 2rem 0 3rem 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const StagesGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+`;
+
+const StageItem = styled(motion.div)`
+  background: ${props => props.active ? 'linear-gradient(135deg, #019CE5, #312684)' : '#f8f9fa'};
+  color: ${props => props.active ? 'white' : '#333'};
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  text-align: center;
+  position: relative;
+  box-shadow: ${props => props.active ? '0 8px 25px rgba(1, 156, 229, 0.3)' : '0 4px 15px rgba(0, 0, 0, 0.1)'};
+  transition: all 0.2s ease;
+  z-index: 1;
+
+  @media (max-width: 768px) {
+    padding: 0.2rem 0.6rem;
+    max-width: 250px;
+    margin: 0 auto;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 2rem;
+    background: ${props => props.active ? '#019CE5' : '#dee2e6'};
+    z-index: 2;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: ${props => props.active ? '0 12px 30px rgba(1, 156, 229, 0.4)' : '0 8px 20px rgba(0, 0, 0, 0.15)'};
+    transition: all 0.2s ease;
+  }
+`;
+
+const StageText = styled.p`
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+  font-weight: 500;
+`;
+
+const ResultsSection = styled.section`
+  margin-bottom: 4rem;
+`;
+
+const ResultsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+`;
+
+const ResultItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  background: transparent;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+`;
+
+const ResultIcon = styled.img`
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+
+  @media (max-width: 768px) {
+    width: 70px;
+    height: 70px;
+  }
+
+  @media (max-width: 480px) {
+    width: 60px;
+    height: 60px;
+  }
+`;
+
+const ResultText = styled.p`
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 1rem;
+  color: #333;
+  margin: 0;
+  flex: 1;
+`;
+
+const NewsDetailPage = () => {
+    const { newsId } = useParams();
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [currentStage, setCurrentStage] = useState(0);
+    const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
+    const [news, setNews] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const [galleryRef, galleryInView] = useInView({
+        triggerOnce: true,
+        threshold: 0.1
+    });
+
+    useEffect(() => {
+        const fetchNews = async () => {
+            try {
+                setLoading(true);
+                const data = await wordpressApi.getNewsById(newsId);
+                if (data) {
+                    const newsWithGallery = {
+                        ...data,
+                        gallery: [
+                            { image: data.featuredImage || image1, title: 'Основное изображение', description: data.title },
+                            { image: image1, title: 'Фото 1', description: 'Иллюстрация к новости' },
+                            { image: image1, title: 'Фото 2', description: 'Иллюстрация к новости' }
+                        ],
+                        stages: [
+                            'Сбор и подготовка материалов.',
+                            'Публикация и распространение.',
+                            'Обновления и обратная связь.'
+                        ],
+                        results: [
+                            'Новость опубликована.',
+                            'Материалы донесены до аудитории.',
+                            'Получены отклики читателей.'
+                        ]
+                    };
+                    setNews(newsWithGallery);
+                } else {
+                    const fallbackNews = {
+                        id: newsId,
+                        title: 'Новость',
+                        description: 'Текст новости недоступен.',
+                        gallery: [
+                            { image: image1, title: 'Фото', description: 'Иллюстрация к новости' }
+                        ],
+                        stages: [
+                            'Сбор и подготовка материалов.',
+                            'Публикация и распространение.',
+                            'Обновления и обратная связь.'
+                        ],
+                        results: [
+                            'Новость опубликована.',
+                            'Материалы донесены до аудитории.',
+                            'Получены отклики читателей.'
+                        ]
+                    };
+                    setNews(fallbackNews);
+                }
+            } catch (e) {
+                const fallbackNews = {
+                    id: newsId,
+                    title: 'Новость',
+                    description: 'Текст новости недоступен.',
+                    gallery: [
+                        { image: image1, title: 'Фото', description: 'Иллюстрация к новости' }
+                    ],
+                    stages: [
+                        'Сбор и подготовка материалов.',
+                        'Публикация и распространение.',
+                        'Обновления и обратная связь.'
+                    ],
+                    results: [
+                        'Новость опубликована.',
+                        'Материалы донесены до аудитории.',
+                        'Получены отклики читателей.'
+                    ]
+                };
+                setNews(fallbackNews);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchNews();
+    }, [newsId]);
+
+    useEffect(() => {
+        if (!news) return;
+        const handleScroll = () => {
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            if (scrollPosition > windowHeight * 0.8) setCurrentStage(1);
+            if (scrollPosition > windowHeight * 1.2) setCurrentStage(2);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [news]);
+
+    if (loading) {
+        return (
+            <PageContainer>
+                <div style={{
+                    textAlign: 'center',
+                    padding: '4rem 2rem',
+                    fontSize: '1.3rem',
+                    color: '#019CE5',
+                    background: 'rgba(255, 255, 255, 0.9)',
+                    borderRadius: '20px',
+                    border: '1px solid rgba(1, 156, 229, 0.2)',
+                    margin: '2rem',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+                }}>
+                    Загрузка новости...
+                </div>
+            </PageContainer>
+        );
+    }
+
+    if (!news) {
+        return (
+            <PageContainer>
+                <div style={{
+                    textAlign: 'center',
+                    padding: '4rem 2rem',
+                    fontSize: '1.3rem',
+                    color: '#dc3545',
+                    background: 'rgba(255, 255, 255, 0.9)',
+                    borderRadius: '20px',
+                    border: '1px solid rgba(220, 53, 69, 0.2)',
+                    margin: '2rem',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+                }}>
+                    Новость не найдена
+                </div>
+            </PageContainer>
+        );
+    }
+
+    return (
+        <PageContainer>
+            <HeroSection>
+                <BannerImage src={news.gallery && news.gallery.length > 0 ? news.gallery[0].image : mainImage} alt={news.title} />
+                <Overlay>
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, ease: 'easeOut' }}
+                    >
+                        <HeroTitle>{news.title}</HeroTitle>
+                    </motion.div>
+                </Overlay>
+            </HeroSection>
+
+            <ContentSection>
+                <Container>
+                    <GallerySection ref={galleryRef}>
+                        <motion.div
+                            initial={{ opacity: 0, y: 50 }}
+                            animate={galleryInView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 1, ease: 'easeOut' }}
+                        >
+                            <SectionTitle>ГАЛЕРЕЯ</SectionTitle>
+                        </motion.div>
+                        <GalleryContainer>
+                            <GalleryCarousel>
+                                {news.gallery.map((item, index) => (
+                                    <motion.div
+                                        key={index}
+                                        initial={{ opacity: 0, y: 50 }}
+                                        animate={galleryInView ? { opacity: 1, y: 0 } : {}}
+                                        transition={{ duration: 0.8, delay: 0.2 + index * 0.1, ease: 'easeOut' }}
+                                        whileHover={{ scale: 1.02 }}
+                                    >
+                                        <GalleryCard onClick={() => setSelectedImage(item.image)}>
+                                            <GalleryImage src={item.image} alt={item.title} />
+                                        </GalleryCard>
+                                    </motion.div>
+                                ))}
+                            </GalleryCarousel>
+                        </GalleryContainer>
+                    </GallerySection>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+                    >
+                        <ProjectDescription>
+                            <DescriptionText>{news.content || news.description || ''}</DescriptionText>
+                        </ProjectDescription>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+                    >
+                        {/* <StagesSection>
+                            <SectionTitle>ЭТАПЫ И УЧАСТНИКИ</SectionTitle>
+                            <motion.div
+                                style={{ marginBottom: '1rem' }}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.5, delay: 0.6 }}
+                            >
+                                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+                                    <button onClick={() => setCurrentStage(0)} style={{ padding: '0.5rem 1rem', background: currentStage >= 0 ? '#019CE5' : '#f8f9fa', color: currentStage >= 0 ? 'white' : '#333', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem' }}>Этап 1</button>
+                                    <button onClick={() => setCurrentStage(1)} style={{ padding: '0.5rem 1rem', background: currentStage >= 1 ? '#019CE5' : '#f8f9fa', color: currentStage >= 1 ? 'white' : '#333', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem' }}>Этап 2</button>
+                                    <button onClick={() => setCurrentStage(2)} style={{ padding: '0.5rem 1rem', background: currentStage >= 2 ? '#019CE5' : '#f8f9fa', color: currentStage >= 2 ? 'white' : '#333', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem' }}>Этап 3</button>
+                                </div>
+                            </motion.div>
+                            <StagesContainer>
+                                <StagesGrid>
+                                    {news.stages.map((stage, index) => (
+                                        <StageItem
+                                            key={index}
+                                            active={index <= currentStage}
+                                            initial={{ opacity: 0, y: 50 }}
+                                            animate={{ opacity: index <= currentStage ? 1 : 0.3, y: 0 }}
+                                            transition={{ duration: 0.3 }}
+                                        >
+                                            <StageText>{stage}</StageText>
+                                        </StageItem>
+                                    ))}
+                                </StagesGrid>
+                                <TimelineLine />
+                            </StagesContainer>
+                        </StagesSection> */}
+                    </motion.div>
+
+                    {/* <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
+                    >
+                        <ResultsSection>
+                            <SectionTitle>РЕЗУЛЬТАТЫ</SectionTitle>
+                            <ResultsGrid>
+                                {news.results.map((result, index) => (
+                                    <ResultItem key={index}>
+                                        <ResultIcon src={index === 0 ? rocketIcon : index === 1 ? computerIcon : houseIcon} alt="Иконка результата" />
+                                        <ResultText>{result}</ResultText>
+                                    </ResultItem>
+                                ))}
+                            </ResultsGrid>
+                            <motion.div style={{ textAlign: 'center', marginTop: '3rem' }} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.8, ease: 'easeOut' }}>
+                                <button
+                                    style={{
+                                        background: '#000000',
+                                        color: 'white',
+                                        border: 'none',
+                                        padding: '1rem 2.5rem',
+                                        borderRadius: '50px',
+                                        fontSize: '1.1rem',
+                                        fontFamily: 'Proxima Nova, sans-serif',
+                                        fontWeight: '500',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.3s ease',
+                                        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)'
+                                    }}
+                                    onMouseEnter={(e) => { e.target.style.transform = 'translateY(-3px)'; e.target.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.3)'; }}
+                                    onMouseLeave={(e) => { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)'; }}
+                                    onClick={() => setIsPartnerModalOpen(true)}
+                                >
+                                    СТАТЬ ПАРТНЕРОМ ПРОЕКТА
+                                </button>
+                            </motion.div>
+                        </ResultsSection>
+                    </motion.div> */}
+
+                </Container>
+            </ContentSection>
+
+            <AnimatePresence>
+                {selectedImage && (
+                    <Modal initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedImage(null)}>
+                        <ModalImage src={selectedImage} alt="Увеличенное фото" onClick={(e) => e.stopPropagation()} />
+                    </Modal>
+                )}
+            </AnimatePresence>
+
+            <PartnerModal isOpen={isPartnerModalOpen} onClose={() => setIsPartnerModalOpen(false)} />
+        </PageContainer>
+    );
+};
+
+export default NewsDetailPage;
+
+

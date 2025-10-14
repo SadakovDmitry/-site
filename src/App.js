@@ -8,7 +8,8 @@ import ContactPage from './components/ContactPage';
 import NewsPage from './components/NewsPage';
 import EventsPage from './components/EventsPage';
 import TestPage from './components/TestPage';
-import EventDetailPage from './components/EventDetailPage';
+// import EventDetailPage from './components/EventDetailPage';
+import NewsDetailPage from './components/NewsDetailPage';
 import ProjectsPage from './components/ProjectsPage';
 import ScrollToTop from './components/ScrollToTop';
 import VideoPreloader from './components/VideoPreloader';
@@ -93,7 +94,8 @@ function App() {
           <Route path="/news" element={<NewsPage />} />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/test" element={<TestPage />} />
-          <Route path="/events/:eventId" element={<EventDetailPage />} />
+          {/* <Route path="/events/:eventId" element={<EventDetailPage />} /> */}
+          <Route path="/news/:newsId" element={<NewsDetailPage />} />
         </Routes>
         <Footer />
       </AppContainer>

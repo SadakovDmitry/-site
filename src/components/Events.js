@@ -227,6 +227,28 @@ const AllEventsButton = styled(Link)`
   }
 `;
 
+// Вынесем fallback события за пределы компонента, чтобы не ругался ESLint на зависимости
+const fallbackEvents = [
+  {
+    date: '23.07.2025',
+    title: 'ОТКРЫТИЕ ПЛАНЕТАРИЯ',
+    description: 'Создание современного планетария для популяризации астрономии и космической науки среди молодежи.',
+    image: image77
+  },
+  {
+    date: '15.08.2025',
+    title: 'ЗАПУСК НОВОГО СПУТНИКА',
+    description: 'Разработка и запуск образовательного спутника для проведения научных экспериментов в космосе.',
+    image: image76
+  },
+  {
+    date: '10.09.2025',
+    title: 'ЛЕКЦИЯ КОСМОНАВТА',
+    description: 'Организация встречи с действующим космонавтом для студентов и школьников.',
+    image: image75
+  }
+];
+
 const Events = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -237,27 +259,7 @@ const Events = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fallback события
-  const fallbackEvents = [
-    {
-      date: '23.07.2025',
-      title: 'ОТКРЫТИЕ ПЛАНЕТАРИЯ',
-      description: 'Создание современного планетария для популяризации астрономии и космической науки среди молодежи.',
-      image: image77
-    },
-    {
-      date: '15.08.2025',
-      title: 'ЗАПУСК НОВОГО СПУТНИКА',
-      description: 'Разработка и запуск образовательного спутника для проведения научных экспериментов в космосе.',
-      image: image76
-    },
-    {
-      date: '10.09.2025',
-      title: 'ЛЕКЦИЯ КОСМОНАВТА',
-      description: 'Организация встречи с действующим космонавтом для студентов и школьников.',
-      image: image75
-    }
-  ];
+  // Fallback события определены вне компонента
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -334,32 +336,30 @@ const Events = () => {
         ) : (
           <EventsGrid className={shouldCenter ? 'center-single' : ''}>
             {events.map((event, index) => (
-              <Link key={event.id || event.title} to={`/events/${event.id || 'event'}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <EventCard
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.8, delay: 0.2 + index * 0.1, ease: "easeOut" }}
-                  whileHover={{ scale: 1.02 }}
-                >
-                  <div className="card-header">
-                    <span className="date">{event.date || 'Дата не указана'}</span>
-                    <span className="details-link">ПОДРОБНЕЕ</span>
-                  </div>
+              <EventCard
+                initial={{ opacity: 0, y: 50 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.2 + index * 0.1, ease: "easeOut" }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <div className="card-header">
+                  <span className="date">{event.date || 'Дата не указана'}</span>
+                  {/* <span className="details-link">ПОДРОБНЕЕ</span> */}
+                </div>
 
-                  <h3 className="event-title">{event.title}</h3>
-                  <p className="event-description">{event.description || event.excerpt}</p>
+                <h3 className="event-title">{event.title}</h3>
+                <p className="event-description">{event.description || event.excerpt}</p>
 
-                  <div className="event-image">
-                    <img
-                      src={event.image || event.featuredImage || image75}
-                      alt={event.title}
-                      onError={(e) => {
-                        e.target.src = image75;
-                      }}
-                    />
-                  </div>
-                </EventCard>
-              </Link>
+                <div className="event-image">
+                  <img
+                    src={event.image || event.featuredImage || image75}
+                    alt={event.title}
+                    onError={(e) => {
+                      e.target.src = image75;
+                    }}
+                  />
+                </div>
+              </EventCard>
             ))}
           </EventsGrid>
         )}

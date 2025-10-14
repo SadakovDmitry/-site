@@ -418,6 +418,7 @@ const Header = () => {
   const isNewsPage = location.pathname === '/news';
   const isContactPage = location.pathname === '/contact';
   const isEventsPage = location.pathname === '/events';
+  const isFondPage = location.pathname === '/fond';
 
   const getCurrentPageTitle = () => {
     switch (location.pathname) {
@@ -442,7 +443,7 @@ const Header = () => {
     const allLinks = [
       { to: '/', title: '/ ГЛАВНАЯ' },
       { to: '/fond', title: '/ О ФОНДЕ' },
-      { to: '/events', title: '/ СОБЫТИЯ' },
+      // { to: '/events', title: '/ СОБЫТИЯ' },
       { to: '/news', title: '/ НОВОСТИ' },
       { to: '/contact', title: '/ КОНТАКТЫ' },
       // { to: '/projects', title: '/ ПРОЕКТЫ' }
@@ -457,7 +458,7 @@ const Header = () => {
       {isHomePage ? (
         <>
           <NavLink to="/fond">/ О ФОНДЕ</NavLink>
-          <NavLink to="/events">/ СОБЫТИЯ</NavLink>
+          {/* <NavLink to="/events">/ СОБЫТИЯ</NavLink> */}
           <NavLink to="/news">/ НОВОСТИ</NavLink>
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
         </>
@@ -465,14 +466,14 @@ const Header = () => {
         <>
           <NavLink to="/">/ ГЛАВНАЯ</NavLink>
           <NavLink to="/fond">/ О ФОНДЕ</NavLink>
-          <NavLink to="/events">/ СОБЫТИЯ</NavLink>
+          {/* <NavLink to="/events">/ СОБЫТИЯ</NavLink> */}
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
         </>
       ) : isContactPage ? (
         <>
           <NavLink to="/">/ ГЛАВНАЯ</NavLink>
           <NavLink to="/fond">/ О ФОНДЕ</NavLink>
-          <NavLink to="/events">/ СОБЫТИЯ</NavLink>
+          {/* <NavLink to="/events">/ СОБЫТИЯ</NavLink> */}
           <NavLink to="/news">/ НОВОСТИ</NavLink>
         </>
       ) : isEventsPage ? (
@@ -482,11 +483,17 @@ const Header = () => {
           <NavLink to="/news">/ НОВОСТИ</NavLink>
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
         </>
+      ) : isFondPage ? (
+        <>
+          <NavLink to="/">/ ГЛАВНАЯ</NavLink>
+          <NavLink to="/news">/ НОВОСТИ</NavLink>
+          <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
+        </>
       ) : (
         <>
           <NavLink to="/">/ ГЛАВНАЯ</NavLink>
           <NavLink to="/fond">/ О ФОНДЕ</NavLink>
-          <NavLink to="/events">/ СОБЫТИЯ</NavLink>
+          {/* <NavLink to="/events">/ СОБЫТИЯ</NavLink> */}
           <NavLink to="/news">/ НОВОСТИ</NavLink>
           <NavLink to="/contact">/ КОНТАКТЫ</NavLink>
         </>
