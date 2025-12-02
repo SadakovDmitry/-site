@@ -3,7 +3,6 @@ import Hero from './Hero';
 import About from './About';
 // import Events from './Events';
 import News from './News';
-import Partners from './Partners';
 
 const Home = () => {
     return (
@@ -12,7 +11,6 @@ const Home = () => {
             <About />
             {/* <Events /> */}
             <News />
-            <Partners />
         </>
     );
 };

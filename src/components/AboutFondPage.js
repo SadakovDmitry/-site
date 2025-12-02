@@ -1,23 +1,14 @@
 import Mission from "./AboutFond-components/Mission";
 import Director from "./AboutFond-components/Director";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
-import { useVideoPreloader } from '../hooks/useVideoPreloader';
-import OptimizedVideo from './OptimizedVideo';
 
 import voenmeh from "../images/AboutFondPage/военммех.png";
 import nauchnyePribory from "../images/AboutFondPage/научные_приборы.png";
 import federatsiyaKosmonavtiki from "../images/AboutFondPage/федерация_космонавтики.png";
 import logoVoenmeh from "../images/AboutFondPage/лого_военмех.png";
 import logoNauchnyePribory from "../images/AboutFondPage/лого_научные_приборы.png";
-
-import benefactor from "../images/AboutFondPage/people/benefactor.png";
-
-import muhin from "../images/AboutFondPage/Muhin.jpg";
-import shkaplerov from "../images/AboutFondPage/Shkaplerov.jpg";
-import smirnov from "../images/AboutFondPage/Smirnov.jpg";
-import smoktiy from "../images/AboutFondPage/Smoktiy.jpg";
 
 // Импорт иконок для стратегических направлений
 import atomIcon from "../images/AboutFondPage/icons/chrome-atom-molecule-icon-white-background-3d-rendering_476612-2231.png";
@@ -29,6 +20,7 @@ import ufoIcon from "../images/AboutFondPage/icons/y2k-chrome-atom-11486669-9316
 
 import infographik from "../images/AboutFondPage/infographik.svg";
 import Frame49 from "../Frame 49.png";
+import charterPdf from "../images/main/ФСРК Устав новый.pdf";
 
 
 // TODO: перенести в файл с константами
@@ -440,6 +432,7 @@ const BoardMemberCard = styled(motion.div)`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const MemberImage = styled.img`
   width: 40%;
   height: 20vw;
@@ -458,12 +451,14 @@ const MemberImage = styled.img`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const MemberTopSection = styled.div`
   display: flex;
   gap: 1rem;
   align-items: stretch;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const MemberRightSection = styled.div`
   display: flex;
   flex-direction: column;
@@ -473,6 +468,7 @@ const MemberRightSection = styled.div`
 
 
 
+// eslint-disable-next-line no-unused-vars
 const MemberRole = styled.h3`
   font-family: 'Futura PT', sans-serif;
   font-size: clamp(0.4rem, 1.1vw, 1rem);
@@ -734,7 +730,7 @@ const DocsButtonsRow = styled.div`
   }
 `;
 
-const DocButton = styled.button`
+const DocButton = styled.a`
   background: linear-gradient(180deg, #f2f2f2, #dcdcdc);
   border: 1px solid rgba(0,0,0,0.15);
   box-shadow: 0 6px 18px rgba(0,0,0,.25) inset, 0 8px 24px rgba(0,0,0,.2);
@@ -748,6 +744,8 @@ const DocButton = styled.button`
   text-transform: uppercase;
   cursor: pointer;
   white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
 
   &:hover {
     filter: brightness(0.98);
@@ -760,8 +758,6 @@ const DocButton = styled.button`
 `;
 
 function AboutFond() {
-  // Хук для предзагрузки видео
-  const { videoLoaded, imageLoaded, showVideo } = useVideoPreloader('fond');
   const [isMembersScrolling, setIsMembersScrolling] = useState(false);
   const scrollHideTimerRef = useRef(null);
 
@@ -831,7 +827,7 @@ function AboutFond() {
         transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
       >
         <BoardMembersSection>
-          <BoardMembersTitle>ЧЛЕНЫ ПРАВЛЕНИЯ</BoardMembersTitle>
+          <BoardMembersTitle>ЧЛЕНЫ НАБЛЮДАТЕЛЬНОГО СОВЕТА</BoardMembersTitle>
           <BoardMembersGrid
             onScroll={handleMembersScroll}
             className={isMembersScrolling ? 'scrolling' : ''}
@@ -840,16 +836,14 @@ function AboutFond() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <MemberRole>КОСМОНАВТ</MemberRole>
               <MemberName>
                 ШКАПЛЕРОВ<br />
                 Антон<br />
                 Николаевич
               </MemberName>
               <MemberDescription>
-                Герой Российской Федерации<br />
-                с четырьмя космическими<br />
-                полетами за плечами
+                Шкаплеров Антон Николаевич.<br />
+                Российский космонавт-испытатель, герой России, кандидат технических наук
               </MemberDescription>
             </BoardMemberCard>
 
@@ -857,20 +851,14 @@ function AboutFond() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <MemberRole>
-                ПЕРВЫЙ<br />
-                ВИЦЕ-ПРЕЗИДЕНТ
-              </MemberRole>
               <MemberName>
                 МУХИН<br />
                 Олег<br />
                 Петрович
               </MemberName>
               <MemberDescription>
-                Санкт-Петербургская региональная<br />
-                организация Общероссийской<br />
-                общественной организации<br />
-                «Федерация космонавтики России»
+                Мухин Олег Петрович.<br />
+                Первый заместитель Председателя Совета Санкт-Петербургской региональной организации ООО «Федерация космонавтики России»
               </MemberDescription>
             </BoardMemberCard>
 
@@ -878,33 +866,14 @@ function AboutFond() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <MemberRole>ПРОФЕССОР</MemberRole>
-              <MemberName>
-                СМОКТИЙ<br />
-                Олег<br />
-                Иванович
-              </MemberName>
-              <MemberDescription>
-                Доктор физико-математических наук,<br />
-                профессор. Заслуженный деятель<br />
-                науки Российской Федерации.
-              </MemberDescription>
-            </BoardMemberCard>
-
-            <BoardMemberCard
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            >
-              <MemberRole>ЮРИСТ</MemberRole>
               <MemberName>
                 СМИРНОВ<br />
                 Анатолий<br />
                 Александрович
               </MemberName>
               <MemberDescription>
-                Заслуженный юрист<br />
-                Российской Федерации<br />
-                Кандидат экономических наук
+                Смирнов Анатолий Александрович.<br />
+                Заслуженный юрист Российской Федерации, кандидат экономических наук
               </MemberDescription>
             </BoardMemberCard>
 
@@ -912,20 +881,44 @@ function AboutFond() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <MemberRole>
-                ДИРЕКТОР<br />
-                И ПРЕДСЕДАТЕЛЬ
-              </MemberRole>
               <MemberName>
                 НУГМАНОВ<br />
-                Рустав<br />
+                Рустам<br />
                 Ренатович
               </MemberName>
               <MemberDescription>
-                Председатель правления Фонда<br />
-                сохранения исторического<br />
-                культурного наследия<br />
-                Член Федерации космонавтики России
+                Нугманов Рустам Ренатович.<br />
+                Председатель Правления Фонда сохранения исторического культурного наследия
+              </MemberDescription>
+            </BoardMemberCard>
+
+            <BoardMemberCard
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <MemberName>
+                ВОСТРЕЦОВ<br />
+                Сергей<br />
+                Алексеевич
+              </MemberName>
+              <MemberDescription>
+                Вострецов Сергей Алексеевич.<br />
+                Российский общественный и политический деятель, кандидат педагогических наук, председатель Объединения профсоюзов России СОЦПРОФ, депутат Государственной думы РФ VI и VII созывов
+              </MemberDescription>
+            </BoardMemberCard>
+
+            <BoardMemberCard
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <MemberName>
+                ШАШУРИН<br />
+                Александр<br />
+                Евгеньевич
+              </MemberName>
+              <MemberDescription>
+                Шашурин Александр Евгеньевич.<br />
+                Ректор БГТУ «ВОЕНМЕХ» им. Д.Ф. Устинова, доктор технических наук, профессор, руководитель ведущего технического университета России
               </MemberDescription>
             </BoardMemberCard>
           </BoardMembersGrid>
@@ -944,13 +937,13 @@ function AboutFond() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <MemberRole>КОСМОНАВТ</MemberRole>
               <MemberName>
                 КРИКАЛЁВ<br />
                 Сергей<br />
                 Константинович
               </MemberName>
               <MemberDescription>
+                Крикалёв Сергей Константинович.<br />
                 Герой Советского Союза и Герой Российской Федерации<br />
                 Лётчик-космонавт СССР<br />
                 Рекордсмен по суммарному времени пребывания в космосе
@@ -961,13 +954,13 @@ function AboutFond() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <MemberRole>КОСМОНАВТ</MemberRole>
               <MemberName>
                 АРЦЕБАРСКИЙ<br />
                 Анатолий<br />
                 Павлович
               </MemberName>
               <MemberDescription>
+                Арцебарский Анатолий Павлович.<br />
                 Герой Советского Союза<br />
                 Лётчик-космонавт СССР<br />
                 Участник программы "Союз" - "Мир"
@@ -978,16 +971,15 @@ function AboutFond() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <MemberRole>КОСМОНАВТ</MemberRole>
               <MemberName>
                 МОВЧАН<br />
                 Сергей<br />
                 Николаевич
               </MemberName>
               <MemberDescription>
-                Лётчик-космонавт СССР<br />
-                Участник космических программ<br />
-                Специалист по космическим технологиям
+                Мовчан Сергей Николаевич.<br />
+                Советник Губернатора Санкт-Петербурга.<br />
+                Заслуженный юрист Российской Федерации.
               </MemberDescription>
             </BoardMemberCard>
           </TrusteesGrid>
@@ -1004,7 +996,7 @@ function AboutFond() {
         <HistoryStatusSection>
           <HistoryStatusContainer>
             <MobileTitleContainer>
-              <h3>ИСТОРИЯ И СТАТУС</h3>
+              <h3>О ФОНДЕ</h3>
             </MobileTitleContainer>
             <InfographicContainer>
               <motion.img
@@ -1022,15 +1014,12 @@ function AboutFond() {
             </InfographicContainer>
 
             <HistoryText>
-              <h3 className="desktop-title">ИСТОРИЯ И СТАТУС</h3>
+              <h3 className="desktop-title">О ФОНДЕ</h3>
               <p>
-                Фонд возник как ответ на стремление объединить людей, которым небезразлично будущее науки и технологий. В его основе лежала простая идея: поддерживать те инициативы, что способны открывать новые горизонты и вдохновлять общество.
+                Роль России как одного из лидеров космической отрасли трудно переоценить. На сегодняшний день Россия вместе с США и Китаем входит в тройку главных космических держав. Наша страна была первопроходцем во многих космических достижениях: это теоретическое обоснование полетов в космос, первый искусственный спутник, первый полет человека в космос, первый межпланетный перелет и другие свершения.
               </p>
               <p>
-                С самого начала он задумывался не как узкая структура, а как пространство для сотрудничества — место, где встречаются учёные, предприниматели, государственные институты и энтузиасты. Каждый из них приносит свой вклад, и вместе эти усилия превращаются в проекты, которые помогают двигаться вперёд.
-              </p>
-              <p>
-                Сегодня фонд продолжает эту миссию: создавать условия, при которых наука и технологии становятся ближе к людям, а партнёрство разных сфер открывает дорогу к новым достижениям. Его история — это история поиска, объединения и веры в то, что совместная работа способна изменить будущее.
+                Фонд содействия развитию космонавтики был создан для развития международных и общероссийских проектов, рассказывающих о достижениях российской космонавтики, для того, чтобы подчеркнуть роль России как одного из мировых технологических лидеров.
               </p>
             </HistoryText>
           </HistoryStatusContainer>
@@ -1148,9 +1137,9 @@ function AboutFond() {
           <DocsContainer>
             <DocsTitle>ДОКУМЕНТЫ И ПОЛИТИКА</DocsTitle>
             <DocsButtonsRow>
-              <DocButton>Устав</DocButton>
-              <DocButton>Годовые отчеты</DocButton>
-              <DocButton>Партнерские соглашения</DocButton>
+              <DocButton href={charterPdf} target="_blank" rel="noopener noreferrer" download>
+                Устав
+              </DocButton>
             </DocsButtonsRow>
           </DocsContainer>
         </DocsSection>

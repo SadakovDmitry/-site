@@ -13,6 +13,8 @@ import NewsDetailPage from './components/NewsDetailPage';
 import ProjectsPage from './components/ProjectsPage';
 import ScrollToTop from './components/ScrollToTop';
 import VideoPreloader from './components/VideoPreloader';
+import PrivacyPage from './components/PrivacyPage';
+import TermsPage from './components/TermsPage';
 // Local font files (Proxima Nova)
 import ProximaRegular from './Proxima Nova/proximanova_regular.ttf';
 import ProximaSemibold from './Proxima Nova/proximanova_bold.otf';
@@ -96,6 +98,8 @@ function App() {
           <Route path="/test" element={<TestPage />} />
           {/* <Route path="/events/:eventId" element={<EventDetailPage />} /> */}
           <Route path="/news/:newsId" element={<NewsDetailPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
         </Routes>
         <Footer />
       </AppContainer>

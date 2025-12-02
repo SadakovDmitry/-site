@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 // Injects <link> hints for current and future page media
 // - current video/image: rel=preload as=video/image
@@ -9,6 +9,20 @@ export function useResourceHints(
     currentImageSrcs = [],
     futureImageSrcs = []
 ) {
+    // Мемоизируем строковые представления массивов для правильной работы зависимостей
+    const futureVideoSrcsKey = useMemo(() =>
+        (futureVideoSrcs || []).filter(Boolean).join(','),
+        [futureVideoSrcs]
+    );
+    const currentImageSrcsKey = useMemo(() =>
+        (currentImageSrcs || []).filter(Boolean).join(','),
+        [currentImageSrcs]
+    );
+    const futureImageSrcsKey = useMemo(() =>
+        (futureImageSrcs || []).filter(Boolean).join(','),
+        [futureImageSrcs]
+    );
+
     useEffect(() => {
         if (!currentVideoSrc && (!currentImageSrcs || currentImageSrcs.length === 0)) return;
 
@@ -75,7 +89,8 @@ export function useResourceHints(
         return () => {
             created.forEach((el) => el && el.parentNode && el.parentNode.removeChild(el));
         };
-    }, [currentVideoSrc, JSON.stringify(futureVideoSrcs), JSON.stringify(currentImageSrcs), JSON.stringify(futureImageSrcs)]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentVideoSrc, futureVideoSrcsKey, currentImageSrcsKey, futureImageSrcsKey]);
 }
 
 

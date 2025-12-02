@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import MainLogo from '../MainLogo.svg';
 import MobileLogo from '../images/main/logo_mobile.svg';
 import PartnerModal from './PartnerModal';
 
@@ -120,6 +119,7 @@ const PrimaryButton = styled(motion.a)`
   white-space: nowrap;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const MobileMenuButton = styled.button`
   display: none;
   background: none;
@@ -141,6 +141,7 @@ const MobileMenuButton = styled.button`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const CurrentPageTitle = styled.div`
   display: none;
   color: #fff;
@@ -389,6 +390,7 @@ const DesktopRow = styled.div`
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [isMobile, setIsMobile] = useState(false);
   const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
   const location = useLocation();

@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useVideoPreloader, videoSources, placeholderImages } from '../hooks/useVideoPreloader';
 import OptimizedVideo from './OptimizedVideo';
-import videoContact from '../ФСРК видео/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc.mp4';
+import emailjs from '@emailjs/browser';
 // Конвертированные варианты (десктоп 1080p / мобильные 720p)
 import contactMp41080 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc-1080p.mp4';
 import contactWebm1080 from '../ФСРК видео/converted/handshake-thank-you-and-business-people-meeting-f-4k-2025-08-28-14-53-46-utc-1080p.webm';
@@ -18,11 +18,12 @@ import phoneIcon from '../images/ContactPage/phone.svg';
 import emailIcon from '../images/ContactPage/e-mail.svg';
 import clockIcon from '../images/ContactPage/clock.svg';
 import mapIcon from '../images/ContactPage/map.svg';
-import telegramIcon from '../images/ContactPage/Telegram.svg';
-import whatsappIcon from '../images/ContactPage/WhatsApp.svg';
-import vkIcon from '../images/ContactPage/VK.svg';
-import underWhatsappIcon from '../images/ContactPage/under_whatsapp.svg';
-import underLogoIcon from '../images/ContactPage/under_logo.svg';
+// Соцсети временно закомментированы
+// import telegramIcon from '../images/ContactPage/Telegram.svg';
+// import whatsappIcon from '../images/ContactPage/WhatsApp.svg';
+// import vkIcon from '../images/ContactPage/VK.svg';
+// import underWhatsappIcon from '../images/ContactPage/under_whatsapp.svg';
+// import underLogoIcon from '../images/ContactPage/under_logo.svg';
 
 // Импорт шрифтов
 import ProximaRegular from '../Proxima Nova/proximanova_regular.ttf';
@@ -98,6 +99,7 @@ const HeroBanner = styled.div`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const BannerVideo = styled.video`
   position: absolute;
   top: 0;
@@ -514,11 +516,12 @@ const SubmitButton = styled(motion.button)`
   border-radius: 50px;
   font-size: 1.1rem;
   font-weight: 600;
-  cursor: pointer;
+  cursor: ${props => props.status === 'loading' ? 'not-allowed' : 'pointer'};
   align-self: center;
   transition: all 0.3s ease;
   text-transform: uppercase;
   margin-top: 1rem;
+  opacity: ${props => props.status === 'loading' ? 0.7 : 1};
   box-shadow: ${props => {
     if (props.status === 'success') {
       return '0 4px 15px rgba(0, 123, 255, 0.3)';
@@ -558,6 +561,7 @@ const SubmitButton = styled(motion.button)`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const SocialSection = styled(motion.div)`
   text-align: center;
   margin-bottom: 3rem;
@@ -565,6 +569,7 @@ const SocialSection = styled(motion.div)`
   z-index: 1;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const SocialTitle = styled.h2`
   font-family: 'Raleway', sans-serif;
   font-size: clamp(30px, 3.5vw, 100px);
@@ -579,6 +584,7 @@ const SocialTitle = styled.h2`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const SocialIcons = styled.div`
   display: flex;
   justify-content: center;
@@ -593,6 +599,7 @@ const SocialIcons = styled.div`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const SocialIcon = styled(motion.div)`
   width: 80px;
   height: 80px;
@@ -674,24 +681,51 @@ const ContactPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitStatus('loading');
 
-    // Имитация отправки формы
-    const isSuccess = Math.random() > 0.3; // 70% успех
-    setSubmitStatus(isSuccess ? 'success' : 'error');
+    try {
+      // Настройки EmailJS (нужно будет настроить на emailjs.com)
+      // Получите эти значения после регистрации на https://www.emailjs.com/
+      const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID';
+      const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID';
+      const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY';
 
-    // Сброс статуса через 5 секунд
-    setTimeout(() => setSubmitStatus(null), 5000);
+      // Инициализация EmailJS
+      emailjs.init(publicKey);
 
-    // Очистка формы при успехе
-    if (isSuccess) {
+      // Параметры для отправки
+      const templateParams = {
+        to_email: 'info@fondcosmos.ru',
+        from_name: formData.name,
+        from_organization: formData.organization || 'Не указано',
+        from_contact: formData.contact,
+        message: formData.message,
+        reply_to: formData.contact
+      };
+
+      // Отправка email
+      await emailjs.send(serviceId, templateId, templateParams);
+
+      setSubmitStatus('success');
+
+      // Очистка формы при успехе
       setFormData({
         name: '',
         organization: '',
         contact: '',
         message: ''
       });
+
+      // Сброс статуса через 5 секунд
+      setTimeout(() => setSubmitStatus(null), 5000);
+    } catch (error) {
+      console.error('Ошибка отправки формы:', error);
+      setSubmitStatus('error');
+
+      // Сброс статуса через 5 секунд
+      setTimeout(() => setSubmitStatus(null), 5000);
     }
   };
 
@@ -762,13 +796,13 @@ const ContactPage = () => {
               </div>
             </ContactItem>
 
-            <ContactItem as="a" href="mailto:info@cosmosfond.ru" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <ContactItem as="a" href="mailto:info@fondcosmos.ru" style={{ textDecoration: 'none', color: 'inherit' }}>
               <div className="icon">
                 <img src={emailIcon} alt="Email" />
               </div>
               <div className="content">
                 <h4>E-MAIL</h4>
-                <p>info@cosmosfond.ru</p>
+                <p>info@fondcosmos.ru</p>
               </div>
             </ContactItem>
 
@@ -861,9 +895,11 @@ const ContactPage = () => {
                 status={submitStatus}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                disabled={submitStatus === 'loading'}
               >
                 {submitStatus === 'success' ? 'ПОЛУЧЕНО' :
-                  submitStatus === 'error' ? 'ОШИБКА' : 'ОТПРАВИТЬ'}
+                  submitStatus === 'error' ? 'ОШИБКА' :
+                  submitStatus === 'loading' ? 'ОТПРАВКА...' : 'ОТПРАВИТЬ'}
               </SubmitButton>
 
               {submitStatus === 'success' && (
@@ -904,6 +940,7 @@ const ContactPage = () => {
             </Form>
           </FormSection>
 
+          {/* Секция соцсетей временно закомментирована
           <SocialSection
             initial={{ opacity: 0, y: 50 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -936,7 +973,7 @@ const ContactPage = () => {
                 <img src={telegramIcon} alt="Telegram" />
               </SocialIcon>
             </SocialIcons>
-          </SocialSection>
+          </SocialSection> */}
         </Container>
       </ContentSection>
     </PageContainer>

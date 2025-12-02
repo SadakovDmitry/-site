@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useResourceHints } from '../hooks/useResourceHints';
 import { videoSources, placeholderImages } from '../hooks/useVideoPreloader';

@@ -1,12 +1,10 @@
 import { WORDPRESS_CONFIG, getImageUrl, formatDate } from '../config/wordpress';
 
-// Функция для очистки HTML тегов
+// Функция для очистки HTML тегов (получение plain-text)
 const cleanHtml = (html) => {
     if (!html) return '';
     return html
-        .replace(/<p>/g, '')
-        .replace(/<\/p>/g, '')
-        .replace(/<br\s*\/?>/g, ' ')
+        .replace(/<\/?[^>]+(>|$)/g, ' ')
         .replace(/\s+/g, ' ')
         .trim();
 };
@@ -31,7 +29,8 @@ export const wordpressApi = {
             return posts.map(post => ({
                 id: post.id,
                 title: decodeHtmlEntities(post.title.rendered),
-                content: cleanHtml(post.content.rendered),
+                content: post.content?.rendered || '',
+                contentPlain: cleanHtml(post.content?.rendered),
                 excerpt: cleanHtml(post.excerpt.rendered),
                 date: formatDate(post.date),
                 featuredImage: post.jetpack_featured_media_url || getImageUrl(post._embedded?.['wp:featuredmedia']?.[0]?.source_url),
@@ -116,7 +115,8 @@ export const wordpressApi = {
             return {
                 id: post.id,
                 title: decodeHtmlEntities(post.title.rendered),
-                content: cleanHtml(post.content.rendered),
+                content: post.content?.rendered || '',
+                contentPlain: cleanHtml(post.content?.rendered),
                 excerpt: cleanHtml(post.excerpt.rendered),
                 date: formatDate(post.date),
                 featuredImage: post.jetpack_featured_media_url || getImageUrl(post._embedded?.['wp:featuredmedia']?.[0]?.source_url),
@@ -138,7 +138,8 @@ export const wordpressApi = {
             return posts.map(post => ({
                 id: post.id,
                 title: decodeHtmlEntities(post.title.rendered),
-                content: cleanHtml(post.content.rendered),
+                content: post.content?.rendered || '',
+                contentPlain: cleanHtml(post.content?.rendered),
                 excerpt: cleanHtml(post.excerpt.rendered),
                 date: formatDate(post.date),
                 featuredImage: post.jetpack_featured_media_url || getImageUrl(post._embedded?.['wp:featuredmedia']?.[0]?.source_url),

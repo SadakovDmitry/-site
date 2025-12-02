@@ -11,9 +11,6 @@ import EarthVideoMobile from '../ФСРК видео/Earth Rotates_alpha_3.mp4';
 import earthMp41080 from '../ФСРК видео/converted/Earth Rotates-1080p.mp4';
 import earthWebm1080 from '../ФСРК видео/converted/Earth Rotates-1080p.webm';
 import earthHevc1080 from '../ФСРК видео/converted/Earth Rotates-1080p-hevc.mp4';
-import earthMp4720 from '../ФСРК видео/converted/Earth Rotates-720p.mp4';
-import earthWebm720 from '../ФСРК видео/converted/Earth Rotates-720p.webm';
-import earthHevc720 from '../ФСРК видео/converted/Earth Rotates-720p-hevc.mp4';
 import earthMobileMp4720 from '../ФСРК видео/converted/Earth Rotates_alpha_3-720p.mp4';
 import earthMobileWebm720 from '../ФСРК видео/converted/Earth Rotates_alpha_3-720p.webm';
 import earthMobileHevc720 from '../ФСРК видео/converted/Earth Rotates_alpha_3-720p-hevc.mp4';
@@ -228,6 +225,7 @@ const CTAButton = styled(motion.button)`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const StatsContainer = styled(motion.div)`
   display: flex;
   gap: 5rem;
@@ -242,6 +240,7 @@ const StatsContainer = styled(motion.div)`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const StatItem = styled.div`
   text-align: center;
 

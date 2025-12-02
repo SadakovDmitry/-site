@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import RusSpace from '../RusSpace.svg';
 import Frame49 from '../Frame 49.png';
+import federatsiyaKosmonavtiki from '../images/main/fkr-logo-2023edited.png';
+import voenmeh from '../images/main/voenmeh logo1.png';
 
 const PartnersSection = styled.section`
   padding: 60px 0;
@@ -61,7 +63,14 @@ const LogoItem = styled.div`
   img { height: 100%; width: auto; background: transparent; mix-blend-mode: screen; filter: drop-shadow(0 0 12px rgba(255,255,255,0.2)); }
 `;
 
-const logos = [RusSpace, RusSpace, RusSpace, RusSpace, RusSpace, RusSpace];
+const logos = [
+  RusSpace,
+  federatsiyaKosmonavtiki,
+  voenmeh,
+  RusSpace,
+  federatsiyaKosmonavtiki,
+  voenmeh
+];
 
 const Partners = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
@@ -73,7 +82,18 @@ const Partners = () => {
         <Overflow>
           <Track>
             {logos.concat(logos).map((src, i) => (
-              <LogoItem key={i}><img src={src} alt="Роскосмос" /></LogoItem>
+              <LogoItem key={i}>
+                <img
+                  src={src}
+                  alt={
+                    src === federatsiyaKosmonavtiki
+                      ? "Федерация космонавтики России"
+                      : src === voenmeh
+                        ? "БГТУ ВОЕНМЕХ"
+                        : "Роскосмос"
+                  }
+                />
+              </LogoItem>
             ))}
           </Track>
         </Overflow>

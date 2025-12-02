@@ -819,11 +819,55 @@ const EventsPage = () => {
 
     // Функция применения фильтров
     const applyFilters = () => {
-        setActiveFilters(selectedFilters);
+        // Создаем глубокую копию объекта фильтров
+        setActiveFilters({
+            theme: [...selectedFilters.theme],
+            foundation: [...selectedFilters.foundation],
+            scale: [...selectedFilters.scale],
+            stage: [...selectedFilters.stage],
+            audience: [...selectedFilters.audience]
+        });
+    };
+
+    // Функция для глубокого сравнения объектов с массивами
+    const deepEqual = (obj1, obj2) => {
+        if (obj1 === obj2) return true;
+        if (obj1 == null || obj2 == null) return false;
+        if (typeof obj1 !== 'object' || typeof obj2 !== 'object') return false;
+
+        const keys1 = Object.keys(obj1);
+        const keys2 = Object.keys(obj2);
+
+        if (keys1.length !== keys2.length) return false;
+
+        for (const key of keys1) {
+            if (!keys2.includes(key)) return false;
+
+            const val1 = obj1[key];
+            const val2 = obj2[key];
+
+            // Сравниваем массивы
+            if (Array.isArray(val1) && Array.isArray(val2)) {
+                if (val1.length !== val2.length) return false;
+                const sorted1 = [...val1].sort();
+                const sorted2 = [...val2].sort();
+                if (JSON.stringify(sorted1) !== JSON.stringify(sorted2)) return false;
+            }
+            // Рекурсивно сравниваем вложенные объекты
+            else if (typeof val1 === 'object' && typeof val2 === 'object' && val1 !== null && val2 !== null) {
+                if (!deepEqual(val1, val2)) return false;
+            }
+            // Сравниваем примитивные значения
+            else if (val1 !== val2) {
+                return false;
+            }
+        }
+
+        return true;
     };
 
     // Проверяем, есть ли несохраненные изменения в фильтрах
-    const hasUnsavedChanges = JSON.stringify(selectedFilters) !== JSON.stringify(activeFilters);
+    const hasUnsavedChanges = !deepEqual(selectedFilters, activeFilters);
 
     // const handleEventClick = (eventId) => {
     //     navigate(`/events/${eventId}`);

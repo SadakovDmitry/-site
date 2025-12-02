@@ -1,10 +1,8 @@
-import director from "../../images/AboutFondPage/people/director.png";
-
 function Card() {
   return (
     <div className="card">
       <div className="border">
-        <img src={director} alt="Директор" />
+        {/* Фотография директора убрана */}
       </div>
     </div>
   );
@@ -15,18 +13,17 @@ function Text() {
     <div className="text">
       <h2>Директор</h2>
       <h1>
-        ИВАНОВ
+        НУГМАНОВ
         <br />
-        Иван Иванович
+        Рустам Ренатович
       </h1>
       <div className="block">
         <p className="left comma">&laquo;</p>
         <div className="info">
-          Космос — это не только вызов, но и шанс: расширяя <br /> горизонты
-          науки и техники, мы расширяем горизонты <br />
-          самого человека. Наша задача — помочь тем, кто создает <br />
-          будущее, чтобы однажды человечество сказало: звезды <br />
-          стали ближе, потому что мы верили и действовали вместе
+          Космос — это пространство, которое требует от людей максимальных усилий, оно
+          объединяет и отставляет в сторону политические разногласия, это вызов для
+          человечества. Нашей страной очень много сделано для развития космонавтики, это
+          первенство необходимо популяризировать и укреплять.
         </div>
         <p className="right comma">&raquo;</p>
       </div>
@@ -38,7 +35,7 @@ function Director() {
   return (
     <div className="Director">
       <div className="shadow"></div>
-      <Card></Card>
+      <div style={{ display: 'none' }}><Card></Card></div>
       <Text></Text>
     </div>
   );

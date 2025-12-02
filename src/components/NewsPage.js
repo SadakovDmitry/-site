@@ -394,7 +394,7 @@ const NewsPage = () => {
             image: item.featuredImage || astronautImage,
             date: `# ${item.date}`,
             title: item.title,
-            description: item.excerpt || item.content.substring(0, 150) + '...'
+            description: item.excerpt || (item.contentPlain ? `${item.contentPlain.substring(0, 150)}...` : '')
           }));
           setNews(formattedNews);
         } else {

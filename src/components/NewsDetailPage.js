@@ -9,8 +9,11 @@ import PartnerModal from './PartnerModal';
 // Используем те же визуальные элементы, что и на странице события
 import mainImage from '../images/EventPage/main_image.png';
 import image1 from '../images/EventPage/image_1.png';
+// eslint-disable-next-line no-unused-vars
 import rocketIcon from '../images/EventPage/rocket.svg';
+// eslint-disable-next-line no-unused-vars
 import computerIcon from '../images/EventPage/computer.svg';
+// eslint-disable-next-line no-unused-vars
 import houseIcon from '../images/EventPage/house.svg';
 
 const PageContainer = styled.div`
@@ -229,26 +232,57 @@ const ProjectDescription = styled.section`
   }
 `;
 
-const DescriptionText = styled.p`
+const DescriptionText = styled.div`
   font-family: 'Proxima Nova', sans-serif;
-  font-size: clamp(1.0rem, 1.5vw, 100rem);
-  line-height: 1.2;
-  color: #333;
-  text-align: center;
-  margin: 0;
-  max-width: 1600px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0.1rem 1rem;
+  font-size: clamp(1rem, 1.2vw, 1.3rem);
+  line-height: 1.8;
+  color: #000000;
+  text-align: left;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0.5rem 1rem;
   position: relative;
   z-index: 2;
+
+  p {
+    margin-bottom: 1rem;
+    color: #000000;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin: 1rem 0;
+  }
+
+  a {
+    color: #019CE5;
+    text-decoration: underline;
+  }
+
+  strong, b {
+    font-weight: 600;
+    color: #000000;
+  }
+
+  em, i {
+    font-style: italic;
+    color: #000000;
+  }
+
+  * {
+    color: #000000;
+  }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const StagesSection = styled.section`
   margin-bottom: 4rem;
   text-align: center;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const StagesContainer = styled.div`
   position: relative;
   max-width: 1200px;
@@ -261,6 +295,7 @@ const StagesContainer = styled.div`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const TimelineLine = styled.div`
   position: relative;
   height: 4px;
@@ -275,6 +310,7 @@ const TimelineLine = styled.div`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const StagesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -288,6 +324,7 @@ const StagesGrid = styled.div`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const StageItem = styled(motion.div)`
   background: ${props => props.active ? 'linear-gradient(135deg, #019CE5, #312684)' : '#f8f9fa'};
   color: ${props => props.active ? 'white' : '#333'};
@@ -328,6 +365,7 @@ const StageItem = styled(motion.div)`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const StageText = styled.p`
   font-family: 'Proxima Nova', sans-serif;
   font-size: 1rem;
@@ -336,16 +374,19 @@ const StageText = styled.p`
   font-weight: 500;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const ResultsSection = styled.section`
   margin-bottom: 4rem;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const ResultsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const ResultItem = styled.div`
   display: flex;
   align-items: center;
@@ -359,6 +400,7 @@ const ResultItem = styled.div`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const ResultIcon = styled.img`
   width: 80px;
   height: 80px;
@@ -375,6 +417,7 @@ const ResultIcon = styled.img`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const ResultText = styled.p`
   font-family: 'Proxima Nova', sans-serif;
   font-size: 1rem;
@@ -383,204 +426,263 @@ const ResultText = styled.p`
   flex: 1;
 `;
 
-const NewsDetailPage = () => {
-    const { newsId } = useParams();
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [currentStage, setCurrentStage] = useState(0);
-    const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
-    const [news, setNews] = useState(null);
-    const [loading, setLoading] = useState(true);
+const extractImagesFromContent = (html) => {
+  if (!html) return { content: '', images: [] };
+  if (typeof window === 'undefined' || !window.DOMParser) {
+    return { content: html, images: [] };
+  }
 
-    const [galleryRef, galleryInView] = useInView({
-        triggerOnce: true,
-        threshold: 0.1
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const images = [];
+
+    doc.querySelectorAll('img').forEach((img, index) => {
+      const src = img.getAttribute('src');
+      if (src) {
+        images.push({
+          image: src,
+          title: img.getAttribute('alt') || img.getAttribute('title') || `Фото ${index + 1}`,
+          description: img.getAttribute('alt') || 'Иллюстрация к новости'
+        });
+      }
+      img.remove();
     });
 
-    useEffect(() => {
-        const fetchNews = async () => {
-            try {
-                setLoading(true);
-                const data = await wordpressApi.getNewsById(newsId);
-                if (data) {
-                    const newsWithGallery = {
-                        ...data,
-                        gallery: [
-                            { image: data.featuredImage || image1, title: 'Основное изображение', description: data.title },
-                            { image: image1, title: 'Фото 1', description: 'Иллюстрация к новости' },
-                            { image: image1, title: 'Фото 2', description: 'Иллюстрация к новости' }
-                        ],
-                        stages: [
-                            'Сбор и подготовка материалов.',
-                            'Публикация и распространение.',
-                            'Обновления и обратная связь.'
-                        ],
-                        results: [
-                            'Новость опубликована.',
-                            'Материалы донесены до аудитории.',
-                            'Получены отклики читателей.'
-                        ]
-                    };
-                    setNews(newsWithGallery);
-                } else {
-                    const fallbackNews = {
-                        id: newsId,
-                        title: 'Новость',
-                        description: 'Текст новости недоступен.',
-                        gallery: [
-                            { image: image1, title: 'Фото', description: 'Иллюстрация к новости' }
-                        ],
-                        stages: [
-                            'Сбор и подготовка материалов.',
-                            'Публикация и распространение.',
-                            'Обновления и обратная связь.'
-                        ],
-                        results: [
-                            'Новость опубликована.',
-                            'Материалы донесены до аудитории.',
-                            'Получены отклики читателей.'
-                        ]
-                    };
-                    setNews(fallbackNews);
-                }
-            } catch (e) {
-                const fallbackNews = {
-                    id: newsId,
-                    title: 'Новость',
-                    description: 'Текст новости недоступен.',
-                    gallery: [
-                        { image: image1, title: 'Фото', description: 'Иллюстрация к новости' }
-                    ],
-                    stages: [
-                        'Сбор и подготовка материалов.',
-                        'Публикация и распространение.',
-                        'Обновления и обратная связь.'
-                    ],
-                    results: [
-                        'Новость опубликована.',
-                        'Материалы донесены до аудитории.',
-                        'Получены отклики читателей.'
-                    ]
-                };
-                setNews(fallbackNews);
-            } finally {
-                setLoading(false);
+    return { content: doc.body.innerHTML, images };
+  } catch (err) {
+    console.warn('Failed to parse HTML content', err);
+    return { content: html, images: [] };
+  }
+};
+
+const NewsDetailPage = () => {
+  const { newsId } = useParams();
+  const [selectedImage, setSelectedImage] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [currentStage, setCurrentStage] = useState(0);
+  const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
+  const [news, setNews] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const [galleryRef, galleryInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        setLoading(true);
+        const data = await wordpressApi.getNewsById(newsId);
+        if (data) {
+          const { content: cleanedContent, images: extractedImages } = extractImagesFromContent(data.content);
+          // Создаем массив галереи: сначала featured image, затем остальные изображения из контента
+          const galleryImages = [];
+          if (data.featuredImage) {
+            galleryImages.push({
+              image: data.featuredImage,
+              title: data.title,
+              description: data.title
+            });
+          }
+          // Добавляем изображения из контента, исключая дубликаты featured image
+          extractedImages.forEach(img => {
+            if (img.image !== data.featuredImage) {
+              galleryImages.push(img);
             }
+          });
+          // Если нет ни featured image, ни изображений в контенте, используем fallback
+          if (galleryImages.length === 0) {
+            galleryImages.push({
+              image: image1,
+              title: data.title,
+              description: data.title
+            });
+          }
+
+          const newsWithGallery = {
+            ...data,
+            content: cleanedContent,
+            gallery: galleryImages,
+            stages: [
+              'Сбор и подготовка материалов.',
+              'Публикация и распространение.',
+              'Обновления и обратная связь.'
+            ],
+            results: [
+              'Новость опубликована.',
+              'Материалы донесены до аудитории.',
+              'Получены отклики читателей.'
+            ]
+          };
+          setNews(newsWithGallery);
+        } else {
+          const fallbackNews = {
+            id: newsId,
+            title: 'Новость',
+            description: 'Текст новости недоступен.',
+            content: '<p>Текст новости недоступен.</p>',
+              gallery: [
+                { image: image1, title: 'Фото', description: 'Иллюстрация к новости' }
+              ],
+            stages: [
+              'Сбор и подготовка материалов.',
+              'Публикация и распространение.',
+              'Обновления и обратная связь.'
+            ],
+            results: [
+              'Новость опубликована.',
+              'Материалы донесены до аудитории.',
+              'Получены отклики читателей.'
+            ]
+          };
+          setNews(fallbackNews);
+        }
+      } catch (e) {
+        const fallbackNews = {
+          id: newsId,
+          title: 'Новость',
+          description: 'Текст новости недоступен.',
+          content: '<p>Текст новости недоступен.</p>',
+          gallery: [
+            { image: image1, title: 'Фото', description: 'Иллюстрация к новости' }
+          ],
+          stages: [
+            'Сбор и подготовка материалов.',
+            'Публикация и распространение.',
+            'Обновления и обратная связь.'
+          ],
+          results: [
+            'Новость опубликована.',
+            'Материалы донесены до аудитории.',
+            'Получены отклики читателей.'
+          ]
         };
-        fetchNews();
-    }, [newsId]);
+        setNews(fallbackNews);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNews();
+  }, [newsId]);
 
-    useEffect(() => {
-        if (!news) return;
-        const handleScroll = () => {
-            const scrollPosition = window.scrollY;
-            const windowHeight = window.innerHeight;
-            if (scrollPosition > windowHeight * 0.8) setCurrentStage(1);
-            if (scrollPosition > windowHeight * 1.2) setCurrentStage(2);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [news]);
+  useEffect(() => {
+    if (!news) return;
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      if (scrollPosition > windowHeight * 0.8) setCurrentStage(1);
+      if (scrollPosition > windowHeight * 1.2) setCurrentStage(2);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [news]);
 
-    if (loading) {
-        return (
-            <PageContainer>
-                <div style={{
-                    textAlign: 'center',
-                    padding: '4rem 2rem',
-                    fontSize: '1.3rem',
-                    color: '#019CE5',
-                    background: 'rgba(255, 255, 255, 0.9)',
-                    borderRadius: '20px',
-                    border: '1px solid rgba(1, 156, 229, 0.2)',
-                    margin: '2rem',
-                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
-                }}>
-                    Загрузка новости...
-                </div>
-            </PageContainer>
-        );
-    }
-
-    if (!news) {
-        return (
-            <PageContainer>
-                <div style={{
-                    textAlign: 'center',
-                    padding: '4rem 2rem',
-                    fontSize: '1.3rem',
-                    color: '#dc3545',
-                    background: 'rgba(255, 255, 255, 0.9)',
-                    borderRadius: '20px',
-                    border: '1px solid rgba(220, 53, 69, 0.2)',
-                    margin: '2rem',
-                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
-                }}>
-                    Новость не найдена
-                </div>
-            </PageContainer>
-        );
-    }
-
+  if (loading) {
     return (
-        <PageContainer>
-            <HeroSection>
-                <BannerImage src={news.gallery && news.gallery.length > 0 ? news.gallery[0].image : mainImage} alt={news.title} />
-                <Overlay>
-                    <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, ease: 'easeOut' }}
-                    >
-                        <HeroTitle>{news.title}</HeroTitle>
-                    </motion.div>
-                </Overlay>
-            </HeroSection>
+      <PageContainer>
+        <div style={{
+          textAlign: 'center',
+          padding: '4rem 2rem',
+          fontSize: '1.3rem',
+          color: '#019CE5',
+          background: 'rgba(255, 255, 255, 0.9)',
+          borderRadius: '20px',
+          border: '1px solid rgba(1, 156, 229, 0.2)',
+          margin: '2rem',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        }}>
+          Загрузка новости...
+        </div>
+      </PageContainer>
+    );
+  }
 
-            <ContentSection>
-                <Container>
-                    <GallerySection ref={galleryRef}>
-                        <motion.div
-                            initial={{ opacity: 0, y: 50 }}
-                            animate={galleryInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 1, ease: 'easeOut' }}
-                        >
-                            <SectionTitle>ГАЛЕРЕЯ</SectionTitle>
-                        </motion.div>
-                        <GalleryContainer>
-                            <GalleryCarousel>
-                                {news.gallery.map((item, index) => (
-                                    <motion.div
-                                        key={index}
-                                        initial={{ opacity: 0, y: 50 }}
-                                        animate={galleryInView ? { opacity: 1, y: 0 } : {}}
-                                        transition={{ duration: 0.8, delay: 0.2 + index * 0.1, ease: 'easeOut' }}
-                                        whileHover={{ scale: 1.02 }}
-                                    >
-                                        <GalleryCard onClick={() => setSelectedImage(item.image)}>
-                                            <GalleryImage src={item.image} alt={item.title} />
-                                        </GalleryCard>
-                                    </motion.div>
-                                ))}
-                            </GalleryCarousel>
-                        </GalleryContainer>
-                    </GallerySection>
+  if (!news) {
+    return (
+      <PageContainer>
+        <div style={{
+          textAlign: 'center',
+          padding: '4rem 2rem',
+          fontSize: '1.3rem',
+          color: '#dc3545',
+          background: 'rgba(255, 255, 255, 0.9)',
+          borderRadius: '20px',
+          border: '1px solid rgba(220, 53, 69, 0.2)',
+          margin: '2rem',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        }}>
+          Новость не найдена
+        </div>
+      </PageContainer>
+    );
+  }
 
-                    <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
-                    >
-                        <ProjectDescription>
-                            <DescriptionText>{news.content || news.description || ''}</DescriptionText>
-                        </ProjectDescription>
-                    </motion.div>
+  const contentHtml = (news.content && news.content.trim().length > 0)
+    ? news.content
+    : `<p>${(news.description || 'Текст новости недоступен.').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br />')}</p>`;
 
-                    <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
-                    >
-                        {/* <StagesSection>
+  return (
+    <PageContainer>
+      <HeroSection>
+        <BannerImage src={news.gallery && news.gallery.length > 0 ? news.gallery[0].image : mainImage} alt={news.title} />
+        <Overlay>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: 'easeOut' }}
+          >
+            <HeroTitle>{news.title}</HeroTitle>
+          </motion.div>
+        </Overlay>
+      </HeroSection>
+
+      <ContentSection>
+        <Container>
+          <GallerySection ref={galleryRef}>
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={galleryInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 1, ease: 'easeOut' }}
+            >
+              <SectionTitle>ГАЛЕРЕЯ</SectionTitle>
+            </motion.div>
+            <GalleryContainer>
+              <GalleryCarousel>
+                {news.gallery.map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={galleryInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.8, delay: 0.2 + index * 0.1, ease: 'easeOut' }}
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <GalleryCard onClick={() => setSelectedImage(item.image)}>
+                      <GalleryImage src={item.image} alt={item.title} />
+                    </GalleryCard>
+                  </motion.div>
+                ))}
+              </GalleryCarousel>
+            </GalleryContainer>
+          </GallerySection>
+
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+          >
+            <ProjectDescription>
+              <DescriptionText dangerouslySetInnerHTML={{ __html: contentHtml }} />
+            </ProjectDescription>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+          >
+            {/* <StagesSection>
                             <SectionTitle>ЭТАПЫ И УЧАСТНИКИ</SectionTitle>
                             <motion.div
                                 style={{ marginBottom: '1rem' }}
@@ -611,9 +713,9 @@ const NewsDetailPage = () => {
                                 <TimelineLine />
                             </StagesContainer>
                         </StagesSection> */}
-                    </motion.div>
+          </motion.div>
 
-                    {/* <motion.div
+          {/* <motion.div
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
@@ -653,20 +755,20 @@ const NewsDetailPage = () => {
                         </ResultsSection>
                     </motion.div> */}
 
-                </Container>
-            </ContentSection>
+        </Container>
+      </ContentSection>
 
-            <AnimatePresence>
-                {selectedImage && (
-                    <Modal initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedImage(null)}>
-                        <ModalImage src={selectedImage} alt="Увеличенное фото" onClick={(e) => e.stopPropagation()} />
-                    </Modal>
-                )}
-            </AnimatePresence>
+      <AnimatePresence>
+        {selectedImage && (
+          <Modal initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedImage(null)}>
+            <ModalImage src={selectedImage} alt="Увеличенное фото" onClick={(e) => e.stopPropagation()} />
+          </Modal>
+        )}
+      </AnimatePresence>
 
-            <PartnerModal isOpen={isPartnerModalOpen} onClose={() => setIsPartnerModalOpen(false)} />
-        </PageContainer>
-    );
+      <PartnerModal isOpen={isPartnerModalOpen} onClose={() => setIsPartnerModalOpen(false)} />
+    </PageContainer>
+  );
 };
 
 export default NewsDetailPage;

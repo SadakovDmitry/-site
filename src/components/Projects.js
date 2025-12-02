@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -230,24 +230,8 @@ const Projects = () => {
     threshold: 0.1
   });
 
+  // eslint-disable-next-line no-unused-vars
   const [shouldCenter, setShouldCenter] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      if (width <= 1200 && width > 768) {
-        // На экранах 768px-1200px у нас 2 колонки
-        // Если у нас 3 проекта, то 3-й будет в новой строке
-        setShouldCenter(projects.length % 2 === 1);
-      } else {
-        setShouldCenter(false);
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const projects = [
     {

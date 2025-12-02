@@ -3,9 +3,6 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import banner from '../kosmos-solnce-yarkost-svet.png';
-import founder1 from '../image 75.png';
-import founder2 from '../image 76.png';
-import founder3 from '../image 77.png';
 
 const HeadingBar = styled.div`
   width: 100%;
@@ -102,6 +99,7 @@ const OverlayText = styled(motion.div)`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const FoundersSection = styled.section`
   padding: clamp(40px, 6vw, 72px) 0 clamp(40px, 6vw, 72px);
   background:
@@ -126,6 +124,7 @@ const FoundersSection = styled.section`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const FoundersContainer = styled.div`
   width: var(--container-w);
   margin-left: auto;
@@ -136,6 +135,7 @@ const FoundersContainer = styled.div`
   z-index: 1;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const SubTitle = styled(motion.h3)`
   font-family:'Raleway', sans-serif;
   color:#0b0d13;
@@ -150,6 +150,7 @@ const SubTitle = styled(motion.h3)`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -179,6 +180,7 @@ const Grid = styled.div`
     }
   }
 `;
+// eslint-disable-next-line no-unused-vars
 const FounderTile = styled(motion.div)`
   display: flex;
   align-items: center;
@@ -187,6 +189,7 @@ const FounderTile = styled(motion.div)`
   max-width: 400px;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const ImageWrap = styled.div`
   width: clamp(160px, 20vw, 240px);
   height: clamp(160px, 20vw, 240px);
@@ -199,6 +202,7 @@ const ImageWrap = styled.div`
   img{ width:100%; height:100%; object-fit: cover; display:block; }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const Info = styled.div`
   .role{ color:#51657e; font-size: clamp(.9rem, 1.6vw, 1rem); margin-bottom: 6px; }
   .name{ font-family:'Raleway', sans-serif; color:#0b0d13; font-weight:600; font-size: clamp(1.2rem, 2.4vw, 1.6rem); margin-bottom: 8px; }
@@ -208,6 +212,7 @@ const Info = styled.div`
 const About = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
+  // eslint-disable-next-line no-unused-vars
   const [shouldCenter, setShouldCenter] = useState(false);
 
   useEffect(() => {
@@ -239,10 +244,10 @@ const About = () => {
         <OverlayText initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2 }}>
           <div className="sub">ЦЕЛИ СОЗДАНИЯ</div>
           <div className="text">
-            Цели создания Фонд был основан в 2018 году с целью популяризации космических исследований,
-            поддержки молодых ученых и инженеров, а также содействия развитию технологий в области
-            космонавтики. Мы стремимся вдохновлять новое поколение на освоение космоса и создание
-            инновационных решений для будущего человечества.
+            Фонд содействия развитию космонавтики был создан для осуществления проектов,
+            направленных на внедрение достижений космической отрасли в других отраслях
+            промышленности, популяризацию достижений советской и российской космонавтики, содействие в развитии российской космической отрасли, демонстрации роли России
+            как одного из мировых технологических лидеров.
           </div>
         </OverlayText>
       </FullBleed>
