@@ -355,3 +355,6 @@ window.location.href = mailtoLink;
 3. **Простота:** Formspree - минимальная настройка
 4. **Бесплатно:** Google Apps Script - если есть Google аккаунт
 
+
+
+
